@@ -1,0 +1,312 @@
+* {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+p,
+span,
+button {
+  font-size: 1.25rem;
+}
+
+span {
+  font-weight: 600;
+}
+
+p {
+  line-height: 1.3rem;
+}
+
+nav {
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3.1rem;
+}
+
+li,
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.75rem;
+  height: 100vh;
+}
+
+button,
+a {
+  padding: 0.9rem 1.87rem;
+  border: none;
+}
+
+button:hover {
+  cursor: pointer;
+  transform: scale(1);
+  transition: 2s;
+}
+
+button:hover {
+  background-color: #900;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3.1rem;
+  gap: 3.75rem;
+}
+
+.navigate {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.navigate-button {
+  text-transform: uppercase;
+}
+
+.white,
+.navigate-button {
+  background-color: #fff;
+}
+
+.navigate-button {
+  font-weight: 100;
+  font-size: 0.9rem;
+}
+
+.navigate-button:hover {
+  border-bottom: 0.2rem solid #ee2211;
+}
+
+.details-item:hover {
+  border-color: #ee2211;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 62.5rem;
+  position: relative;
+}
+
+.indroduction::before {
+  content: "";
+  position: absolute;
+  width: 3.75rem;
+  height: 0.25rem;
+  top: 1.8rem;
+  right: -1.8rem;
+  background: #ee2211;
+  z-index: 100;
+}
+
+.content-image img {
+  object-fit: cover;
+  height: 100%;
+}
+
+.indroduction,
+.emphasis,
+.details {
+  display: grid;
+  padding: 2.5rem;
+}
+
+.indroduction {
+  position: relative;
+}
+
+.indroduction,
+.emphasis {
+  align-items: center;
+  justify-items: end;
+  text-align: end;
+}
+
+.indroduction,
+.details {
+  gap: 1.25rem;
+}
+
+.indroduction-button {
+  background-color: #ee2211;
+  color: #fff;
+  border-radius: 0.25rem;
+}
+
+.indroduction-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.emphasis > h2 {
+  font-size: 4rem;
+  color: #c6c6c6;
+  text-transform: uppercase;
+  word-break: break-all;
+}
+
+.emphasis {
+  background-image: url("../images/onda.svg");
+}
+
+.details-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem 1.25rem;
+  padding: 1.25rem;
+  border-left: 0.2rem solid transparent;
+}
+
+.details-item > p {
+  grid-column: 2;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 1.87rem 0;
+}
+
+footer > h2 {
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+.list li:nth-child(even) {
+  background-color: #000;
+}
+
+@media screen and (max-width: 1200px) {
+  p,
+  span,
+  button {
+    font-size: 1rem;
+  }
+
+  .content {
+    max-width: 53rem;
+  }
+
+  .indroduction,
+  .emphasis,
+  .details {
+    padding: 1rem;
+  }
+
+  .indroduction::before {
+    top: 1.25rem;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .advantage {
+    grid-template-columns: 1fr;
+  }
+
+  .emphasis > h2 {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body,
+  header {
+    gap: 1.87rem;
+  }
+
+  footer {
+    position: relative;
+  }
+
+  .content {
+    max-width: 35rem;
+    grid-template-columns: 1fr;
+    margin: auto;
+  }
+
+  header {
+    margin-top: 1.9rem;
+  }
+
+  .indroduction::before {
+    display: none;
+  }
+
+  .emphasis > h2,
+  .indroduction,
+  .title,
+  .emphasis {
+    text-align: left;
+  }
+
+  .emphasis > h2 {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  button,
+  a {
+    padding: 0.5rem 1rem;
+  }
+
+  footer {
+    padding: 1rem 0;
+  }
+
+  .content {
+    max-width: 25rem;
+    grid-template-columns: 1fr;
+    margin: auto;
+  }
+
+  .navigate {
+    gap: 2rem;
+  }
+
+  .details-item {
+    padding: 1rem;
+  }
+
+  .emphasis > h2 {
+    font-size: 1.9rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  p,
+  span,
+  button,
+  a {
+    font-size: 1rem;
+  }
+
+  button,
+  a {
+    padding: 0.9rem 1rem;
+  }
+}
