@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./styles.css" />
+
+    <title>Form</title>
+  </head>
+  <body>
+    <h1>Cadastro aleatório</h1>
+
+    <form action="./">
+      <label for="name">Nome</label>
+      <input type="text" id="name" id="name" required />
+
+      <label for="cpf">CPF</label>
+      <input type="number" id="cpf" id="cpf" placeholder="000.000.000-00" />
+
+      <label for="date">Data de nascimento</label>
+      <input type="date" id="date" id="date" />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" id="email" />
+
+      <label for="password">Senha</label>
+      <input type="password" id="password" id="password" />
+
+      <div>
+        <input type="checkbox" name="terms" value="aceitos" />
+        <label for="terms">Termos</label>
+      </div>
+
+      <div class="radio">
+        <p>Entrega</p>
+
+        <div>
+          <input type="radio" id="get" name="locale" />
+          <label for="get">Retirar no local</label>
+        </div>
+
+        <div>
+          <input type="radio" name="locale" value="send" />
+          <label for="send">Entregar em casa</label>
+        </div>
+      </div>
+
+      <label for="Parcelas"></label>
+      <select name="parcelas" id="parcelas">
+        <option value="1x">1x de R$ 200</option>
+        <option value="2x">2x de R$ 100</option>
+        <option value="3x">3x de R$ 50</option>
+      </select>
+
+      <textarea name="obs" id="obs" cols="30" rows="10"></textarea>
+
+      <a href="#contato">Contato</a>
+      
+      <button>Enviar</button>
+    </form>
+  </body>
+</html>
