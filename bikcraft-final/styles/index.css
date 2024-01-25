@@ -15,3 +15,6 @@
 
 /* bicycles */
 @import "./bicycles/bicycles-list.css";
+
+/* technology */
+@import "./technology/technology.css";
