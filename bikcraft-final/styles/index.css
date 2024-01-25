@@ -12,9 +12,9 @@
 
 /* Home */
 @import "./home/introduction.css";
-
 /* bicycles */
 @import "./bicycles/bicycles-list.css";
-
 /* technology */
 @import "./technology/technology.css";
+/* partners */
+@import "./partners/partners.css";
