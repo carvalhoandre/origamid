@@ -1,13 +1,80 @@
-.typography-bg {
-  font-size: 64px;
-  line-height: 1.125;
-  font-family: "Poppins";
+.ty-1-xs {
+  font: 400 0.75rem/1.35 "Poppins", Arial, Helvetica, sans-serif;
+}
+
+.ty-2-xs {
+  font: 400 0.875rem/1.35 "Roboto", Arial, Helvetica, sans-serif;
+}
+
+.ty-1-s {
+  font: 400 1rem/1.5 "Poppins", Arial, Helvetica, sans-serif;
+}
+
+.ty-2-s {
+  font: 400 1rem/1.5 "Roboto", Arial, Helvetica, sans-serif;
+}
+
+.ty-1-m,
+.ty-1-m-b {
+  font: 500 1.125rem/1.35 "Poppins", Arial, Helvetica, sans-serif;
+}
+
+.ty-1-m-b {
   font-weight: 600;
 }
 
-.typography-md {
-  font-size: 24px;
-  line-height: 1.5;
-  font-family: "Roboto";
-  font-weight: 400;
+.ty-2-m,
+.ty-2-mb {
+  font: 500 1.125rem/1.35 "Roboto", Arial, Helvetica, sans-serif;
+}
+
+.ty-2-mb {
+  font-weight: 600;
+}
+
+.ty-1-l {
+  font: 400 1.5rem/1.35 "Poppins", Arial, Helvetica, sans-serif;
+}
+
+.ty-2-l,
+.ty-2-l-b {
+  font: 400 1.5rem/1.5 "Roboto", Arial, Helvetica, sans-serif;
+}
+
+.ty-2-l-b {
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+.ty-1-xl {
+  font: 600 2rem/1.25 "Poppins", Arial, Helvetica, sans-serif;
+}
+
+.ty-2-xl {
+  font: 600 2rem/1.25 "Roboto", Arial, Helvetica, sans-serif;
+}
+
+.ty-1-xxl {
+  font: 600 4rem/1.125 "Poppins", Arial, Helvetica, sans-serif;
+}
+
+@media (max-width: 1200px) {
+  .ty-1-xxl {
+    font-size: 3rem;
+  }
+
+  .ty-2-l, .ty-2-l-b {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .ty-1-xxl {
+    font-size: 2rem;
+  }
+
+  .ty-1-xl, .ty-2-xl {
+    font-size: 1.5rem;
+  }
 }
