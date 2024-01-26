@@ -11,12 +11,15 @@
 @import "./utils/colors.css";
 
 /* Home */
-@import "./home/introduction.css";
+@import "./pages/home/introduction.css";
 /* bicycles */
-@import "./home/bicycles-list.css";
+@import "./pages/home/bicycles-list.css";
 /* technology */
-@import "./home/technology.css";
+@import "./pages/home/technology.css";
 /* partners */
-@import "./home/partners.css";
+@import "./pages/home/partners.css";
 /* testimony */
-@import "./home/testimony.css";
+@import "./pages/home/testimony.css";
+
+/* Insurance */
+@import "./pages/insurance/insurance.css";

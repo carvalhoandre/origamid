@@ -9,10 +9,20 @@
   color: var(--color-p5);
   line-height: 1.33;
   font: 900 1.125rem/1.35 "Poppins", Arial, Helvetica, sans-serif;
+  max-width: max-content;
 }
 
 .button:hover {
   background: linear-gradient(#ffb60d, #e59317);
+}
+
+.button.second {
+  background: var(--color-10);
+  color: var(--color-2);
+}
+
+.button.second:hover {
+  background: var(--color-9);
 }
 
 .link {
