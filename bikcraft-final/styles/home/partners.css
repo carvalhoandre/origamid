@@ -53,4 +53,8 @@
   .partners li:nth-child(odd) {
     border-left: none;
   }
+
+  .partners li {
+    padding: 20px;
+  }
 }
