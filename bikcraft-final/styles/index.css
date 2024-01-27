@@ -25,5 +25,8 @@
 /* Insurance */
 @import "./pages/insurance/insurance.css";
 
-/* terms */
+/* Terms */
 @import "./pages/terms/terms.css";
+
+/* Bicycles */
+@import "./pages/bicycles/bicycles.css";

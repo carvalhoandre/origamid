@@ -21,6 +21,25 @@
   color: var(--color-2);
 }
 
+.button.send {
+  display: flex;
+  align-items: center;
+}
+
+.button.send::after {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  margin-left: 12px;
+  background: url("../../assets/icones/seta.svg");
+  transition: transform 0.2s;
+}
+
+.button.send:hover::after {
+  transform: translateX(4px);
+}
+
 .button.second:hover {
   background: var(--color-9);
 }
