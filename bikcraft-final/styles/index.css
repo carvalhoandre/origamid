@@ -30,3 +30,8 @@
 
 /* Bicycles */
 @import "./pages/bicycles/bicycles.css";
+
+
+/* Insurance */
+@import "./pages/insurance/benefits.css";
+@import "./pages/insurance/questions.css";
