@@ -53,9 +53,28 @@
   margin-right: auto;
 }
 
+.title-bg {
+  background-color: var(--color-11);
+  padding: 60px 0px;
+}
+
+.title p {
+  margin-bottom: 4px;
+}
+
 @media (max-width: 600px) {
   .button {
     padding: 12px 16px;
     font-size: 1rem;
+  }
+
+  .title-bg {
+    padding: 40px 0px;
+  }
+
+  .title p {
+    font-size: 1rem;
+    text-transform: lowercase;
+    font-weight: 400;
   }
 }
