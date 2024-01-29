@@ -31,6 +31,9 @@
 /* Bicycles */
 @import "./pages/bicycles/bicycles.css";
 
+/* Nimbus */
+@import "./pages/bicycles/nimbus.css";
+
 
 /* Insurance */
 @import "./pages/insurance/benefits.css";

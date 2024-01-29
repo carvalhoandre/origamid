@@ -41,21 +41,21 @@
 }
 
 .questions dt:hover::after {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .questions dd {
-    padding-left: 20px;
-    padding-top: 16px;
-    max-width: 80ch;
+  padding-left: 20px;
+  padding-top: 16px;
+  max-width: 80ch;
 }
 
 @media (max-width: 800px) {
-    .questions {
-        padding-top: 60px 0px;
-    }
+  .questions {
+    padding-top: 60px 0px;
+  }
 
-    .questions h2 {
-        margin-bottom: 40px;
-    }
+  .questions h2 {
+    margin-bottom: 40px;
+  }
 }

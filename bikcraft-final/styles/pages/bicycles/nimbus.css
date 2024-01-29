@@ -1,0 +1,117 @@
+.bicycle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 40px;
+  padding: 60px 0;
+}
+
+#bicycle .title p {
+  text-transform: uppercase;
+}
+
+.bicycle-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.bicycle-images img {
+  flex: 1;
+  min-width: 200px;
+}
+
+.bicycle-images img:first-child {
+  min-width: 100%;
+}
+
+.bicycle-content > p {
+  margin-bottom: 32px;
+}
+
+.bicycle-buy {
+  display: grid;
+  grid-template-columns: max-content auto;
+  align-items: center;
+  justify-content: start;
+  gap: 8px 12px;
+}
+
+.bicycle-buy a {
+  grid-row: span 2;
+}
+
+.bicycle-buy span {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-12);
+  padding: 4px 8px;
+  border-radius: 4px;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.bicycle-content h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+  margin-bottom: 12px;
+}
+
+.bicycle-informations,
+.bicycle-datasheet {
+  padding: 32px;
+  background-color: var(--color-12);
+  border-radius: 4px;
+}
+
+.bicycle-informations {
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32pc;
+}
+
+.bicycle-informations img {
+  width: 24px;
+  margin-bottom: 8px;
+}
+
+.bicycle-informations h3 {
+  margin-bottom: 8px;
+}
+
+.bicycle-datasheet li {
+  padding: 4px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-11);
+}
+
+.bicycle-datasheet li:last-child {
+  border-bottom: none;
+}
+
+.bicycle-datasheet span {
+  color: var(--color-6);
+}
+
+@media (max-width: 800px) {
+  .bicycle {
+    grid-template-columns: 1fr;
+    padding: 40px 0;
+  }
+
+  .bicycle-images {
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 800px) {
+  .bicycle-informations {
+    grid-template-columns: 1fr;
+  }
+
+  .bicycle-buy {
+    grid-template-columns: 1fr;
+  }
+}
