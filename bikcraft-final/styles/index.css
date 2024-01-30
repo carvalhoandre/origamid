@@ -4,12 +4,12 @@
 
 /* Components */
 @import "./utils/components.css";
-
 /* Typography */
 @import "./utils/typography.css";
-
 /* Colors */
 @import "./utils/colors.css";
+/* Form */
+@import "./utils/form.css";
 
 /* Home */
 @import "./pages/home/introduction.css";
@@ -35,8 +35,10 @@
 /* secure */
 @import "./pages/bicycles/secure.css";
 
-
 /* Insurance */
 @import "./pages/insurance/benefits.css";
 /* questions */
 @import "./pages/insurance/questions.css";
+
+/* Contact */
+@import "./pages/contacts/contact.css";
