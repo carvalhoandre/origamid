@@ -30,11 +30,13 @@
 
 /* Bicycles */
 @import "./pages/bicycles/bicycles.css";
-
 /* Nimbus */
 @import "./pages/bicycles/nimbus.css";
+/* secure */
+@import "./pages/bicycles/secure.css";
 
 
 /* Insurance */
 @import "./pages/insurance/benefits.css";
+/* questions */
 @import "./pages/insurance/questions.css";
