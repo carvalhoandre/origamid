@@ -10,10 +10,12 @@
   line-height: 1.33;
   font: 900 1.125rem/1.35 "Poppins", Arial, Helvetica, sans-serif;
   max-width: max-content;
+  border: none;
 }
 
 .button:hover {
   background: linear-gradient(#ffb60d, #e59317);
+  cursor: pointer;
 }
 
 .button.second {
