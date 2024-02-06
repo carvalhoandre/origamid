@@ -1,0 +1,55 @@
+#budget {
+  background: linear-gradient(var(--color-11) 600px, var(--color-1) 0px);
+}
+
+.budget {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  padding-bottom: 120px;
+}
+
+.budget h2 {
+  text-transform: uppercase;
+  position: relative;
+}
+
+.budget h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 8px;
+  background-color: var(--color-p1);
+  position: absolute;
+  left: -12px;
+}
+
+.budget-product,
+.budget-data {
+    padding: 60px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.budget-product {
+    border-radius: 5px 0 0 5px;
+    background: var(--color-12);
+}
+
+.budget-data {
+    border-radius: 0 5px 5px 0;
+    background: var(--color-0);
+}
+
+.budget-product label {
+    background: #ccc;
+    padding: 20px;
+    display: inline-block;
+}
+
+.budget-content {
+}
+
+#bikcraft:checked ~ #budget-bikcraft,
+#insurance:checked ~ #budget-insurance   {
+   display: block;
+}
+

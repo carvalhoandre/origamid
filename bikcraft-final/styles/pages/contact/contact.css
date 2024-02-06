@@ -78,7 +78,7 @@
   }
   .contact-data {
     border-radius: 5px 5px 0 0;
-    background: var(--cor-12);
+    background: var(--color-12);
   }
   .contact-form {
     border-radius: 0 0 5px 5px;
