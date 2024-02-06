@@ -31,7 +31,8 @@
 
 .budget-product {
   border-radius: 5px 0 0 5px;
-  background: var(--color-12);
+  background: var(--color-12) url("../../../assets/dec/bottom-left.svg")
+    no-repeat bottom 20px left 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
@@ -72,7 +73,8 @@
 
 .budget-data {
   border-radius: 0 5px 5px 0;
-  background: var(--color-0);
+  background: var(--color-0) url("../../../assets/dec/bottom-right.svg")
+    no-repeat bottom 20px right 20px;
 }
 
 .budget-product label::before {
@@ -171,6 +173,14 @@
 
   .budget-product {
     border-radius: 5px 5px 0 0;
+  }
+
+  .budget-product {
+    background: var(--color-12);
+  }
+
+  .budget-data {
+    background: var(--color-0);
   }
 }
 
