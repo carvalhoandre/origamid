@@ -27,9 +27,21 @@ questions.forEach((question) => {
     const controls = questionEvent.getAttribute("aria-controls");
     const response = document.getElementById(controls);
 
-    response.classList.toggle('active');
-    const isActive = response.classList.contains('active');
-    questionEvent.setAttribute('aria-expanded', isActive);
+    response.classList.toggle("active");
+    const isActive = response.classList.contains("active");
+    questionEvent.setAttribute("aria-expanded", isActive);
   });
 });
 
+// galleria bicycle
+const galleria = document.querySelectorAll(".bicycle-images img");
+const galleriaContainer = document.querySelector(".bicycle-images ");
+
+galleria.forEach((item) => {
+  item.addEventListener("click", (event) => {
+
+    if (matchMedia('(min-width: 1000px)').matches) {
+      galleriaContainer.prepend(event.currentTarget);
+    }
+  });
+});
