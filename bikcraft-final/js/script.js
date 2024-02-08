@@ -17,3 +17,19 @@ params.forEach((param) => {
 
   if (element) element.checked = true;
 });
+
+// questions
+const questions = document.querySelectorAll(".questions button");
+
+questions.forEach((question) => {
+  question.addEventListener("click", (event) => {
+    const questionEvent = event.currentTarget;
+    const controls = questionEvent.getAttribute("aria-controls");
+    const response = document.getElementById(controls);
+
+    response.classList.toggle('active');
+    const isActive = response.classList.contains('active');
+    questionEvent.setAttribute('aria-expanded', isActive);
+  });
+});
+
