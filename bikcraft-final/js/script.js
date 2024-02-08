@@ -39,9 +39,13 @@ const galleriaContainer = document.querySelector(".bicycle-images ");
 
 galleria.forEach((item) => {
   item.addEventListener("click", (event) => {
-
-    if (matchMedia('(min-width: 1000px)').matches) {
+    if (matchMedia("(min-width: 1000px)").matches) {
       galleriaContainer.prepend(event.currentTarget);
     }
   });
 });
+
+// Animations
+if (window.SimpleAnime) {
+  new SimpleAnime();
+}

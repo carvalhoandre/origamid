@@ -38,19 +38,19 @@
     <main class="introduction-bg">
       <div class="introduction container">
         <div class="introduction-content">
-          <h1 class="ty-1-xxl color-0">
+          <h1 class="ty-1-xxl color-0 fadeInDown" data-anime="200">
             Biciletas feitas sob medida<span>.</span>
           </h1>
 
-          <p class="ty-2-l color-5">
+          <p class="ty-2-l color-5 fadeInDown" data-anime="300">
             Bicicletas elétricas de alta precisão e qualidade, feitas sob medida
             para você. Explore o mundo na sua velocidade.
           </p>
 
-          <a class="button color-0" href="./bicycles.html">Escolha a sua</a>
+          <a class="button color-0 fadeInDown" href="./bicycles.html" data-anime="400">Escolha a sua</a>
         </div>
 
-        <picture>
+        <picture data-anime="500">
           <source
             media="(max-width: 800px)"
             srcset="./assets/bicicletas/nimbus.jpg"
@@ -65,7 +65,7 @@
       </div>
     </main>
 
-    <article class="bicycles-list">
+    <article class="bicycles-list fadeInDown" data-anime="700">
       <h2 class="ty-1-xxl container">
         escolha a sua <span class="color-p1">.</span>
       </h2>
@@ -112,7 +112,7 @@
       </ul>
     </article>
 
-    <article class="technology-bg">
+    <article class="technology-bg fadeInDown" data-anime="800">
       <div class="technology container">
         <div class="technology-content">
           <span class="ty-2-l-b color-5">Tecnologia Avançada</span>
@@ -381,6 +381,7 @@
       </div>
     </footer>
 
+    <script src="./js/plugins/simple-anime.js"></script>
     <script src="./js/script.js"></script>
   </body>
 </html>

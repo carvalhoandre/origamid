@@ -4,12 +4,14 @@
 
 /* Components */
 @import "./utils/components.css";
-/* Typography */
+/* typography */
 @import "./utils/typography.css";
-/* Colors */
+/* colors */
 @import "./utils/colors.css";
-/* Form */
+/* form */
 @import "./utils/form.css";
+/* animations */
+@import "./utils/animation.css";
 
 /* Home */
 @import "./pages/home/introduction.css";
