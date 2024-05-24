@@ -18,3 +18,20 @@ var lastName = "Carvalho";
 var fullName = name + lastName;
 var time = "It's time";
 console.log(typeof name);
+
+/* aula 03 - 04: números e operadores - exercicios */
+var total = 10 + (5 * 2) / 2 + 20;
+console.log("total", total);
+var nan;
+var nanTwo;
+console.log(isNaN(nan), isNaN(nanTwo));
+var sun = parseInt("200") + 50;
+console.log("sun", sun);
+var increment = 0;
+console.log(increment++);
+
+var numero = "80";
+var unidade = "kg";
+var peso = numero + unidade;
+var pesoPorDois = parseInt(numero) / 2 + unidade;
+console.log(pesoPorDois);
