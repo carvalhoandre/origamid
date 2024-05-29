@@ -97,3 +97,96 @@ if ("Gato" === "gato" || 5 > 2) {
 } else {
   console.log("Falso");
 }
+
+/* aula 07 - 08 - 09: funções - exercicios */
+// Crie uma função para verificar se um valor é Truthy
+
+function title(title) {
+  var style = "-" * 10;
+  console.log(style, title, style);
+}
+title("FUNCOES");
+
+function isTruthy(value) {
+  if (value === true) {
+    console.log("O valor é verdadeiro");
+  } else {
+    console.log("O valor não é verdadeiro");
+  }
+}
+
+isTruthy(true);
+isTruthy(false);
+
+// Crie uma função matemática que retorne o perímetro de um quadrado
+// lembrando: perímetro é a soma dos quatro lados do quadrado
+function perimeterOfSquare(a, b) {
+  if (typeof a !== "number" || typeof b !== "number") {
+    return console.log("Parametros enviados estão incorretos");
+  }
+
+  console.log(`A área do quadro é: ${a * b}`);
+}
+
+perimeterOfSquare(2, 4);
+
+// Crie uma função que retorne o seu nome completo
+// ela deve possuir os parâmetros: nome e sobrenome
+function showFullName(name, lastName) {
+  if (typeof name !== "string" || typeof lastName !== "string") {
+    return console.log("Parametros enviados estão incorretos");
+  }
+
+  console.log(`${name} ${lastName}`);
+}
+
+showFullName("André", "Carvalho");
+
+// Crie uma função que verifica se um número é par
+function isEvenNumber(a) {
+  if (typeof a !== "number") {
+    return console.log("Parametros enviados estão incorretos");
+  }
+
+  if (a % 2 !== 0) {
+    console.log(`O número ${a}: é impar`);
+  } else {
+    console.log(`O número ${a}: é par`);
+  }
+}
+
+isEvenNumber(8);
+isEvenNumber(777);
+
+// Crie uma função que retorne o tipo de
+// dado do argumento passado nela (typeof)
+function getTypeof(param) {
+  console.log(typeof param);
+}
+
+getTypeof("a");
+getTypeof(4);
+getTypeof(true);
+
+// addEventListener é uma função nativa do JavaScript
+// o primeiro parâmetro é o evento que ocorre e o segundo o Callback
+// utilize essa função para mostrar no console o seu nome completo
+// quando o evento 'scroll' ocorrer.
+
+addEventListener("scroll", function () {
+  console.log(`André`);
+});
+
+// Corrija o erro abaixo
+var totalPaises = 193;
+
+function precisoVisitar(paisesVisitados) {
+  return `Ainda faltam ${totalPaises - paisesVisitados} países para visitar`;
+}
+
+function jaVisitei(paisesVisitados) {
+  return `Já visitei ${paisesVisitados} do total de ${totalPaises} países`;
+}
+
+console.log(precisoVisitar(20));
+console.log(jaVisitei(20));
