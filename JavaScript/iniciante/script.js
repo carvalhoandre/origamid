@@ -120,12 +120,12 @@ isTruthy(false);
 
 // Crie uma função matemática que retorne o perímetro de um quadrado
 // lembrando: perímetro é a soma dos quatro lados do quadrado
-function perimeterOfSquare(a, b) {
-  if (typeof a !== "number" || typeof b !== "number") {
+function perimeterOfSquare(side) {
+  if (typeof side !== "number") {
     return console.log("Parametros enviados estão incorretos");
   }
 
-  console.log(`A área do quadro é: ${a * b}`);
+  console.log(`A área do quadro é: ${side * side}`);
 }
 
 perimeterOfSquare(2, 4);
@@ -190,3 +190,39 @@ function jaVisitei(paisesVisitados) {
 
 console.log(precisoVisitar(20));
 console.log(jaVisitei(20));
+
+/* aula 10 - 11: objetos - exercicios */
+// Crie um objeto com os seus dados pessoais
+// Deve possui pelo menos duas propriedades nome e sobrenome
+var iam = {
+  name: "André",
+  lastName: "Carvalho",
+  age: 25,
+};
+
+// Crie um método no objeto anterior, que mostre o seu nome completo
+iam.show = function () {
+  console.log(`My name is: ${this.name} ${this.lastName}`);
+};
+
+// Modifique o valor da propriedade preco para 3000
+var carro = {
+  preco: 1000,
+  portas: 4,
+  marca: "Audi",
+};
+
+carro.preco = 3000;
+
+// Crie um objeto de um cachorro que represente um labrador,
+// preto com 10 anos, que late ao ver um homem
+var dog = {
+  breed: "labrador",
+  age: 10,
+  color: "black",
+  barks: function (see) {
+    if (see === "man") {
+      console.log("BARKS!");
+    }
+  },
+};
