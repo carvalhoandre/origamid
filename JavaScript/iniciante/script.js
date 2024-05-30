@@ -103,7 +103,7 @@ if ("Gato" === "gato" || 5 > 2) {
 
 function title(title) {
   var style = "-" * 10;
-  console.log(style, title, style);
+  console.log(style, title.toLocaleUpperCase(), style);
 }
 title("FUNCOES");
 
@@ -226,3 +226,30 @@ var dog = {
     }
   },
 };
+
+/* aula 12: tudo é objeto - exercicios */
+title("tudo é objeto");
+// nomeie 3 propriedades ou métodos de strings
+var lengh = nome.length;
+var replace = nome.replace(`é`, "e");
+var upperCase = nome.toLocaleUpperCase();
+
+// nomeie 5 propriedades ou métodos de elementos do DOM
+var button = document.querySelector(".button");
+//appendChild
+//addEventListener
+//scroll
+//ariaLabel
+// remove
+
+// busque na web um objeto (método) capaz de interagir com o clipboard,
+// clipboard é a parte do seu computador que lida com o CTRL + C e CTRL + V
+// var clipboard = new ClipboardJS(".btn");
+
+// clipboard.on("success", function (e) {
+//   console.info("Action:", e.action);
+//   console.info("Text:", e.text);
+//   console.info("Trigger:", e.trigger);
+
+//   e.clearSelection();
+// });
