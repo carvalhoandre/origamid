@@ -271,14 +271,31 @@ for (year = 0; year < array.length; year++) {
 var frutas = ["Banana", "Maçã", "Pera", "Uva", "Melância"];
 
 for (i = 0; i < frutas.length; i++) {
-  if (frutas[i] === "Pera") {
-    break;
-  }
-
   console.log(frutas[i]);
+
+  if (frutas[i] === "Pera") break;
 }
 
 // Coloque a última fruta da array acima em uma variável,
 // sem remover a mesma da array.
 var lastFruit = frutas[frutas.length - 1];
 console.log("a última fruta:", lastFruit);
+
+/* aula 15:  Atribuição e Ternário - exercicios */
+title(" Atribuição e Ternário");
+// Some 500 ao valor de scroll abaixo,
+// atribuindo o novo valor a scroll
+var scroll = 1000;
+
+scroll += 500;
+
+// Atribua true para a variável darCredito,
+// caso o cliente possua carro e casa.
+// E false caso o contrário.
+var possuiCarro = true;
+var possuiCasa = true;
+var darCredito;
+
+darCredito = possuiCarro && possuiCasa;
+
+console.log(darCredito, scroll);
