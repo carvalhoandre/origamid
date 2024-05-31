@@ -282,7 +282,7 @@ var lastFruit = frutas[frutas.length - 1];
 console.log("a última fruta:", lastFruit);
 
 /* aula 15:  Atribuição e Ternário - exercicios */
-title(" Atribuição e Ternário");
+title("Atribuição e Ternário");
 // Some 500 ao valor de scroll abaixo,
 // atribuindo o novo valor a scroll
 var scroll = 1000;
@@ -299,3 +299,38 @@ var darCredito;
 darCredito = possuiCarro && possuiCasa;
 
 console.log(darCredito, scroll);
+
+/* aula 16:  Escopo */
+title("Escopo");
+
+// Por qual motivo o código abaixo retorna com erros?
+{
+  var cor = "preto";
+  const marca = "Fiat";
+  let portas = 4;
+}
+// console.log(var, marca, portas);
+
+/* porque var é a palavra reservada para declaracao logo nao posso dar console log e tanto a const e a let estao sendo acessadas fora do escopo */
+
+// Como corrigir o erro abaixo?
+const dois = 2;
+function somarDois(x) {
+  return x + dois;
+}
+function dividirDois(x) {
+  return x + dois;
+}
+
+somarDois(4);
+dividirDois(6);
+
+// O que fazer para total retornar 500?
+var numero = 50;
+
+for (let numero = 0; numero < 10; numero++) {
+  console.log(numero);
+}
+
+const newTotal = 10 * numero;
+console.log("newTotal", newTotal);
