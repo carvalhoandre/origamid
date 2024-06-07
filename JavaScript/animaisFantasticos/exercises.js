@@ -55,7 +55,7 @@ imgs.forEach((img) => {
 });
 
 // Adicione a classe ativo a todos os itens do menu
-const itemsMenu = document.querySelectorAll(".menu li");
+const itemsMenu = document.querySelectorAll(".menu a");
 
 itemsMenu.forEach((item) => item.classList.add("ativo"));
 
@@ -65,12 +65,12 @@ itemsMenu.forEach(
 );
 
 // Verifique se as imagens possuem o atributo alt
-imgs.forEach((img, index) => {
-  let alt = img.getAttribute("alt");
-
-  !!alt ? console.log("possui ALT") : console.log("não possui ALT");
+imgs.forEach((img) => {
+  img.hasAttribute("alt")
+    ? console.log("possui ALT")
+    : console.log("não possui ALT");
 });
 
 // Modifique o href do link externo no menu
-const externalLink = document.querySelector(".menu li a:last-child");
-if (externalLink.hasAttribute("href")) externalLink.href = "./";
+const externalLink = document.querySelector('a[href^="http"]');
+externalLink.setAttribute("href", "./");
