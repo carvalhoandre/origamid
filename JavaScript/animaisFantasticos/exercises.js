@@ -23,3 +23,33 @@ console.log("subtitle", subtitle);
 // Selecione o último p do site
 const lastP = document.querySelector("p:last-child");
 console.log("lastP", lastP);
+
+// Mostre no console cada parágrado do site
+const paragraph = document.querySelectorAll("p");
+paragraph.forEach((p, index) => console.log(`${index + 1}: ${p}`));
+
+// Mostre o texto dos parágrafos no console
+paragraph.forEach((p, index) =>
+  console.log(`${index + 1} text: ${p.textContent}`)
+);
+
+// Como corrigir os erros abaixo:
+const imgs = document.querySelectorAll("img");
+
+imgs.forEach((item, index) => {
+  console.log(item, index);
+});
+
+let i = 0;
+imgs.forEach((image) => {
+  console.log(image);
+
+  i++;
+});
+
+i = 0;
+
+imgs.forEach((img) => {
+  console.log(img);
+  i++;
+});
