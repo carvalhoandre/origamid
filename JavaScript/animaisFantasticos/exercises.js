@@ -74,3 +74,34 @@ imgs.forEach((img) => {
 // Modifique o href do link externo no menu
 const externalLink = document.querySelector('a[href^="http"]');
 externalLink.setAttribute("href", "./");
+
+// Verifique a distância da primeira imagem
+// em relação ao topo da página
+const image = document.querySelector("img");
+console.log(image.offsetTop);
+
+// Retorne a soma da largura de todas as imagens
+const images = document.querySelectorAll("img");
+let sun = 0;
+images.forEach((img) => (sun = sun + img.height));
+
+console.log("sun", sun);
+
+// Verifique se os links da página possuem
+// o mínimo recomendado para telas utilizadas
+// com o dedo. (48px/48px de acordo com o google)
+let have = true;
+
+const links = document.querySelectorAll("a");
+
+links.forEach((link) => {
+  if (link.height < 48 || link.width < 48) {
+    have = false;
+  }
+});
+
+// Se o browser for menor que 720px,
+// adicione a classe menu-mobile ao menu
+if (window.matchMedia("(max-width: 720px)")) {
+  document.querySelector(".menu").classList.add("menu-mobile");
+}
