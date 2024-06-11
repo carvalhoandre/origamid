@@ -153,3 +153,23 @@ function handleKeyPress(event) {
 }
 
 document.addEventListener("keydown", handleKeyPress);
+
+// Duplique o menu e adicione ele em copy
+const menu = document.querySelector(".menu");
+const menuClone = menu.cloneNode(true);
+const copy = document.querySelector(".copy");
+
+copy.appendChild(menuClone);
+
+// Selecione o primeiro DT da dl de Faq
+
+const fac = document.querySelector(".fac");
+
+const dt = fac.querySelector("dt");
+
+// Selecione o DD referente ao primeiro DT
+const dd = dt.nextElementSibling;
+
+// Substitua o conteúdo html de .faq pelo de .animais
+const animals = document.querySelector(".animais");
+fac.innerHTML = animals;
