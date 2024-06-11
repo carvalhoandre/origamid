@@ -95,7 +95,7 @@ let have = true;
 const links = document.querySelectorAll("a");
 
 links.forEach((link) => {
-  if (link.height < 48 || link.width < 48) {
+  if (link.height <= 48 || link.width <= 48) {
     have = false;
   }
 });
@@ -105,3 +105,51 @@ links.forEach((link) => {
 if (window.matchMedia("(max-width: 720px)")) {
   document.querySelector(".menu").classList.add("menu-mobile");
 }
+
+// Quando o usuário clicar nos links internos do site,
+// adicione a classe ativo ao item clicado e remova dos
+// demais itens caso eles possuam a mesma. Previna
+// o comportamento padrão desses links
+const internalLink = document.querySelectorAll("a[href^='#']");
+
+const handleClickLink = (event) => {
+  event.preventDefault();
+
+  internalLink.forEach((link) => {
+    if (link.classList.contains("ativo")) {
+      link.classList.remove("ativo");
+    }
+  });
+
+  event.currentTarget.classList.add("ativo");
+};
+
+internalLink.forEach((link) => {
+  link.addEventListener("click", handleClickLink);
+});
+
+// Selecione todos os elementos do site começando a partir do body,
+// ao clique mostre exatamente quais elementos estão sendo clicados
+const body = document.querySelector("body");
+
+body.childNodes.forEach((element) => {
+  element.addEventListener("click", () => console.log(element));
+});
+
+// Utilizando o código anterior, ao invés de mostrar no console,
+// remova o elemento que está sendo clicado, o método remove() remove um elemento
+body.childNodes.forEach((element) => {
+  element.addEventListener("click", () => element.remove());
+});
+
+// Se o usuário clicar na tecla (t), aumente todo o texto do site.
+let fontSize = 12;
+function handleKeyPress(event) {
+  // Check if the pressed key is 't'
+  if (event.key === "t" || event.key === "T") {
+    fontSize = fontSize + 5;
+    body.style.fontSize = `${fontSize}px`;
+  }
+}
+
+document.addEventListener("keydown", handleKeyPress);
