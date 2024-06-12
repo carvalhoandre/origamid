@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/index.css" />
+    <script>
+      document.documentElement.className += " js";
+    </script>
+
     <title>Animais Fantásticos</title>
   </head>
   <body>
@@ -19,7 +23,7 @@
     <section class="grid-section animais" id="animais">
       <h1 class="titulo">Animais Fantásticos</h1>
 
-      <ul class="animais-lista">
+      <ul class="animais-lista js-tabmenu">
         <li>
           <img src="./assets/imagem1.jpg" />
         </li>
@@ -40,7 +44,7 @@
         </li>
       </ul>
 
-      <div class="animais-descricao">
+      <div class="animais-descricao js-tabcontent">
         <section>
           <h2>Raposa</h2>
           <p>
@@ -220,6 +224,6 @@
     </footer>
 
     <script src="./script.js"></script>
-    <script src="./exercises.js"></script>
+    <!-- <script src="./exercises.js"></script> -->
   </body>
 </html>
