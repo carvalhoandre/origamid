@@ -252,3 +252,22 @@ li.click();
 // Qual o construtor do dado abaixo:
 li.hidden.constructor.name;
 /* string */
+
+// Liste 5 objetos nativos
+// Object
+// class
+// null
+// undefined
+// Boolean
+
+// Liste 5 objetos do browser
+// Document
+// NodeList
+// window
+// Element
+// history
+
+// Liste 2 Métodos, Propriedades ou Objetos
+// presentes no Chrome que não existem no Firefox
+// webkitHidden
+// webkitVisibilityState
