@@ -271,3 +271,86 @@ li.hidden.constructor.name;
 // presentes no Chrome que não existem no Firefox
 // webkitHidden
 // webkitVisibilityState
+
+// Utilizando o foreach na array abaixo,
+// some os valores de Taxa e os valores de Recebimento
+
+const transacoes2 = [
+  {
+    descricao: "Taxa do Pão",
+    valor: "R$ 39",
+  },
+  {
+    descricao: "Taxa do Mercado",
+    valor: "R$ 129",
+  },
+  {
+    descricao: "Recebimento de Cliente",
+    valor: "R$ 99",
+  },
+  {
+    descricao: "Taxa do Banco",
+    valor: "R$ 129",
+  },
+  {
+    descricao: "Recebimento de Cliente",
+    valor: "R$ 49",
+  },
+];
+
+let sunTax = 0;
+let sunRecept = 0;
+
+function getValue(stringValue) {
+  if (typeof stringValue !== "string") return 0;
+
+  return parseInt(stringValue.replace("R$ ", ""));
+}
+
+transacoes2.map(({ descricao, valor }) => {
+  if (descricao.includes("Taxa")) {
+    sunTax = sunTax + getValue(valor);
+  } else {
+    sunRecept = sunRecept + getValue(valor);
+  }
+});
+
+console.log(`Taxa`, sunTax, `Recebimento`, sunRecept);
+
+// Retorne uma array com a lista abaixo
+const transportes = "Carro;Avião;Trem;Ônibus;Bicicleta";
+
+console.log("array", transportes.split(";"));
+
+// Substitua todos os span's por a's
+const html = `<ul>
+                <li><span>Sobre</span></li>
+                <li><span>Produtos</span></li>
+                <li><span>Contato</span></li>
+              </ul>`;
+
+console.log(html.replaceAll("span", "a"));
+
+// Retorne o último caracter da frase
+const frase = "Melhor do ano!";
+
+console.log(frase[frase.length - 1]);
+
+// Retorne o total de taxas
+const transacoes = [
+  "Taxa do Banco",
+  "   TAXA DO PÃO",
+  "  taxa do mercado",
+  "depósito Bancário",
+  "TARIFA especial",
+];
+
+let sun = transacoes.reduce((acc, item) => {
+  if (item.toLowerCase().includes("taxa")) {
+    return acc + 1;
+  } else {
+    return acc;
+  }
+}, 0);
+
+console.log("total de taxas:", sun);
