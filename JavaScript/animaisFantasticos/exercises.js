@@ -351,17 +351,28 @@
 
 // Retorne um número aleatório
 // entre 1050 e 2000
-console.log(Math.floor(Math.random() * (1050 - 2000 + 1) + 2000));
+// console.log(Math.floor(Math.random() * (1050 - 2000 + 1) + 2000));
 
 // Retorne o maior número da lista abaixo
 const numeros = "4, 5, 20, 8, 9";
 
 const arrayNumbers = numeros.split(", ").map((n) => parseInt(n));
-console.log(Math.max(...arrayNumbers));
+// console.log(Math.max(...arrayNumbers));
 
 // Crie uma função para limpar os preços
 // e retornar os números com centavos arredondados
 // depois retorne a soma total
 const listaPrecos = ["R$ 59,99", " R$ 100,222", "R$ 230  ", "r$  200"];
 
-function formatPrice() {}
+function formatPrice() {
+  const formatedPrices = listaPrecos.map((price) =>
+    parseFloat(price.toUpperCase().replace("R$ ", ""))
+  );
+
+  const sunPrices = formatedPrices.reduce((acc, price) => {
+    return (acc = acc + price);
+  }, 0);
+  console.log("precos: ", formatedPrices, "soma: ", sunPrices);
+}
+
+formatPrice();
