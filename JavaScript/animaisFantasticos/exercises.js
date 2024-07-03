@@ -418,3 +418,57 @@ const carros = ["Ford", "Fiat", "VW", "Honda"];
 var saveCar = carros.slice();
 
 carros.pop();
+
+// Selecione cada curso e retorne uma array
+// com objetos contendo o título, descricao,
+// aulas e horas de cada curso
+const courses = document.querySelectorAll(".curso");
+
+const coursesArray = Array.from(courses).map((course) => ({
+  titulo: course.querySelector("h1").innerText,
+  descricao: course.querySelector("p").innerText,
+  aulas: course.querySelector(".aulas").innerText,
+  horas: course.querySelector(".horas").innerText,
+}));
+
+// Retorne uma lista com os
+// números maiores que 100
+const numerosArray = [3, 44, 333, 23, 122, 322, 33];
+
+const greaterThanHundred = numerosArray.filter((number) => number > 100);
+
+// Verifique se Baixo faz parte
+// da lista de instrumentos e retorne true
+const instrumentos = ["Guitarra", "Baixo", "Bateria", "Teclado"];
+
+const hasBassInstrument = instrumentos.includes("Baixo");
+
+// Retorne o valor total das compras
+const compras = [
+  {
+    item: "Banana",
+    preco: "R$ 4,99",
+  },
+  {
+    item: "Ovo",
+    preco: "R$ 2,99",
+  },
+  {
+    item: "Carne",
+    preco: "R$ 25,49",
+  },
+  {
+    item: "Refrigerante",
+    preco: "R$ 5,35",
+  },
+  {
+    item: "Quejo",
+    preco: "R$ 10,60",
+  },
+];
+
+const sumOfPurchases = compras.reduce((acc, item) => {
+  let value = parseFloat(item.preco.replace("R$ ", "").replace(",", "."));
+
+  return acc + value;
+}, 0);
