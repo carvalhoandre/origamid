@@ -3,6 +3,7 @@ import initTooltip from "./modules/tooltip.js";
 import initTabNav from "./modules/initTabNav.js";
 import initAccordion from "./modules/initiAccordion.js";
 import initScrollSuave from "./modules/scroll-suave.js";
+import initDropdownMenu from "./modules/dropdownMenu.js";
 import animationOnScroll from "./modules/animationOnScroll.js";
 
 initModal();
@@ -10,4 +11,5 @@ initTabNav();
 initTooltip();
 initAccordion();
 initScrollSuave();
+initDropdownMenu();
 animationOnScroll();
