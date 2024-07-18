@@ -29,3 +29,13 @@ function creatElement(elementTag, elementClass, elementContent) {
 const createTitle = creatElement.bind(null, "h1", "titulo");
 
 console.log(createTitle("olá"));
+
+// Mude a cor da tela para azul e depois para vermelho a cada 2s.
+for (let i = 0; i <= 20; i++) {
+  setTimeout(function () {
+    this.document.body.style.background = i % 2 === 0 ? "#1E90FF" : "#ec5353";
+  }, 2000 * i);
+}
+
+// Crie um cronometro utilizando o setInterval. Deve ser possível
+// iniciar, pausar e resetar (duplo clique no pausar).
