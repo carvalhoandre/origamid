@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Fetch - Exercícios</title>
+  </head>
+  <body>
+    <section class="section-cep" id="section-cep">
+      <form name="cep" id="cep-form">
+        <h1>Busque o CEP aqui!</h1>
+
+        <label for="cep-input">CEP</label>
+        <input type="text" name="cep" id="cep-input" maxlength="9" required />
+        <span class="error" id="cep-error"></span>
+
+        <button type="submit" id="cep-submit" disabled>Buscar</button>
+      </form>
+
+      <div id="cep-result" class="cep-result"></div>
+    </section>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
