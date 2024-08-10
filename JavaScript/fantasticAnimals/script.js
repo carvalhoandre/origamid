@@ -6,6 +6,7 @@ import openingHours from "./modules/openingHours.js";
 import initAccordion from "./modules/initiAccordion.js";
 import initScrollSuave from "./modules/scrollSuave.js";
 import initDropdownMenu from "./modules/dropdownMenu.js";
+import initFetchBitcoin from "./modules/fetchBitcoin.js";
 import initFetchAnimals from "./modules/fetchAnimals.js";
 import animationOnScroll from "./modules/animationOnScroll.js";
 
@@ -17,5 +18,6 @@ initAccordion();
 initMobileMenu();
 initScrollSuave();
 initDropdownMenu();
+initFetchBitcoin();
 initFetchAnimals();
 animationOnScroll();

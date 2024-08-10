@@ -11,17 +11,21 @@ export default function initFetchAnimals() {
   }
 
   async function fetchAnmails(url) {
-    const animalsResponse = await fetch(url);
-    const animalsJSON = await animalsResponse.json();
-    const numbersGrid = document.querySelector(".numbers-grid");
+    try {
+      const animalsResponse = await fetch(url);
+      const animalsJSON = await animalsResponse.json();
+      const numbersGrid = document.querySelector(".numbers-grid");
 
-    animalsJSON.forEach((animal) => {
-      const divAnimal = createAnimal(animal);
+      animalsJSON.forEach((animal) => {
+        const divAnimal = createAnimal(animal);
 
-      numbersGrid.appendChild(divAnimal);
-    });
+        numbersGrid.appendChild(divAnimal);
+      });
 
-    initNumbers();
+      initNumbers();
+    } catch (error) {
+      console.warn(error);
+    }
   }
 
   fetchAnmails(
