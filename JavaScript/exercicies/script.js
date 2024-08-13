@@ -37,5 +37,25 @@ for (let i = 0; i <= 20; i++) {
   }, 2000 * i);
 }
 
-// Crie um cronometro utilizando o setInterval. Deve ser possível
-// iniciar, pausar e resetar (duplo clique no pausar).
+// Remova o erro
+priceNumber("R$ 99,99");
+function priceNumber(n) {
+  return +n.replace("R$", "").replace(",", ".");
+}
+
+// Crie uma IIFE e isole o escopo
+// de qualquer código JS.
+
+(() => {
+  var test = "IIFE";
+
+  console.log(test);
+})();
+
+// console.log(test);
+
+// Como podemos utilizar
+// a função abaixo.
+const active = (callback) => callback();
+
+active(() => console.log("callback"));
