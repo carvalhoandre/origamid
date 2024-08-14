@@ -101,4 +101,21 @@ const redButton = createButton("#FFF", "#000");
 const frutas = ["Banana", "Uva", "Morango"];
 const comidas = ["Pizza", "Batata"];
 
-comidas.push(frutas);
+comidas.push(...frutas);
+
+// Crie 4 li's na página
+// Utilizando o for...of
+// adicione uma classe a cada li
+const uls = document.querySelectorAll("li");
+
+for (const item of uls) {
+  item.classList.add("navigate");
+}
+
+// Utilize o for...in para listar
+// todos as propriedades e valores
+// do objeto window
+
+for (const key in window) {
+  console.log(key, window[key]);
+}
