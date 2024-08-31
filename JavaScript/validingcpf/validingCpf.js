@@ -26,7 +26,13 @@ export default class ValidingCpf {
   validateAfterChange(cpfElement) {
     if (this.validate(cpfElement.value)) {
       cpfElement.value = this.format(cpfElement.value);
+      cpfElement.classList.add("valido");
+      cpfElement.classList.remove("erro");
+      cpfElement.nextElementSibling.classList.remove("ativar");
     } else {
+      cpfElement.classList.add("erro");
+      cpfElement.classList.remove("valido");
+      cpfElement.nextElementSibling.classList.add("ativar");
     }
   }
 
@@ -36,9 +42,20 @@ export default class ValidingCpf {
     });
   }
 
+  addErrorSpan() {
+    const errorElement = document.createElement("span");
+    errorElement.classList.add("erro-text");
+    errorElement.innerText = "CPF inválido";
+
+    this.element.parentElement.insertBefore(
+      errorElement,
+      this.element.nextElementSibling
+    );
+  }
+
   init() {
     this.addingEvent();
-
+    this.addErrorSpan();
     return this;
   }
 }
