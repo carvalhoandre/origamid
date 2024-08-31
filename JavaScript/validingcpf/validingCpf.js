@@ -13,6 +13,32 @@ export default class ValidingCpf {
 
   format(cpf) {
     const cpfFormated = this.clear(cpf);
+
     return this.build(cpfFormated);
+  }
+
+  validate(cpf) {
+    const matchCpf = cpf.match(/(?:\d{3}[-.\s]?){3}\d{2}/g);
+
+    return matchCpf && matchCpf[0] === cpf;
+  }
+
+  validateAfterChange(cpfElement) {
+    if (this.validate(cpfElement.value)) {
+      cpfElement.value = this.format(cpfElement.value);
+    } else {
+    }
+  }
+
+  addingEvent() {
+    this.element.addEventListener("change", () => {
+      this.validateAfterChange(this.element);
+    });
+  }
+
+  init() {
+    this.addingEvent();
+
+    return this;
   }
 }
