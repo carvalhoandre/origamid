@@ -1,6 +1,6 @@
 import initModal from "./modules/modal.js";
 import initTooltip from "./modules/tooltip.js";
-import initTabNav from "./modules/initTabNav.js";
+import TabNav from "./modules/initTabNav.js";
 import initMobileMenu from "./modules/mobileMenu.js";
 import openingHours from "./modules/openingHours.js";
 import Accordion from "./modules/initiAccordion.js";
@@ -16,8 +16,13 @@ scrollSuave.init();
 const accordion = new Accordion("[data-anime='accordion'] dt");
 accordion.init();
 
+const tabNav = new TabNav(
+  '[data-tab="menu"] li',
+  '[data-tab="content"] section'
+);
+tabNav.init();
+
 initModal();
-initTabNav();
 initTooltip();
 openingHours();
 initMobileMenu();
