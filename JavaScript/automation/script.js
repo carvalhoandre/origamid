@@ -1,5 +1,5 @@
 import Modal from "./modules/modal.js";
-import initTooltip from "./modules/tooltip.js";
+import Tooltip from "./modules/tooltip.js";
 import TabNav from "./modules/initTabNav.js";
 import initMobileMenu from "./modules/mobileMenu.js";
 import openingHours from "./modules/openingHours.js";
@@ -29,7 +29,9 @@ const modal = new Modal(
 );
 modal.init();
 
-initTooltip();
+const tooltip = new Tooltip("[data-tooltip]");
+tooltip.init();
+
 openingHours();
 initMobileMenu();
 initDropdownMenu();
