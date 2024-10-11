@@ -7,7 +7,7 @@ import Accordion from "./modules/initiAccordion.js";
 import ScrollSuave from "./modules/scrollSuave.js";
 import initDropdownMenu from "./modules/dropdownMenu.js";
 import initFetchBitcoin from "./modules/fetchBitcoin.js";
-import initFetchAnimals from "./modules/fetchAnimals.js";
+import fetchAnimals from "./modules/fetchAnimals.js";
 import animationOnScroll from "./modules/animationOnScroll.js";
 
 const scrollSuave = new ScrollSuave('[data-menu="suave"] a[href^="#"]');
@@ -31,6 +31,11 @@ modal.init();
 
 const tooltip = new Tooltip("[data-tooltip]");
 tooltip.init();
+
+fetchAnimals(
+  "http://127.0.0.1:5500/JavaScript/automation/modules/animals.json",
+  ".numeros-grid"
+);
 
 openingHours();
 initMobileMenu();

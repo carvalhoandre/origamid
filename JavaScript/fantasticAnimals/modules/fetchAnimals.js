@@ -1,7 +1,7 @@
 import AnimaNumbers from "./numbers.js";
 
-export default function initFetchAnimals() {
-  function createAnimal(animal) {
+export default function fetchAnimals(url, target) {
+  function createSunAnimal(animal) {
     const div = document.createElement("div");
     div.classList.add("numero-animal");
 
@@ -10,27 +10,32 @@ export default function initFetchAnimals() {
     return div;
   }
 
-  async function fetchAnmails(url) {
+  const numbersGrid = document.querySelector(target);
+
+  function toFillAnimals(animal) {
+    const divAnimal = createSunAnimal(animal);
+
+    numbersGrid.appendChild(divAnimal);
+  }
+
+  function animaAnimalsNumbers() {
+    const animaNumbers = new AnimaNumbers();
+    animaNumbers.init("[data-number]", ".numbers", "ativo");
+  }
+
+  async function createAnimals() {
     try {
       const animalsResponse = await fetch(url);
       const animalsJSON = await animalsResponse.json();
-      const numbersGrid = document.querySelector(".numbers-grid");
 
-      animalsJSON.forEach((animal) => {
-        const divAnimal = createAnimal(animal);
+      animalsJSON.forEach((animal) => toFillAnimals(animal));
 
-        numbersGrid.appendChild(divAnimal);
-      });
-
-      const animaNumbers = new AnimaNumbers();
-      animaNumbers.init("[data-number]", ".numbers", "ativo");
+      animaAnimalsNumbers();
       initNumbers();
     } catch (error) {
       console.warn(error);
     }
   }
 
-  fetchAnmails(
-    "http://127.0.0.1:5500/JavaScript/automation/modules/animals.json"
-  );
+  return createAnimals();
 }
