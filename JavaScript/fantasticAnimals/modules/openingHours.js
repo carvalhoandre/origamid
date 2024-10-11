@@ -1,21 +1,44 @@
-export default function openingHours() {
-  const opening = document.querySelector("[data-week]");
+export default class OpeningHours {
+  constructor(opening, activeClass) {
+    this.activeClass = activeClass || "open";
+    this.opening = opening;
 
-  if (!opening) return;
+    this.activeOpen = this.activeOpen.bind(this);
+  }
 
-  const daysWeek = opening.dataset.week.split(",").map(Number);
-  const hourWeek = opening.dataset.hour.split(",").map(Number);
+  dataOpening() {
+    this.daysWeek = this.opening.dataset.week.split(",").map(Number);
+    this.hourWeek = this.opening.dataset.hour.split(",").map(Number);
+  }
 
-  const dateNow = new Date();
+  dataNow() {
+    this.dateNow = new Date();
+    this.dayNow = dateNow.getDay();
+    this.hourNow = dateNow.getUTCHours() - 3;
+  }
 
-  const dayNow = dateNow.getDay();
-  const hourNow = dateNow.getHours();
+  isOpen() {
+    this.isWeekOpen = this.daysWeek.indexOf(this.dayNow) !== -1;
 
-  const isWeekOpen = daysWeek.indexOf(dayNow) !== -1;
+    this.isHourOpen =
+      this.hourNow >= this.hourWeek[0] && this.hourNow < this.hourWeek[1];
 
-  const isHourOpen = hourNow >= hourWeek[0] && hourNow < hourWeek[1];
+    return this.isWeekOpen && this.isHourOpen;
+  }
 
-  if (isHourOpen && isWeekOpen) {
-    opening.classList.add("open");
+  activeOpen() {
+    if (this.isOpen()) {
+      this.opening.classList.add(this.activeClass);
+    }
+  }
+
+  init() {
+    if (!this.opening) return;
+
+    this.dataOpening();
+    this.dataNow();
+    this.activeOpen();
+
+    return this;
   }
 }

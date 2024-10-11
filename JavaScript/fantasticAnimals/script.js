@@ -2,7 +2,7 @@ import Modal from "./modules/modal.js";
 import Tooltip from "./modules/tooltip.js";
 import TabNav from "./modules/initTabNav.js";
 import MobileMenu from "./modules/mobileMenu.js";
-import openingHours from "./modules/openingHours.js";
+import OpeningHours from "./modules/openingHours.js";
 import Accordion from "./modules/initiAccordion.js";
 import ScrollSuave from "./modules/scrollSuave.js";
 import DropdownMenu from "./modules/dropdownMenu.js";
@@ -45,11 +45,12 @@ mobileMenu.init(
   '[data-menu="list"]'
 );
 
+const openingHours = new OpeningHours("[data-week]");
+openingHours.init();
+
 fetchAnimals(
   "http://127.0.0.1:5500/JavaScript/automation/modules/animals.json",
   ".numeros-grid"
 );
 
 fetchBitcoin("https://blockchain.info/ticker", ".btc-price");
-
-openingHours();
