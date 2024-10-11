@@ -1,22 +1,39 @@
-import initModal from "./modules/modal.js";
-import initTooltip from "./modules/tooltip.js";
-import initTabNav from "./modules/initTabNav.js";
+import Modal from "./modules/modal.js";
+import Tooltip from "./modules/tooltip.js";
+import TabNav from "./modules/initTabNav.js";
 import initMobileMenu from "./modules/mobileMenu.js";
 import openingHours from "./modules/openingHours.js";
-import initAccordion from "./modules/initiAccordion.js";
-import initScrollSuave from "./modules/scrollSuave.js";
+import Accordion from "./modules/initiAccordion.js";
+import ScrollSuave from "./modules/scrollSuave.js";
 import initDropdownMenu from "./modules/dropdownMenu.js";
 import initFetchBitcoin from "./modules/fetchBitcoin.js";
 import initFetchAnimals from "./modules/fetchAnimals.js";
 import animationOnScroll from "./modules/animationOnScroll.js";
 
-initModal();
-initTabNav();
-initTooltip();
+const scrollSuave = new ScrollSuave('[data-menu="suave"] a[href^="#"]');
+scrollSuave.init();
+
+const accordion = new Accordion("[data-anime='accordion'] dt");
+accordion.init();
+
+const tabNav = new TabNav(
+  '[data-tab="menu"] li',
+  '[data-tab="content"] section'
+);
+tabNav.init();
+
+const modal = new Modal(
+  '[data-modal="open"]',
+  '[data-modal="close"]',
+  '[data-modal="container"]'
+);
+modal.init();
+
+const tooltip = new Tooltip("[data-tooltip]");
+tooltip.init();
+
 openingHours();
-initAccordion();
 initMobileMenu();
-initScrollSuave();
 initDropdownMenu();
 initFetchBitcoin();
 initFetchAnimals();

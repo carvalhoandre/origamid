@@ -8,7 +8,7 @@ export default function initMobileMenu() {
 
   if (!menuButton && !menuList) return;
 
-  function openMenu(event) {
+  function openMenu() {
     menuList.classList.add("active");
     menuButton.classList.add("active");
 

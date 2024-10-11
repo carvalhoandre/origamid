@@ -29,6 +29,6 @@ export default function initFetchAnimals() {
   }
 
   fetchAnmails(
-    "http://127.0.0.1:5500/JavaScript/fantasticAnimals/modules/animals.json"
+    "http://127.0.0.1:5500/JavaScript/automation/modules/animals.json"
   );
 }

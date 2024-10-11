@@ -8,7 +8,7 @@ export default function initNumbers() {
       let start = 0;
 
       const timer = setInterval(() => {
-        start = start + increment;
+        start += increment;
 
         number.innerText = start;
 
@@ -20,6 +20,8 @@ export default function initNumbers() {
     });
   }
 
+  let observer = new MutationObserver(handleMutation);
+
   function handleMutation(mutation) {
     if (mutation[0].target.classList.contains("ativo")) {
       observer.disconnect();
@@ -28,7 +30,6 @@ export default function initNumbers() {
   }
 
   const observerTarget = document.querySelector(".numbers");
-  const observer = new MutationObserver(handleMutation);
 
   observer.observe(observerTarget, { attributes: true });
 }
