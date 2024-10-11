@@ -6,6 +6,15 @@ module.exports = {
     path: path.resolve(__dirname, "./"),
     filename: "main.js",
   },
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, "./"),
+      filename: "main.js",
+    },
+    port: 3000, // Specify the port you want here
+    open: true, // Automatically opens the browser
+    hot: true, // Enables Hot Module Replacement
+  },
   module: {
     rules: [
       {
