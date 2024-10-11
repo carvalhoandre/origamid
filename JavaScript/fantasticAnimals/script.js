@@ -1,7 +1,7 @@
 import Modal from "./modules/modal.js";
 import Tooltip from "./modules/tooltip.js";
 import TabNav from "./modules/initTabNav.js";
-import initMobileMenu from "./modules/mobileMenu.js";
+import MobileMenu from "./modules/mobileMenu.js";
 import openingHours from "./modules/openingHours.js";
 import Accordion from "./modules/initiAccordion.js";
 import ScrollSuave from "./modules/scrollSuave.js";
@@ -38,6 +38,13 @@ scrollAnima.init();
 const dropdownMenu = new DropdownMenu("[data-anime='scroll']");
 dropdownMenu.init("[data-dropdown]", ["click", "touchstart"]);
 
+const mobileMenu = new MobileMenu("[data-anime='scroll']");
+mobileMenu.init(
+  ["click", "touchstart"],
+  '[data-menu="button"]',
+  '[data-menu="list"]'
+);
+
 fetchAnimals(
   "http://127.0.0.1:5500/JavaScript/automation/modules/animals.json",
   ".numeros-grid"
@@ -46,4 +53,3 @@ fetchAnimals(
 fetchBitcoin("https://blockchain.info/ticker", ".btc-price");
 
 openingHours();
-initMobileMenu();
