@@ -1,3 +1,5 @@
+import debounce from "./debounce.js";
+
 export default class Slide {
   constructor(slide, wrapper) {
     this.slide = document.querySelector(slide);
@@ -10,10 +12,13 @@ export default class Slide {
     };
     this.activeSlideIndex = 0;
     this.slidesArray = [];
+    this.activeClass = "active";
+    this.slideChangeThreshold = 120; // Configurable movement threshold for slide change
   }
 
-  transition(active) {
-    this.slide.style.transition = active ? "transform .3s" : "";
+  // Handles slide transition with configurable speed
+  transition(active, duration = 0.3) {
+    this.slide.style.transition = active ? `transform ${duration}s` : "";
   }
 
   // Moves the slide to the given X position
@@ -35,11 +40,12 @@ export default class Slide {
       this.dist.startX = event.clientX;
       this.wrapper.addEventListener("mousemove", this.onMove);
     } else {
+      event.preventDefault();
       this.dist.startX = event.changedTouches[0].clientX;
       this.wrapper.addEventListener("touchmove", this.onMove);
     }
 
-    this.transition(false);
+    this.transition(false); // Disable transition during movement
   }
 
   // Handles the slide movement (mousemove or touchmove)
@@ -59,14 +65,21 @@ export default class Slide {
     this.wrapper.removeEventListener(moveType, this.onMove);
     this.dist.finalPosition = this.dist.movePosition;
 
-    this.transition(true);
+    this.transition(true); // Re-enable transition
     this.changeSlideOnEnd();
   }
 
+  // Determines whether to change slide based on movement
   changeSlideOnEnd() {
-    if (this.dist.movement > 120 && this.index.next !== undefined) {
+    if (
+      this.dist.movement > this.slideChangeThreshold &&
+      this.index.next !== undefined
+    ) {
       this.activeNextSlide();
-    } else if (this.dist.movement < 120 && this.index.prev !== undefined) {
+    } else if (
+      this.dist.movement < -this.slideChangeThreshold &&
+      this.index.prev !== undefined
+    ) {
       this.activePrevSlide();
     } else {
       this.changeSlide(this.index.active);
@@ -75,17 +88,12 @@ export default class Slide {
 
   // Adds slide event listeners for both mouse and touch events
   addSlideEvents() {
-    this.wrapper.addEventListener("mousedown", this.onStart);
-    this.wrapper.addEventListener("touchstart", this.onStart);
-    this.wrapper.addEventListener("mouseup", this.onEnd);
-    this.wrapper.addEventListener("touchend", this.onEnd);
-  }
-
-  // Binds the event handler functions to the current context
-  bindEvents() {
-    this.onStart = this.onStart.bind(this);
-    this.onMove = this.onMove.bind(this);
-    this.onEnd = this.onEnd.bind(this);
+    ["mousedown", "touchstart"].forEach((event) => {
+      this.wrapper.addEventListener(event, this.onStart);
+    });
+    ["mouseup", "touchend"].forEach((event) => {
+      this.wrapper.addEventListener(event, this.onEnd);
+    });
   }
 
   // Calculates the central position of a slide
@@ -102,16 +110,17 @@ export default class Slide {
     });
   }
 
+  // Updates the slide index navigation
   slideIndexNav(index) {
     const last = this.slidesArray.length - 1;
-
     this.index = {
-      prev: index ? index - 1 : undefined,
+      prev: index > 0 ? index - 1 : undefined,
       active: index,
-      next: index === last ? undefined : index + 1,
+      next: index < last ? index + 1 : undefined,
     };
   }
 
+  // Changes the active slide
   changeSlide(index) {
     const activeSlide = this.slidesArray[index];
     this.moveSlide(activeSlide.position);
@@ -119,27 +128,58 @@ export default class Slide {
     this.slideIndexNav(index);
 
     this.dist.finalPosition = activeSlide.position;
+    this.changeActiveClass();
   }
 
+  // Updates the active class on slides
+  changeActiveClass() {
+    this.slidesArray.forEach((item) =>
+      item.element.classList.remove(this.activeClass)
+    );
+    this.slidesArray[this.index.active].element.classList.add(this.activeClass);
+  }
+
+  // Activates the previous slide
   activePrevSlide() {
     if (this.index.prev !== undefined) {
       this.changeSlide(this.index.prev);
     }
   }
 
+  // Activates the next slide
   activeNextSlide() {
     if (this.index.next !== undefined) {
       this.changeSlide(this.index.next);
     }
   }
 
+  onResize() {
+    setTimeout(() => {
+      this.slidesConfig();
+      this.changeSlide(this.index.active);
+    }, 1000);
+  }
+
+  addResizeEvent() {
+    window.addEventListener("resize", this.onResize);
+  }
+
+  // Binds the event handler functions to the current context
+  bindEvents() {
+    this.onStart = this.onStart.bind(this);
+    this.onMove = this.onMove.bind(this);
+    this.onEnd = this.onEnd.bind(this);
+    this.onResize = debounce(this.onResize.bind(this), 50);
+  }
+
   // Initializes the slide functionality
   init() {
     this.bindEvents();
     this.addSlideEvents();
-    this.transition(true);
+    this.transition(true); // Initial transition on
     this.slidesConfig();
-    this.moveSlide(this.slidesArray[this.activeSlideIndex].position);
+    this.changeSlide(this.activeSlideIndex); // Start at the active slide
+
     return this;
   }
 }
