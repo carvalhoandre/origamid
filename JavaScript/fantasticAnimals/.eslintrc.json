@@ -5,6 +5,7 @@
   },
   "rules": {
     "no-param-reassign": 0,
-    "eslint-plugin-import/extensions": 0
+    "import/extensions": 0,
+    "no-console": 0
   }
 }
