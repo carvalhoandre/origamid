@@ -1,5 +1,7 @@
-const App = () => {
-    return <h1>Origamid</h1>
-}
+import JsxExercises from "./exercises/jsx";
 
-export default App 
+const App = () => {
+  return <JsxExercises />;
+};
+
+export default App;
