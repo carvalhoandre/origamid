@@ -1,7 +1,7 @@
-import JsxExercises from "./exercises/jsx";
+import JsxArray from "./exercises/jsxArray";
 
 const App = () => {
-  return <JsxExercises />;
+  return <JsxArray />;
 };
 
 export default App;
