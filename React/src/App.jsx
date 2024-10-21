@@ -1,7 +1,13 @@
-import JsxArray from "./exercises/jsxArray";
+import Components from "./exercises/components";
+import Header from "./exercises/components/Header";
 
 const App = () => {
-  return <JsxArray />;
+  return (
+    <>
+      <Header />
+      <Components />
+    </>
+  );
 };
 
 export default App;
