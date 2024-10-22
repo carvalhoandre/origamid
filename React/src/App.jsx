@@ -1,13 +1,7 @@
-import Components from "./exercises/components";
-import Header from "./exercises/components/Header";
+import ExerciseState from "./exercises/useState";
 
 const App = () => {
-  return (
-    <>
-      <Header />
-      <Components />
-    </>
-  );
+  return <ExerciseState />;
 };
 
 export default App;

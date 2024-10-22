@@ -2,8 +2,8 @@
 // Utilize a array abaixo para mostrar os produtos
 // Quebre em componentes o que precisar ser reutilizado
 
-import Products from "./Products";
-import Title from "./Title";
+import Products from "./products";
+import Title from "./title";
 
 // Dica: const { pathname } = window.location; (puxa o caminho do URL)
 // const produtos = [
