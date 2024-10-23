@@ -9,7 +9,9 @@ const Item = (props) => {
 
       <p>R$ {item.preco}</p>
 
-      <img src={item.fotos[0].src} alt={item.fotos[0].titulo} />
+      {item.fotos[0] && (
+        <img src={item.fotos[0].src} alt={item.fotos[0].titulo} />
+      )}
     </div>
   );
 };

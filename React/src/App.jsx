@@ -1,7 +1,7 @@
-import ExerciseEffect from "./exercises/useEffect";
+import ExerciseContext from "./exercises/context";
 
 const App = () => {
-  return <ExerciseEffect />;
+  return <ExerciseContext />;
 };
 
 export default App;
