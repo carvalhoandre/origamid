@@ -1,7 +1,7 @@
-import ExerciseState from "./exercises/useState";
+import ExerciseEffect from "./exercises/useEffect";
 
 const App = () => {
-  return <ExerciseState />;
+  return <ExerciseEffect />;
 };
 
 export default App;
