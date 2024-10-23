@@ -1,7 +1,7 @@
-import ExerciseContext from "./exercises/context";
+import Form from "./exercises/form/form";
 
 const App = () => {
-  return <ExerciseContext />;
+  return <Form />;
 };
 
 export default App;
