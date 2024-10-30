@@ -20,6 +20,7 @@ const Checkbox = () => {
   function handleChecked(cor) {
     return cores.includes(cor);
   }
+
   return (
     <div>
       <h1>Checkbox Origamid</h1>

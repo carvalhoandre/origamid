@@ -1,7 +1,7 @@
-import Checkbox from "./exercises/checkbox";
+import ChallengeForm from "./exercises/challengeForm";
 
 const App = () => {
-  return <Checkbox />;
+  return <ChallengeForm />;
 };
 
 export default App;
