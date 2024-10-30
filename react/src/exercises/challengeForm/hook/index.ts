@@ -42,8 +42,6 @@ const useChallengeQuestions = () => {
   const currentQuestion = questions[page] || null;
 
   const handleNextQuestion = (replay) => {
-    console.log(currentQuestion.resposta, replay);
-
     if (currentQuestion.resposta === replay) {
       setCorrections((state) => ++state);
     }

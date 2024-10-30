@@ -41,7 +41,7 @@ const ChallengeForm = () => {
           {question.options.map((option, index) => (
             <div key={index} style={{ display: "flex", gap: "32px" }}>
               <input
-                type="checkbox"
+                type="radio"
                 value={option}
                 checked={currentReply === option}
                 onChange={({ target }) => setCurrentReply(target.value)}
