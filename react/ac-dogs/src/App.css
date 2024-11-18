@@ -3,6 +3,7 @@
 }
 
 body {
+  padding-top: 4rem;
   margin: 0px;
   color: #333;
 
@@ -17,6 +18,10 @@ h2,
 h3,
 p {
   margin: 0px;
+}
+
+a {
+  text-decoration: none;
 }
 
 ul,
