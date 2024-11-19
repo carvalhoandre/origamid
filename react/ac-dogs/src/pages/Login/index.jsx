@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import styles from "./styles.module.css";
 import { authLogin } from "../../service/auth";
+import { Input } from "../../components/input";
+import { Button } from "../../components/button";
 
 const Login = () => {
   const [userName, setUserName] = React.useState();
@@ -19,19 +21,23 @@ const Login = () => {
       <h1>Login</h1>
 
       <form action="" onSubmit={handleSubmit}>
-        <input
+        <Input
           type="text"
+          label="Usuário"
+          name="userName"
           value={userName}
           onChange={({ target }) => setUserName(target.value)}
         />
 
-        <input
+        <Input
           type="password"
+          name="password"
+          label="Senha"
           value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
 
-        <button type="submit">Entrar</button>
+        <Button type="submit">Entrar</Button>
       </form>
 
       <Link to="register">Criar conta</Link>

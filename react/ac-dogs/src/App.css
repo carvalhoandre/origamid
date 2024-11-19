@@ -8,7 +8,7 @@ body {
   color: #333;
 
   --type-first: Helvetica, Arial, sans-serif;
-  --type-first: "Spectral", Georgia;
+  --type-second: "Spectral", Georgia;
 
   font-family: var(--type-first);
 }
