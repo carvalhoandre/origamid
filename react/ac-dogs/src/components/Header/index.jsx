@@ -1,9 +1,15 @@
-import { Link } from "react-router-dom";
-import styles from "./styles.module.css";
+import React from "react";
 
+import { Link } from "react-router-dom";
+
+import { UserContext } from "../../context/userContext";
 import Dog from "../../assets/dogs.svg?react";
 
+import styles from "./styles.module.css";
+
 const Header = () => {
+  const { data } = React.useContext(UserContext);
+
   return (
     <header className={styles.container}>
       <nav className={`${styles.nav} "container"`}>
@@ -11,9 +17,15 @@ const Header = () => {
           <Dog />
         </Link>
 
-        <Link to="/login" className={styles.login}>
-          Login / Criar
-        </Link>
+        {!!data ? (
+          <Link to="/account" className={styles.login}>
+            {data.nome}
+          </Link>
+        ) : (
+          <Link to="/login" className={styles.login}>
+            Login / Criar
+          </Link>
+        )}
       </nav>
     </header>
   );

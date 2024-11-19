@@ -1,6 +1,6 @@
 import { API_URL } from "../api";
 
-export async function postToken(body) {
+export async function fetchPostToken(body) {
   fetch(`${API_URL}/jwt-auth/v1/token`, {
     method: "POST",
     headers: {
@@ -10,7 +10,7 @@ export async function postToken(body) {
   });
 }
 
-export async function getUser(token) {
+export async function fetchGetUser(token) {
   fetch(`${API_URL}/api/user`, {
     method: "GET",
     headers: {

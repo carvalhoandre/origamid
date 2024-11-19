@@ -1,9 +1,15 @@
 import { Routes } from "./routes";
 
+import { UserStorage } from "./context/userContext";
+
 import "./App.css";
 
 const App = () => {
-  return <Routes />;
+  return (
+    <UserStorage>
+      <Routes />
+    </UserStorage>
+  );
 };
 
 export default App;
