@@ -5,15 +5,18 @@ import styles from "./styles.module.css";
 import { authLogin } from "../../service/auth";
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
+import { useForm } from "../../hooks/useForm";
 
 const Login = () => {
-  const [userName, setUserName] = React.useState();
-  const [password, setPassword] = React.useState();
+  const userName = useForm("email");
+  const password = useForm();
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    authLogin(userName, password);
+    if (!userName.validate() || !password.validate()) return;
+
+    authLogin(userName.value, password.value);
   }
 
   return (
@@ -21,21 +24,9 @@ const Login = () => {
       <h1>Login</h1>
 
       <form action="" onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          label="Usuário"
-          name="userName"
-          value={userName}
-          onChange={({ target }) => setUserName(target.value)}
-        />
+        <Input type="text" label="Usuário" name="userName" {...userName} />
 
-        <Input
-          type="password"
-          name="password"
-          label="Senha"
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-        />
+        <Input type="password" name="password" label="Senha" {...password} />
 
         <Button type="submit">Entrar</Button>
       </form>
