@@ -6,7 +6,11 @@ import { Home } from "../pages/home";
 import { LoginRoutes } from "./login";
 
 const Routes = () => (
-  <BrowserRouter>
+  <BrowserRouter
+    future={{
+      v7_startTransition: true,
+    }}
+  >
     <Header />
     <RouterRoutes>
       <Route path="/" element={<Home />} />

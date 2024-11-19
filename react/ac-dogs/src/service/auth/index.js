@@ -1,19 +1,20 @@
-import { apiUrl } from "../apiUrl";
+import { API_URL } from "../api";
 
-export function authLogin(userName, password) {
-  fetch(`${apiUrl}jwt-auth/v1/token`, {
+export async function postToken(body) {
+  fetch(`${API_URL}/jwt-auth/v1/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ userName, password }),
-  })
-    .then((response) => {
-      console.log(response);
+    body: JSON.stringify(body),
+  });
+}
 
-      return response.json();
-    })
-    .then((json) => {
-      console.log(json);
-    });
+export async function getUser(token) {
+  fetch(`${API_URL}/api/user`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
 }

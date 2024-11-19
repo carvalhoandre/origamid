@@ -11,23 +11,18 @@ const useForm = (type) => {
   const [value, setValue] = React.useState("");
   const [error, setError] = React.useState(null);
 
-  function onChange({ target }) {
-    if (error) validate(target.value);
-
-    setValue(target.value);
-  }
-
   function validate(value) {
-    if (type === false) return true;
+    if (!type) return true;
 
-    if (value.length === 0) {
-      setError("Campo obrigatório, por favor, preecha um valor!");
+    if (value.trim()) {
+      setError("Campo obrigatório, por favor, preencha um valor!");
       return false;
     }
 
-    if (types[type] && !types[type].regex.test(value)) {
-      setError(!types[type].message);
+    const validationType = types[type];
 
+    if (validationType && !validationType.regex.test(value)) {
+      setError(validationType.message);
       return false;
     }
 
@@ -35,13 +30,23 @@ const useForm = (type) => {
     return true;
   }
 
+  function onChange({ target }) {
+    if (error) validate(target.value);
+
+    setValue(target.value);
+  }
+
+  function onBlur() {
+    return validate(value);
+  }
+
   return {
     value,
     error,
-    setValue,
+    onBlur,
     onChange,
+    setValue,
     validate: () => validate(value),
-    onBlur: () => validate(value),
   };
 };
 
