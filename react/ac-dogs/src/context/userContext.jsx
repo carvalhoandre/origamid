@@ -36,7 +36,9 @@ export const UserStorage = ({ children }) => {
 
       const response = await fetchPostToken({ userName, password });
 
-      if (!response.ok) throw new Error(`Erro: ${response.statusText}`);
+      console.log(response);
+      if (!!response || !response?.ok)
+        throw new Error(`Erro: ${response.statusText}`);
 
       const json = await response.json();
       if (!json.token) throw new Error("Erro: Token inválido");
@@ -67,6 +69,8 @@ export const UserStorage = ({ children }) => {
 
   React.useEffect(() => {
     async function autoLogin() {
+      setError(null);
+
       const token = window.localStorage.getItem("token");
       if (!token) return;
 
