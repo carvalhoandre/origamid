@@ -10,7 +10,7 @@ import { useForm } from "../../hooks/useForm";
 import styles from "./styles.module.css";
 
 const Login = () => {
-  const { userLogin } = React.useContext(UserContext);
+  const { userLogin, error, loading } = React.useContext(UserContext);
 
   const userName = useForm();
   const password = useForm();
@@ -35,7 +35,15 @@ const Login = () => {
 
         <Input type="password" name="password" label="Senha" {...password} />
 
-        <Button type="submit">Entrar</Button>
+        {loading ? (
+          <Button type="submit" disabled>
+            Carregando...
+          </Button>
+        ) : (
+          <Button type="submit">Entrar</Button>
+        )}
+
+        {error && <p>{error}</p>}
       </form>
 
       <Link to="register">Criar conta</Link>
