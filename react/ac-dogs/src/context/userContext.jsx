@@ -34,22 +34,19 @@ export const UserStorage = ({ children }) => {
       setError(null);
       setLoading(true);
 
-      const response = await fetchPostToken({
-        userName,
-        password,
-      });
+      const response = await fetchPostToken({ userName, password });
 
       if (!response.ok) throw new Error(`Erro: ${response.statusText}`);
 
       const json = await response.json();
-
       if (!json.token) throw new Error("Erro: Token inválido");
 
-      await getUser();
+      await getUser(json.token);
     } catch (error) {
       setError(error.message);
-    } finally {
       setLogin(false);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -71,8 +68,7 @@ export const UserStorage = ({ children }) => {
   React.useEffect(() => {
     async function autoLogin() {
       const token = window.localStorage.getItem("token");
-
-      if (!token.length > 0) return;
+      if (!token) return;
 
       try {
         setError(null);
@@ -84,8 +80,7 @@ export const UserStorage = ({ children }) => {
 
         await getUser(token);
       } catch (error) {
-        setError(error);
-
+        setError(error.message);
         userLogout();
       } finally {
         setLoading(false);
