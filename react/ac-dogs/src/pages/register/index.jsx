@@ -42,11 +42,8 @@ const Register = () => {
 
         <Input type="password" name="password" label="Senha" {...password} />
 
-        {loading ? (
-          <Button disabled>Cadastrando...</Button>
-        ) : (
-          <Button>Cadastrar</Button>
-        )}
+        <Button loading={loading}>Cadastrar</Button>
+
         <Error error={error} />
       </form>
     </section>
