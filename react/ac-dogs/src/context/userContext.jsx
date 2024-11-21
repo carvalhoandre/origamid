@@ -29,18 +29,17 @@ export const UserStorage = ({ children }) => {
     setLogin(true);
   }
 
-  async function userLogin({ userName, password }) {
+  async function userLogin({ username, password }) {
     try {
       setError(null);
       setLoading(true);
 
-      const response = await fetchPostToken({ userName, password });
+      const response = await fetchPostToken({ username, password });
 
-      console.log(response);
-      if (!!response || !response?.ok)
-        throw new Error(`Erro: ${response.statusText}`);
+      if (!response?.ok) throw new Error(`Erro: ${response.statusText}`);
 
       const json = await response.json();
+
       if (!json.token) throw new Error("Erro: Token inválido");
 
       await getUser(json.token);

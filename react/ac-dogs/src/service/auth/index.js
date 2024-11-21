@@ -27,3 +27,13 @@ export async function fetchGetUser(token) {
     },
   });
 }
+
+export async function fetchPostUser(body) {
+  return fetch(`${API_URL}/api/user`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+}

@@ -25,7 +25,7 @@ const Login = () => {
     event.preventDefault();
 
     userLogin({
-      userName: userName.value,
+      username: userName.value,
       password: password.value,
     });
   }

@@ -13,7 +13,7 @@ import styles from "./styles.module.css";
 const LoginRoutes = () => {
   const { login } = React.useContext(UserContext);
 
-  if (login === true) return <Navigate to="/conta" />;
+  if (login === true) return <Navigate to="/account" />;
 
   return (
     <section className={styles.login}>

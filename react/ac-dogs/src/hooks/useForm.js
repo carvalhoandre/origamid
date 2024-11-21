@@ -5,6 +5,11 @@ const types = {
     regex: "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/",
     message: "Preencha um e-mail válido",
   },
+  password: {
+    regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+    message:
+      "A senha deve ter pelo menos 8 caracteres, incluindo letras e números",
+  },
 };
 
 const useForm = (type) => {
@@ -14,7 +19,7 @@ const useForm = (type) => {
   function validate(value) {
     if (!type) return true;
 
-    if (value.trim()) {
+    if (value.trim()?.length <= 0) {
       setError("Campo obrigatório, por favor, preencha um valor!");
       return false;
     }
@@ -31,9 +36,8 @@ const useForm = (type) => {
   }
 
   function onChange({ target }) {
-    if (error) validate(target.value);
-
     setValue(target.value);
+    if (error) validate(target.value);
   }
 
   function onBlur() {
