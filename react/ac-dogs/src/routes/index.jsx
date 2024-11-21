@@ -4,9 +4,9 @@ import { Header } from "../components/header";
 
 import { Home } from "../pages/home";
 import { LoginRoutes } from "./login";
-import { User } from "../pages/user";
 
 import { ProtectedRoutes } from "./protecteds";
+import { User } from "./user";
 
 const Routes = () => (
   <>
@@ -19,7 +19,7 @@ const Routes = () => (
         path="account/*"
         element={
           <ProtectedRoutes>
-            <User />{" "}
+            <User />
           </ProtectedRoutes>
         }
       />
