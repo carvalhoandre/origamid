@@ -71,7 +71,7 @@ export const UserStorage = ({ children }) => {
       setError(null);
 
       const token = window.localStorage.getItem("token");
-      if (!token) return;
+      if (!token) return setLogin(false);
 
       try {
         setError(null);

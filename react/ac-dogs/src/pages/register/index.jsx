@@ -10,8 +10,6 @@ import { Input } from "../../components/input";
 import { Button } from "../../components/button";
 import { Error } from "../../components/Error";
 
-import styles from "./styles.module.css";
-
 const Register = () => {
   const { loading, error, request } = useFetch();
   const { userLogin } = React.useContext(UserContext);
