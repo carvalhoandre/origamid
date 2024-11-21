@@ -1,9 +1,10 @@
 import React from "react";
 
 import { useForm } from "../../hooks/useForm";
+import { useFetch } from "../../hooks/useFetch";
 import { UserContext } from "../../context/userContext";
 
-import { fetchPostUser } from "../../service/auth";
+import { USER_POST } from "../../service/api";
 
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
@@ -12,29 +13,24 @@ import { Error } from "../../components/Error";
 import styles from "./styles.module.css";
 
 const Register = () => {
-  const { userLogin, error, loading } = React.useContext(UserContext);
+  const { loading, error, request } = useFetch();
+  const { userLogin } = React.useContext(UserContext);
 
-  const userName = useForm();
+  const username = useForm();
   const email = useForm("email");
   const password = useForm("password");
 
   async function handleSubmit(event) {
     event.preventDefault();
+    const { url, options } = USER_POST({
+      username: username.value,
+      email: email.value,
+      password: password.value,
+    });
 
-    try {
-      const response = await fetchPostUser({
-        username: userName.value,
-        email: email.value,
-        password: password.value,
-      });
+    const { response } = await request(url, options);
 
-      if (!response?.ok) throw new Error(`Erro: ${response.statusText}`);
-
-      await userLogin({ username: userName.value, password: password.value });
-      console.log(json);
-    } catch (error) {
-      console.log(error);
-    }
+    if (response.ok) userLogin(username.value, password.value);
   }
 
   return (
@@ -42,13 +38,18 @@ const Register = () => {
       <h1 className="title">Cadastre-se</h1>
 
       <form onSubmit={handleSubmit}>
-        <Input type="text" label="Usuário" name="userName" {...userName} />
+        <Input type="text" label="Usuário" name="userName" {...username} />
 
         <Input label="Email" type="text" name="email" {...email} />
 
         <Input type="password" name="password" label="Senha" {...password} />
 
-        <Button>Cadastrar</Button>
+        {loading ? (
+          <Button disabled>Cadastrando...</Button>
+        ) : (
+          <Button>Cadastrar</Button>
+        )}
+        <Error error={error} />
       </form>
     </section>
   );
