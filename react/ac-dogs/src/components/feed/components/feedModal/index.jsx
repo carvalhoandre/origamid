@@ -1,7 +1,36 @@
+import React from "react";
+
+import { useFetch } from "../../../../hooks/useFetch";
+import { PHOTO_GET } from "../../../../service/photos";
+
+import { Error } from "../../../error";
+import { Loading } from "../../../loading";
+import { PhotoContent } from "../../../photoContent";
+
 import styles from "./styles.module.css";
 
-const FeedModal = () => {
-  return <div className={styles.container}>FeedModal</div>;
+const FeedModal = ({ photo }) => {
+  const { data, error, loading, request } = useFetch();
+
+  React.useEffect(() => {
+    async function fetchPhotos() {
+      const { options, url } = PHOTO_GET(photo.id);
+
+      const { response, json } = await request(url, options);
+    }
+
+    fetchPhotos();
+  }, [photo]);
+
+  return (
+    <div className={styles.modal}>
+      {error && <Error error={error} />}
+
+      {loading && <Loading />}
+
+      {data && <PhotoContent data={data} />}
+    </div>
+  );
 };
 
 export { FeedModal };
