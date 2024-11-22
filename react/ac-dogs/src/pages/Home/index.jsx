@@ -1,7 +1,13 @@
+import { Feed } from "../../components/feed";
+
 import styles from "./styles.module.css";
 
 const Home = () => {
-  return <div className={styles.container}>Home</div>;
+  return (
+    <section className="container mainContainer">
+      <Feed />
+    </section>
+  );
 };
 
 export { Home };

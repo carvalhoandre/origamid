@@ -4,7 +4,7 @@ import { useForm } from "../../hooks/useForm";
 import { useFetch } from "../../hooks/useFetch";
 import { UserContext } from "../../context/userContext";
 
-import { USER_POST } from "../../service/api";
+import { USER_POST } from "../../service/auth";
 
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";

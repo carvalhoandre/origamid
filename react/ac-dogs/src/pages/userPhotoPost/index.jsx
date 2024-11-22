@@ -3,7 +3,7 @@ import React from "react";
 import { useForm } from "../../hooks/useForm";
 import { useFetch } from "../../hooks/useFetch";
 
-import { PHOTO_POST } from "../../service/api";
+import { PHOTO_POST } from "../../service/photos";
 
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";

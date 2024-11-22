@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { UserHeader } from "./components/header";
 
-import { Feed } from "../../pages/feed";
+import { Feed } from "../../components/feed";
 import { UserStats } from "../../pages/userStats";
 import { UserPhotoPost } from "../../pages/userPhotoPost";
 
