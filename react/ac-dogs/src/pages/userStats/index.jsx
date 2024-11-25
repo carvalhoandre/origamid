@@ -6,7 +6,8 @@ import { STATS_GET } from "../../service/stats";
 import { Head } from "../../components/head";
 import { Loading } from "../../components/loading";
 import { Error } from "../../components/error";
-import { Graphs } from "./components/graphs";
+
+const Graphs = React.lazy(() => import("./components/graphs"));
 
 const UserStats = () => {
   const { data, error, loading, request } = useFetch();
@@ -26,11 +27,11 @@ const UserStats = () => {
   if (loading || !data) return <Loading />;
 
   return (
-    <section className={styles.container}>
+    <React.Suspense fallback={<Loading />}>
       <Head title="Estatística" />
 
       <Graphs data={data} />
-    </section>
+    </React.Suspense>
   );
 };
 
