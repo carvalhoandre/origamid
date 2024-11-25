@@ -5,8 +5,9 @@ import { Header } from "../components/header";
 import { Home } from "../pages/home";
 import { LoginRoutes } from "./login";
 
-import { ProtectedRoutes } from "./protecteds";
 import { User } from "./user";
+import { Photo } from "../pages/photo";
+import { ProtectedRoutes } from "./protecteds";
 
 const Routes = () => (
   <>
@@ -20,6 +21,14 @@ const Routes = () => (
         element={
           <ProtectedRoutes>
             <User />
+          </ProtectedRoutes>
+        }
+      />
+      <Route
+        path="photo/:id"
+        element={
+          <ProtectedRoutes>
+            <Photo />
           </ProtectedRoutes>
         }
       />

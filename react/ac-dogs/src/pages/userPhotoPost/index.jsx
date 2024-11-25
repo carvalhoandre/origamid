@@ -6,8 +6,8 @@ import { useFetch } from "../../hooks/useFetch";
 import { PHOTO_POST } from "../../service/photos";
 
 import { Input } from "../../components/input";
+import { Error } from "../../components/error";
 import { Button } from "../../components/button";
-import { Error } from "../../components/Error";
 
 import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
