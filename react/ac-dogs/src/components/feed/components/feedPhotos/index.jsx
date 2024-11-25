@@ -9,14 +9,22 @@ import { FeedPhotosItem } from "../feedPhotosItem";
 
 import styles from "./styles.module.css";
 
-const FeedPhotos = ({ setModalPhoto }) => {
+const FeedPhotos = ({
+  user,
+  page = 1,
+  total = 6,
+  setModalPhoto,
+  setInfinite,
+}) => {
   const { data, error, loading, request } = useFetch();
 
   React.useEffect(() => {
     async function fetchPhotos() {
-      const { options, url } = PHOTOS_GET({ page: 1, total: 6, user: 0 });
+      const { options, url } = PHOTOS_GET({ page, total, user });
 
       const { response, json } = await request(url, options);
+
+      if (response && response.ok && json.length < total) setInfinite(false);
     }
 
     fetchPhotos();

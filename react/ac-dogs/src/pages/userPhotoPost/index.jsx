@@ -47,7 +47,7 @@ const UserPhotoPost = () => {
   }
 
   React.useEffect(() => {
-    if (data) navigate("account");
+    if (data) navigate("/account");
   }, [data]);
 
   return (
