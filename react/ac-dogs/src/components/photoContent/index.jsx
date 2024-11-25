@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 
 import { UserContext } from "../../context/userContext";
 
-import { PhotosComments } from "../photoComments";
-import styles from "./styles.module.css";
+import { Image } from "../image";
 import { PhotosDelete } from "../photosDelete";
+import { PhotosComments } from "../photoComments";
+
+import styles from "./styles.module.css";
 
 const PhotoContent = ({ data }) => {
   const user = React.useContext(UserContext);
@@ -14,7 +16,7 @@ const PhotoContent = ({ data }) => {
   return (
     <div className={styles.photo}>
       <div className={styles.img}>
-        <img src={photo.src} alt={photo.title} />
+        <Image src={photo.src} alt={photo.title} />
       </div>
 
       <div className={styles.details}>
