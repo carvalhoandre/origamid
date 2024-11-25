@@ -5,6 +5,7 @@ import { UserContext } from "../../context/userContext";
 
 import { Login } from "../../pages/Login";
 import { Register } from "../../pages/register";
+import { NotFound } from "../../pages/notFound";
 import { PasswordReset } from "../../pages/passwordReset";
 import { PasswordRecovery } from "../../pages/passwordRecovery";
 
@@ -19,6 +20,7 @@ const LoginRoutes = () => {
     <section className={styles.login}>
       <div className={styles.forms}>
         <Routes>
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="password-reset" element={<PasswordReset />} />

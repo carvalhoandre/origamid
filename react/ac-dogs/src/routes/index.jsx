@@ -7,6 +7,7 @@ import { LoginRoutes } from "./login";
 
 import { User } from "./user";
 import { Photo } from "../pages/photo";
+import { NotFound } from "../pages/notFound";
 import { ProtectedRoutes } from "./protecteds";
 import { UserProfile } from "../pages/userProfile";
 
@@ -14,6 +15,7 @@ const Routes = () => (
   <>
     <Header />
     <RouterRoutes>
+      <Route path="*" element={<NotFound />} />
       <Route path="/" element={<Home />} />
       <Route path="login/*" element={<LoginRoutes />} />
       <Route
