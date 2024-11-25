@@ -2,7 +2,6 @@ import React from "react";
 
 import { useForm } from "../../hooks/useForm";
 import { useFetch } from "../../hooks/useFetch";
-import { UserContext } from "../../context/userContext";
 
 import { LOST_PASSWORD } from "../../service/auth";
 
@@ -12,7 +11,6 @@ import { Error } from "../../components/error";
 
 const PasswordRecovery = () => {
   const { data, loading, error, request } = useFetch();
-  const { userLogin } = React.useContext(UserContext);
 
   const login = useForm();
 
