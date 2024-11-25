@@ -50,3 +50,16 @@ export function USER_POST(body) {
     },
   };
 }
+
+export function LOST_PASSWORD(body) {
+  return {
+    url: API_URL + "/api/passowrd/lost",
+    options: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}

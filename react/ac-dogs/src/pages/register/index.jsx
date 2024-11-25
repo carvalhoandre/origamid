@@ -8,7 +8,7 @@ import { USER_POST } from "../../service/auth";
 
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
-import { Error } from "../../components/Error";
+import { Error } from "../../components/error";
 
 const Register = () => {
   const { loading, error, request } = useFetch();
