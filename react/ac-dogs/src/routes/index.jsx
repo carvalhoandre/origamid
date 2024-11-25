@@ -8,6 +8,7 @@ import { LoginRoutes } from "./login";
 import { User } from "./user";
 import { Photo } from "../pages/photo";
 import { ProtectedRoutes } from "./protecteds";
+import { UserProfile } from "../pages/userProfile";
 
 const Routes = () => (
   <>
@@ -15,7 +16,6 @@ const Routes = () => (
     <RouterRoutes>
       <Route path="/" element={<Home />} />
       <Route path="login/*" element={<LoginRoutes />} />
-
       <Route
         path="account/*"
         element={
@@ -29,6 +29,14 @@ const Routes = () => (
         element={
           <ProtectedRoutes>
             <Photo />
+          </ProtectedRoutes>
+        }
+      />
+      <Route
+        path="profile/:user"
+        element={
+          <ProtectedRoutes>
+            <UserProfile />
           </ProtectedRoutes>
         }
       />
