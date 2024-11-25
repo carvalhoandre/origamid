@@ -11,6 +11,7 @@ import { Button } from "../../components/button";
 
 import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
+import { Head } from "../../components/head";
 
 const UserPhotoPost = () => {
   const navigate = useNavigate();
@@ -52,6 +53,8 @@ const UserPhotoPost = () => {
 
   return (
     <section className={`${styles.photoPost} animeLeft`}>
+      <Head title="Poste sua foto" />
+
       <form onSubmit={handleSubmit}>
         <Input label="Nome" type="text" name="nome" {...name} />
         <Input label="Peso" type="number" name="peso" {...weight} />

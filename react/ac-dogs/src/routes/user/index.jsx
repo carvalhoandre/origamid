@@ -9,11 +9,14 @@ import { Feed } from "../../components/feed";
 import { NotFound } from "../../pages/notFound";
 import { UserStats } from "../../pages/userStats";
 import { UserPhotoPost } from "../../pages/userPhotoPost";
+import { Head } from "../../components/head";
 
 const User = () => {
   const { data } = React.useContext(UserContext);
   return (
     <section className="container">
+      <Head title="Minha conta" />
+
       <UserHeader />
 
       <Routes>

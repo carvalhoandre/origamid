@@ -7,6 +7,7 @@ import { PHOTO_GET } from "../../service/photos";
 import { Error } from "../../components/error";
 import { Loading } from "../../components/loading";
 import { PhotoContent } from "../../components/photoContent";
+import { Head } from "../../components/head";
 
 const Photo = () => {
   const { id } = useParams();
@@ -29,6 +30,8 @@ const Photo = () => {
 
   return (
     <section className="container mainContainer">
+      <Head title={data.photo.title} />
+
       <PhotoContent data={data} single />
     </section>
   );

@@ -9,6 +9,7 @@ import { USER_POST } from "../../service/auth";
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
 import { Error } from "../../components/error";
+import { Head } from "../../components/head";
 
 const Register = () => {
   const { loading, error, request } = useFetch();
@@ -33,6 +34,8 @@ const Register = () => {
 
   return (
     <section className={`animeLeft `}>
+      <Head title="Criar conta" />
+
       <h1 className="title">Cadastre-se</h1>
 
       <form onSubmit={handleSubmit}>

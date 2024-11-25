@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { UserContext } from "../../context/userContext";
 
+import { Head } from "../../components/head";
 import { Input } from "../../components/input";
+import { Error } from "../../components/error";
 import { Button } from "../../components/button";
-import { Error } from "../../components/Error";
 
 import styles from "./styles.module.css";
 import stylesBtn from "../../components/button/styles.module.css";
@@ -32,6 +33,8 @@ const Login = () => {
 
   return (
     <section className={`animeLeft ${styles.container}`}>
+      <Head title="Login" />
+
       <h1 className="title">Login</h1>
 
       <form onSubmit={handleSubmit} className={styles.form}>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useForm } from "../../hooks/useForm";
 import { useFetch } from "../../hooks/useFetch";
@@ -8,7 +9,7 @@ import { PASSWORD_RESET } from "../../service/auth";
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
 import { Error } from "../../components/error";
-import { useNavigate } from "react-router-dom";
+import { Head } from "../../components/head";
 
 const PasswordReset = () => {
   const navigate = useNavigate();
@@ -52,7 +53,9 @@ const PasswordReset = () => {
 
   return (
     <section className="animeLeft">
-      <h1 className="title">Perdeu a senha?</h1>
+      <Head title="Resete a senha" />
+
+      <h1 className="title">Resete a senha</h1>
 
       {data ? (
         <p style={{ color: "#4c1" }}>{data}</p>
