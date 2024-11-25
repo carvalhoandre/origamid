@@ -8,8 +8,6 @@ import { Loading } from "../../components/loading";
 import { Error } from "../../components/error";
 import { Graphs } from "./components/graphs";
 
-import styles from "./styles.module.css";
-
 const UserStats = () => {
   const { data, error, loading, request } = useFetch();
 
