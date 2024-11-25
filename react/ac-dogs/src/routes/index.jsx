@@ -12,39 +12,42 @@ import { ProtectedRoutes } from "./protecteds";
 import { UserProfile } from "../pages/userProfile";
 
 const Routes = () => (
-  <>
+  <div className="App">
     <Header />
-    <RouterRoutes>
-      <Route path="*" element={<NotFound />} />
-      <Route path="/" element={<Home />} />
-      <Route path="login/*" element={<LoginRoutes />} />
-      <Route
-        path="account/*"
-        element={
-          <ProtectedRoutes>
-            <User />
-          </ProtectedRoutes>
-        }
-      />
-      <Route
-        path="photo/:id"
-        element={
-          <ProtectedRoutes>
-            <Photo />
-          </ProtectedRoutes>
-        }
-      />
-      <Route
-        path="profile/:user"
-        element={
-          <ProtectedRoutes>
-            <UserProfile />
-          </ProtectedRoutes>
-        }
-      />
-    </RouterRoutes>
+
+    <main className="AppBody">
+      <RouterRoutes>
+        <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<Home />} />
+        <Route path="login/*" element={<LoginRoutes />} />
+        <Route
+          path="account/*"
+          element={
+            <ProtectedRoutes>
+              <User />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="photo/:id"
+          element={
+            <ProtectedRoutes>
+              <Photo />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="profile/:user"
+          element={
+            <ProtectedRoutes>
+              <UserProfile />
+            </ProtectedRoutes>
+          }
+        />
+      </RouterRoutes>
+    </main>
     <Footer />
-  </>
+  </div>
 );
 
 export { Routes };
