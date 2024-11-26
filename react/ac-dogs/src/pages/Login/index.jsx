@@ -6,7 +6,7 @@ import { UserContext } from "../../context/userContext";
 
 import { Head } from "../../components/head";
 import { Input } from "../../components/input";
-import { Error } from "../../components/error-ss";
+import { Error } from "../../components/error";
 import { Button } from "../../components/button";
 
 import styles from "./styles.module.css";

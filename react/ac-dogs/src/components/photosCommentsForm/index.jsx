@@ -2,7 +2,7 @@ import React from "react";
 
 import Send from "../../assets/enviar.svg?react";
 
-import { Error } from "../error-ss";
+import { Error } from "../error";
 import { useFetch } from "../../hooks/useFetch";
 import { COMMENT_POST } from "../../service/comments";
 

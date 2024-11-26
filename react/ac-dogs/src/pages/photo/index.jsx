@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { PHOTO_GET } from "../../service/photos";
 
-import { Error } from "../../components/error-ss";
+import { Error } from "../../components/error";
 import { Loading } from "../../components/loading";
 import { PhotoContent } from "../../components/photoContent";
 import { Head } from "../../components/head";

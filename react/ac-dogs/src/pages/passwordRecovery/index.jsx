@@ -7,7 +7,7 @@ import { LOST_PASSWORD } from "../../service/auth";
 
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
-import { Error } from "../../components/error-ss";
+import { Error } from "../../components/error";
 import { Head } from "../../components/head";
 
 const PasswordRecovery = () => {
