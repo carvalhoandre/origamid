@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Error } from "../../../error";
+import { Error } from "../../../error-ss";
 import { Loading } from "../../../loading";
 import { useFetch } from "../../../../hooks/useFetch";
 import { PHOTOS_GET } from "../../../../service/photos";

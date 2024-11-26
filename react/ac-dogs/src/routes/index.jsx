@@ -1,4 +1,5 @@
 import { Route, Routes as RouterRoutes } from "react-router-dom";
+
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 
@@ -46,6 +47,7 @@ const Routes = () => (
         />
       </RouterRoutes>
     </main>
+
     <Footer />
   </div>
 );

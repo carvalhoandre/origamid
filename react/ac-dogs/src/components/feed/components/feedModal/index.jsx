@@ -3,7 +3,7 @@ import React from "react";
 import { useFetch } from "../../../../hooks/useFetch";
 import { PHOTO_GET } from "../../../../service/photos";
 
-import { Error } from "../../../error";
+import { Error } from "../../../error-ss";
 import { Loading } from "../../../loading";
 import { PhotoContent } from "../../../photoContent";
 

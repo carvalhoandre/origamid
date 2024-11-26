@@ -8,7 +8,7 @@ import { USER_POST } from "../../service/auth";
 
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
-import { Error } from "../../components/error";
+import { Error } from "../../components/error-ss";
 import { Head } from "../../components/head";
 
 const Register = () => {

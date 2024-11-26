@@ -6,7 +6,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { PHOTO_POST } from "../../service/photos";
 
 import { Input } from "../../components/input";
-import { Error } from "../../components/error";
+import { Error } from "../../components/error-ss";
 import { Button } from "../../components/button";
 
 import styles from "./styles.module.css";

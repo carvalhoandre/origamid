@@ -5,7 +5,7 @@ import { STATS_GET } from "../../service/stats";
 
 import { Head } from "../../components/head";
 import { Loading } from "../../components/loading";
-import { Error } from "../../components/error";
+import { Error } from "../../components/error-ss";
 
 const Graphs = React.lazy(() => import("./components/graphs"));
 
