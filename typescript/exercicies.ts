@@ -41,3 +41,36 @@ function toNumber(value: number | string) {
 
   throw "value deve ser um número ou uma string";
 }
+
+// Defina a interface da API: https://api.origamid.dev/json/notebook.json e mostre os dados na tela.
+interface Interprise {
+  nome: string;
+  fundacao: number;
+  pais: string;
+}
+
+interface Product {
+  nome: string;
+  preco: number;
+  descricao: string;
+  garantia: string;
+  seguroAcidentes: boolean;
+  empresaFabricante: Interprise;
+  empresaMontadora: Interprise;
+}
+
+async function fetchProduct() {
+  const response = await fetch("https://api.origamid.dev/json/notebook.json");
+  const data = await response.json();
+  showProduct(data);
+}
+
+fetchProduct();
+
+function showProduct(data) {
+  document.body.innerHTML = `
+    <div>
+      <h2>${data.name}</h2>
+    </div>
+  `;
+}
