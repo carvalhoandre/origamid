@@ -16,13 +16,19 @@ function showData(courses: Array<Course>) {
   courses.map((course: Course) => {
     const div = document.createElement("div");
     div.classList.add("numero-animal");
-    div.innerHTML = `<h3 className={${
-      course.nivel === "iniciante" ? ".blue" : ".red"
-    }}>${course.nome}</h3><ul><li>${course.aulas}</li><li>${
-      course.horas
-    }</li><li>${course.gratuito}</li><li>${course.tags}</li><li>${
-      course.nivel
-    }</li></ul>`;
+    div.innerHTML = `
+      <h3 className={${course.nivel === "iniciante" ? ".blue" : ".red"}}>
+        ${course.nome}
+      </h3>
+      
+      <ul>
+        <li>${course.aulas}</li>
+        <li>${course.horas}</li>
+        <li>${course.gratuito}</li>
+        <li>${course.tags}</li>
+        <li>${course.nivel}</li>
+      </ul>
+      `;
 
     body.appendChild(div);
   });
