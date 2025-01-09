@@ -28,4 +28,4 @@ async function fetchSaleData(): Promise<void> {
   handleData(data);
 }
 
-fetchData();
+fetchSaleData();
