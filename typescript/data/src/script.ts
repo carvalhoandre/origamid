@@ -4,7 +4,7 @@ import sanitizeTransaction from "./helpers/sanitize";
 
 async function handleData() {
   const data = await fetchData<Array<TransactionApi>>(
-    "https://api.origamid.dev/json/transacoes.json"
+    "https://api.origamid.dev/json/transacoes.json?"
   );
 
   if (!data) return;

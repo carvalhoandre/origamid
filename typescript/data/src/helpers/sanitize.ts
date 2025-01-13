@@ -1,4 +1,5 @@
-import { Transaction, TransactionApi } from "types/types";
+import { Transaction, TransactionApi } from "../types/types";
+import currencyToNumber from "./currency";
 
 export default function sanitizeTransaction(
   transaction: TransactionApi
@@ -10,7 +11,7 @@ export default function sanitizeTransaction(
     status: transaction.Status,
     email: transaction.Email,
     currency: transaction["Valor (R$)"],
-    value: 0,
+    value: currencyToNumber(transaction["Valor (R$)"]),
     paymentMethod: transaction["Forma de Pagamento"],
     isNew: Boolean(transaction["Cliente Novo"]),
   };
