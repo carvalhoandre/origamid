@@ -29,3 +29,7 @@ export interface Transaction {
 }
 
 export type TransactionValue = Transaction & { value: number };
+
+export interface CountList {
+  [key: string]: number;
+}
