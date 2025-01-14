@@ -1,5 +1,6 @@
 import { Transaction, TransactionApi } from "../types/types";
 import currencyToNumber from "./currency";
+import { stringToDate } from "./date";
 
 export default function sanitizeTransaction(
   transaction: TransactionApi
@@ -7,7 +8,7 @@ export default function sanitizeTransaction(
   return {
     name: transaction.Nome,
     id: transaction.ID,
-    date: transaction.Data,
+    date: stringToDate(transaction.Data),
     status: transaction.Status,
     email: transaction.Email,
     currency: transaction["Valor (R$)"],

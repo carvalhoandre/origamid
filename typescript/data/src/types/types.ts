@@ -19,7 +19,7 @@ export interface TransactionApi {
 export interface Transaction {
   name: string;
   id: number;
-  date: string;
+  date: Date;
   status: TransactionStatus;
   email: string;
   currency: string;
