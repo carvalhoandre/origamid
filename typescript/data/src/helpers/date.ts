@@ -5,5 +5,5 @@ export function stringToDate(text: string): Date {
 
   const [hour, minute] = date.split(":").map(Number);
 
-  return new Date(year, month, day, hour, minute);
+  return new Date(year, month - 1, day, hour, minute);
 }
