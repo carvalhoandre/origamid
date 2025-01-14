@@ -27,3 +27,5 @@ export interface Transaction {
   paymentMethod: TransactionPayment;
   isNew: boolean;
 }
+
+export type TransactionValue = Transaction & { value: number };

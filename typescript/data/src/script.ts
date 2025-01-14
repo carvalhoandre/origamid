@@ -1,5 +1,8 @@
+import Statistics from "./types/Statistics";
 import { Transaction, TransactionApi } from "./types/types";
+
 import fetchData from "./fetchData";
+
 import sanitizeTransaction from "./helpers/sanitize";
 
 function fillTable(items: Array<Transaction>): void {
@@ -20,6 +23,19 @@ function fillTable(items: Array<Transaction>): void {
   });
 }
 
+function fillInStatistics(items: Array<Transaction>): void {
+  const statistics = new Statistics(items);
+
+  const sumElement = document.querySelector<HTMLElement>("#sum span");
+
+  if (!sumElement) return;
+
+  sumElement.innerText = statistics.sum.toLocaleString("pt-BR", {
+    currency: "BRL",
+    style: "currency",
+  });
+}
+
 async function handleData() {
   const data = await fetchData<Array<TransactionApi>>(
     "https://api.origamid.dev/json/transacoes.json?"
@@ -30,6 +46,8 @@ async function handleData() {
   const transactions = data.map(sanitizeTransaction);
 
   fillTable(transactions);
+
+  fillInStatistics(transactions);
 }
 
 handleData();
