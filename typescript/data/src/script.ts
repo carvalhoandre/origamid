@@ -24,10 +24,8 @@ function fillTable(items: Array<Transaction>): void {
 }
 
 function fillList(list: CountList, countainerId: string): void {
-  console.log(list, countainerId);
   const countainerElement = document.getElementById(countainerId);
 
-  console.log(countainerElement);
   if (countainerElement) {
     Object.keys(list).forEach((key) => {
       countainerElement.innerHTML += `
@@ -44,13 +42,18 @@ function fillInStatistics(items: Array<Transaction>): void {
   fillList(statistics.status, "status");
 
   const sumElement = document.querySelector<HTMLElement>("#sum span");
+  const dayElement = document.querySelector<HTMLElement>("#day span");
 
-  if (!sumElement) return;
+  if (sumElement) {
+    sumElement.innerText = statistics.sum.toLocaleString("pt-BR", {
+      currency: "BRL",
+      style: "currency",
+    });
+  }
 
-  sumElement.innerText = statistics.sum.toLocaleString("pt-BR", {
-    currency: "BRL",
-    style: "currency",
-  });
+  if (dayElement) {
+    dayElement.innerText = statistics.bestDay[0];
+  }
 }
 
 async function handleData() {
