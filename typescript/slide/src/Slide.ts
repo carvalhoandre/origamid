@@ -20,7 +20,7 @@ export default class Slide {
     this.index = 0;
     this.slide = this.slides[this.index];
 
-    this.show(this.index);
+    this.init();
   }
 
   hideElement(element: Element) {
@@ -34,5 +34,37 @@ export default class Slide {
     this.slides.forEach((slide) => this.hideElement(slide));
 
     this.slide.classList.add("active");
+  }
+
+  private next() {
+    const next = this.index + 1 < this.slides.length ? this.index + 1 : 0;
+
+    this.show(next);
+  }
+
+  private prev() {
+    const prev = this.index > 0 ? this.index - 1 : this.slides.length - 1;
+
+    this.show(prev);
+  }
+
+  private addControls() {
+    const prevButton = document.createElement("button");
+    const nextButton = document.createElement("button");
+
+    prevButton.innerText = "Slide Anterior";
+    nextButton.innerText = "Próximo Slide";
+
+    this.controls.appendChild(prevButton);
+    this.controls.appendChild(nextButton);
+
+    nextButton.addEventListener("pointerup", () => this.next());
+    prevButton.addEventListener("pointerup", () => this.prev());
+  }
+
+  private init() {
+    this.addControls();
+
+    this.show(this.index);
   }
 }
