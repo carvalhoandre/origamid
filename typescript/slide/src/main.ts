@@ -1,8 +1,8 @@
 import Slide from "./Slide";
 
 const container = document.getElementById("slide");
-const elements = document.getElementById("slide-elemets");
-const controls = document.getElementById("slide-elemets");
+const elements = document.getElementById("slide-elements");
+const controls = document.getElementById("slide-controls");
 
 if (container && elements && elements.children.length && controls) {
   const newSlide = new Slide(
