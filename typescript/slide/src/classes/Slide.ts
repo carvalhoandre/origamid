@@ -22,7 +22,7 @@ export default class Slide {
     this.controls = controls;
     this.time = time;
 
-    this.index = 0;
+    this.index = Number(localStorage.getItem("activeSlide")) || 0;
     this.slide = this.slides[this.index];
     this.timeout = null;
     this.pausedTimeout = null;
@@ -33,15 +33,38 @@ export default class Slide {
 
   hideElement(element: Element) {
     element.classList.remove("active");
+
+    if (element instanceof HTMLVideoElement) {
+      element.pause();
+      element.currentTime = 0;
+    }
+  }
+
+  autoVideo(video: HTMLVideoElement) {
+    video.muted = true;
+    video.play();
+
+    let firstPlay = true;
+
+    video.addEventListener("playing", () => {
+      if (firstPlay) this.auto(video.duration * 1000);
+
+      firstPlay = false;
+    });
   }
 
   show(index: number) {
     this.index = index;
     this.slide = this.slides[this.index];
+    localStorage.setItem("activeSlide", String(this.index));
 
     this.slides.forEach((slide) => this.hideElement(slide));
 
     this.slide.classList.add("active");
+
+    if (this.slide instanceof HTMLVideoElement) {
+      return this.autoVideo(this.slide);
+    }
 
     this.auto(this.time);
   }
@@ -72,6 +95,8 @@ export default class Slide {
     this.pausedTimeout = new Timeout(() => {
       this.timeout?.pause();
       this.paused = true;
+
+      if (this.slide instanceof HTMLVideoElement) this.slide.pause();
     }, 300);
   }
 
@@ -81,6 +106,8 @@ export default class Slide {
     if (this.paused) {
       this.paused = false;
       this.timeout?.continue();
+
+      if (this.slide instanceof HTMLVideoElement) this.slide.play();
     }
   }
 
