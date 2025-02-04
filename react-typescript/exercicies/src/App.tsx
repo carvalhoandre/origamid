@@ -1,7 +1,7 @@
-import First from "./exercicies/first";
+import PlayVideo from "./exercicies/useRef";
 
 function App() {
-  return <First />;
+  return <PlayVideo />;
 }
 
 export default App;
