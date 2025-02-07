@@ -1,7 +1,7 @@
-import PlayVideo from "./exercicies/useRef";
+import UseFetch from "./exercicies/useFetch";
 
 function App() {
-  return <PlayVideo />;
+  return <UseFetch />;
 }
 
 export default App;
