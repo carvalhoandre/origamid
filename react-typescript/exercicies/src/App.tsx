@@ -1,7 +1,7 @@
-import UseFetch from "./exercicies/useFetch";
+import UseContext from "./exercicies/useContext";
 
 function App() {
-  return <UseFetch />;
+  return <UseContext />;
 }
 
 export default App;
