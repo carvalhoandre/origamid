@@ -9,12 +9,14 @@ import "./styles.css";
 function App() {
   return (
     <DataContextProvider>
-      <Sadenav />
-      
-      <main>
-        <Header />
-        <Summary />
-      </main>
+      <div className="container">
+        <Sadenav />
+        
+        <main>
+          <Header />
+          <Summary />
+        </main>
+      </div>
     </DataContextProvider>
   );
 }
