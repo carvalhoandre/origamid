@@ -12,20 +12,24 @@ const styles: React.CSSProperties = {
 };
 
 const MonthBtn = ({ n }: { n: number }) => {
-    const {setStart, setFinal} = UseData()
+  const { setStart, setFinal } = UseData();
 
-    const setMonth = () => {
-        const date = new Date();
-        date.setMonth(date.getMonth() + n);
+  const setMonth = () => {
+    const date = new Date();
+    date.setMonth(date.getMonth() + n);
 
-        const firstDay = new Date(date.getFullYear(), date.getMonth(), 1)
-        const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0)
-    
-        setStart(formatDate(firstDay))
-        setFinal(formatDate(lastDay))
-    }
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-  return <button style={styles} onClick={setMonth}>{getNameMonth(n)}</button>;
+    setStart(formatDate(firstDay));
+    setFinal(formatDate(lastDay));
+  };
+
+  return (
+    <button style={styles} onClick={setMonth}>
+      {getNameMonth(n)}
+    </button>
+  );
 };
 
 export default MonthBtn;

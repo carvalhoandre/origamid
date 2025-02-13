@@ -1,10 +1,7 @@
-// import { UseData } from "../context/dataContext";
 import DateRange from "./dateRange";
-import Months from "./Months";
+import Months from "./months";
 
 const Header = () => {
-  // const { data } = UseData();
-
   return (
     <header className="mb">
       <div className="mb">

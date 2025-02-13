@@ -19,7 +19,7 @@ export const DataContextProvider = ({ children }: React.PropsWithChildren) => {
   const [final, setFinal] = React.useState(getDateBySearch());
 
   const { data, loading, error } = useFetch<Array<ISale>>(
-    `https://data.origamid.dev/vendas/?=inicio=${start}&final=${final}`
+    `https://data.origamid.dev/vendas/?inicio=${start}&final=${final}`
   );
 
   return (

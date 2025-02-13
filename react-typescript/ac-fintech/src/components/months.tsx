@@ -2,11 +2,11 @@ import MonthBtn from "./monthBtn";
 
 const Months = () => {
   return (
-    <>
+    <div className="flex gap">
       <MonthBtn n={-2} />
       <MonthBtn n={-1} />
       <MonthBtn n={0} />
-    </>
+    </div>
   );
 };
 
