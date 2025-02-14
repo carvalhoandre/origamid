@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 import FintechSVG from "../assets/FintechSVG";
 
 import SummarySVG from "../assets/icons/resumo.svg";
@@ -18,38 +20,38 @@ const Sadenav = () => {
             <img src={SummarySVG} alt="Resumo" />
           </span>
 
-          <a href="">Resumo</a>
+          <NavLink to="/">Resumo</NavLink>
         </li>
         <li>
           <span>
             <img src={SalesSVG} alt="Resumo" />
           </span>
-          <a href="">Vendas</a>
+          <NavLink to="/sales">Vendas</NavLink>
         </li>
 
         <li>
           <span>
             <img src={WebHooksSVG} alt="Resumo" />
           </span>
-          <a href="">Webhooks</a>
+          <NavLink to="/">Webhooks</NavLink>
         </li>
         <li>
           <span>
             <img src={SettingsSVG} alt="Resumo" />
           </span>
-          <a href="">Configurações</a>
+          <NavLink to="/">Configurações</NavLink>
         </li>
         <li>
           <span>
             <img src={ContactsSVG} alt="Resumo" />
           </span>
-          <a href="">Contato</a>
+          <NavLink to="/">Contato</NavLink>
         </li>
         <li>
           <span>
             <img src={ExitSVG} alt="Resumo" />
           </span>
-          <a href="">Sair</a>
+          <NavLink to="/">Sair</NavLink>
         </li>
       </ul>
     </nav>
