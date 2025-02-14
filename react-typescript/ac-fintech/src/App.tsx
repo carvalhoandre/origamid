@@ -5,6 +5,7 @@ import Sadenav from "./components/sadenav";
 import Summary from "./pages/summary";
 
 import "./styles.css";
+import Sales from "./pages/sales";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <main>
           <Header />
           <Summary />
+
+          <Sales />
         </main>
       </div>
     </DataContextProvider>
