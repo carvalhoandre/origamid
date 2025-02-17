@@ -8,12 +8,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
 import { ISale } from "../context/types";
+
+import transformData from "../helpers/graph";
 
 const GraphSales = ({ data }: { data: Array<ISale> }) => {
   return (
     <ResponsiveContainer width="99%" height={400}>
-      <LineChart data={data}>
+      <LineChart data={transformData(data)}>
         <XAxis dataKey="data" />
         <YAxis />
         <Tooltip />
