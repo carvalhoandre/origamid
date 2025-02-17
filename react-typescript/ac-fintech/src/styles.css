@@ -113,7 +113,6 @@ ul {
   background: var(--color-3);
 }
 
-
 /* daterange */
 .daterange {
   display: grid;
@@ -149,4 +148,10 @@ ul {
 .sale a {
   text-decoration: none;
   color: inherit;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

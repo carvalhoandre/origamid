@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 import { ISale } from "../context/types";
 
 interface SaleItemProps {
@@ -7,9 +9,9 @@ interface SaleItemProps {
 const SaleItem = ({ sale }: SaleItemProps) => {
   return (
     <div className="sale box">
-      <a href="" style={{ fontFamily: "monospace" }}>
+      <NavLink to={`/sales/${sale.id}`} style={{ fontFamily: "monospace" }}>
         {sale.id}
-      </a>
+      </NavLink>
 
       <span>{sale.nome}</span>
       <span>
