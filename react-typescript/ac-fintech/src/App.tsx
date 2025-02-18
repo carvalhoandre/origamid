@@ -8,6 +8,7 @@ import Sales from "./pages/sales";
 import Summary from "./pages/summary";
 import Header from "./components/header";
 import Sadenav from "./components/sadenav";
+import Footer from "./components/footer";
 
 import "./styles.css";
 
@@ -27,7 +28,9 @@ function App() {
               <Route path="/sales/:id" element={<Sale />} />
             </Routes>
           </main>
+
         </div>
+          <Footer />
       </DataContextProvider>
     </BrowserRouter>
   );

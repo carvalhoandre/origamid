@@ -45,7 +45,7 @@ const Sadenav = () => {
           <span>
             <img src={ContactsSVG} alt="Resumo" />
           </span>
-          <NavLink to="/">Contato</NavLink>
+          <NavLink to="https://www.andreleitecarvalho.space">Contato</NavLink>
         </li>
         <li>
           <span>
