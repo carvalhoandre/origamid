@@ -1,19 +1,27 @@
 import { createServer } from 'node:http';
 
-const server = createServer((request, response) => {
-  response.statusCode = 200;
-  response.setHeader('Content-Type', 'text/plain');
+const server = createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
 
-  if (request.method === 'GET' && request.url === '/') {
+  const url = new URL(req.url, 'http://localhost');
+
+  const color = url.searchParams.get('cor');
+  const size = url.searchParams.get('tamanho');
+
+  console.log(req.headers['content-type']);
+
+  if (req.method === 'GET' && url.pathname === '/') {
     console.log('Retornado');
-  } else if (request.method === 'POST' && request.url === './produtos') {
-    response.statusCode = 201;
-    console.log('Criado');
+  } else if (req.method === 'POST' && url.pathnam === './produtos') {
+    res.statusCode = 201;
+
+    console.log('Productos:', color, size);
   } else {
     console.log('Nao encontrado');
   }
 
-  response.end('Hello World!');
+  res.end('Hello World!');
 });
 
 server.listen(3000, () => {
