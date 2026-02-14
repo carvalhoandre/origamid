@@ -1,6 +1,21 @@
 import { createServer } from 'node:http';
 
-const server = createServer((req, res) => {
+const phrase1 = Promise.resolve('Hello');
+const phrase2 = Promise.resolve('Hi');
+const phrasesPromise = [phrase1, phrase2];
+const phrases = [];
+
+for await (const phrase of phrasesPromise) {
+  phrases.push(phrase);
+}
+console.log(phrases.join(' - '));
+
+const part1 = Buffer.from('hello');
+const part2 = Buffer.from('world');
+const final = Buffer.concat([part1, part2]);
+console.log(final.toString('utf-8'));
+
+const server = createServer(async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
 
@@ -9,7 +24,12 @@ const server = createServer((req, res) => {
   const color = url.searchParams.get('cor');
   const size = url.searchParams.get('tamanho');
 
-  console.log(req.headers['content-type']);
+  const chunks = [];
+  for await (const chunk of req) {
+    chunks.push(chunk);
+  }
+  const body = Buffer.concat(chunks).toString('utf-8');
+  console.log(JSON.parse(body));
 
   if (req.method === 'GET' && url.pathname === '/') {
     console.log('Retornado');

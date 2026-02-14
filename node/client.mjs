@@ -5,6 +5,7 @@ const response = await fetch(
     headers: {
       'Content-Type': 'applocation/json',
     },
+    body: JSON.stringify({ userName: 'andre', password: '1234' }),
   },
 );
 
