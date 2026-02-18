@@ -15,7 +15,7 @@ router.post('/produto', (req, res) => {
 
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
-  const handler = router.routes[req.method][url.pathname];
+  const handler = router.find(req.method, url.pathname);
 
   if (handler) return handler(req, res);
 

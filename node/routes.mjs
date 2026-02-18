@@ -11,4 +11,8 @@ export class Router {
   post(route, handler) {
     this.routes['POST'][route] = handler;
   }
+
+  find(method, route) {
+    this.routes[method]?.[route] || null;
+  }
 }
