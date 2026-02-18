@@ -1,9 +1,21 @@
 import { createServer } from 'node:http';
-import { routes } from './routes.mjs';
+import { Router } from './routes.mjs';
+
+const router = new Router();
+
+router.get('/', (req, res) => {
+  res.end('Home');
+});
+router.get('/produto/notebook', (req, res) => {
+  res.end('Produtos - Notebbok');
+});
+router.post('/produto', (req, res) => {
+  res.end('Notebbok Post');
+});
 
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
-  const handler = routes[req.method][url.pathname];
+  const handler = router.routes[req.method][url.pathname];
 
   if (handler) return handler(req, res);
 
