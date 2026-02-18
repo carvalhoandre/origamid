@@ -8,6 +8,7 @@ const phrases = [];
 for await (const phrase of phrasesPromise) {
   phrases.push(phrase);
 }
+
 console.log(phrases.join(' - '));
 
 const part1 = Buffer.from('hello');
@@ -16,10 +17,9 @@ const final = Buffer.concat([part1, part2]);
 console.log(final.toString('utf-8'));
 
 const server = createServer(async (req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-
   const url = new URL(req.url, 'http://localhost');
+
+  res.statusCode = 200;
 
   const color = url.searchParams.get('cor');
   const size = url.searchParams.get('tamanho');
@@ -32,10 +32,31 @@ const server = createServer(async (req, res) => {
   console.log(JSON.parse(body));
 
   if (req.method === 'GET' && url.pathname === '/') {
-    console.log('Retornado');
+    res.setHeader(
+      'Content-Type',
+      'text/hmtl; charset=utf-8',
+      'Access-Control-Allow-Headers',
+    );
+
+    res.end(`
+      <html>
+         <head>
+      </head> 
+      <body>
+        Olá Mundo!
+      </body> 
+      </html>  
+    `);
   } else if (req.method === 'POST' && url.pathnam === './produtos') {
     res.statusCode = 201;
 
+    res.setHeader(
+      'Content-Type',
+      'text/hmtl; charset=utf-8',
+      'Access-Control-Allow-Headers',
+    );
+
+    res.end(p);
     console.log('Productos:', color, size);
   } else {
     console.log('Nao encontrado');
