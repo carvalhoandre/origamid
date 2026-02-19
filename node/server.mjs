@@ -1,5 +1,6 @@
 import { createServer } from 'node:http';
 import { Router } from './routes.mjs';
+import { customRequest } from './custom-request.mjs';
 
 const router = new Router();
 
@@ -13,10 +14,10 @@ router.post('/produto', (req, res) => {
   res.end('Notebbok Post');
 });
 
-const server = createServer(async (req, res) => {
-  const url = new URL(req.url, 'http://localhost');
-  const handler = router.find(req.method, url.pathname);
+const server = createServer(async (request, response) => {
+  const req = await customRequest(request);
 
+  const handler = router.find(req.method, req.pathname);
   if (handler) return handler(req, res);
 
   res.statusCode = 404;
