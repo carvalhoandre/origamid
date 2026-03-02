@@ -3,8 +3,6 @@ export async function customRequest(req) {
   req.query = url.searchParams;
   req.pathname = url.pathname;
 
-  const handler = router.find(req.method, url.pathname);
-
   const chunks = [];
   const body = Buffer.concat(chunks).toString('utf-8');
 

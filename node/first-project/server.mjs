@@ -6,10 +6,10 @@ import { customResponse } from './custom-response.mjs';
 
 const router = new Router();
 
-router.get('/', (req, res) => {
+router.get('/produtos', (req, res) => {
   res.status(200).end('Home');
 });
-router.get('/produto/notebook', (req, res) => {
+router.get('/produto', (req, res) => {
   res.status(200).end('Produtos - Notebbok');
 });
 router.post('/produto', (req, res) => {
