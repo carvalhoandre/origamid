@@ -41,9 +41,13 @@ export function insertCurso(db, slug, nome, descricao) {
     INSERT INTO "cursos" ("slug", "nome", "descricao")
     VALUES (?, ?, ?)
     `);
+
     stmt.run(slug, nome, descricao);
+
+    return true;
   } catch (error) {
     console.error("Erro ao inserir curso:", error);
+    return false;
   }
 }
 
@@ -54,8 +58,11 @@ export function insertAulas(db, curso_id, slug, nome) {
     VALUES (?, ?, ?)
     `);
     stmt.run(curso_id, slug, nome);
+
+    return true;
   } catch (error) {
     console.error("Erro ao inserir aula:", error);
+    return false;
   }
 }
 
@@ -67,7 +74,7 @@ export function getCursos(db) {
     return stmt.all();
   } catch (error) {
     console.error("Erro ao obter cursos:", error);
-    return [];
+    return null;
   }
 }
 
@@ -82,7 +89,7 @@ export function getAulasByCursoSlug(db, curso_slug) {
     return stmt.all(curso_slug);
   } catch (error) {
     console.error("Erro ao obter aulas por curso slug:", error);
-    return [];
+    return null;
   }
 }
 

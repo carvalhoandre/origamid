@@ -18,33 +18,57 @@ const router = new Router();
 
 router.post("/cursos", (req, res) => {
   const { slug, nome, descricao } = req.body;
-  insertCurso(slug, nome, descricao);
+  const sucess = insertCurso(slug, nome, descricao);
 
-  res.status(200).end("Curso adicionado com sucesso"); // Added meaningful response
+  if (sucess) {
+    res.status(200).end("Curso adicionado com sucesso"); // Added meaningful response
+  } else {
+    res.status(500).end("Erro ao adicionar curso"); // Added error response
+  }
 });
 
 router.post("/aulas", (req, res) => {
   const { curso_id, slug, nome } = req.body;
-  insertAulas(curso_id, slug, nome);
-  res.status(200).end("Aula adicionada com sucesso"); // Added meaningful response
+  const sucess = insertAulas(curso_id, slug, nome);
+
+  if (sucess) {
+    res.status(200).end("Aula adicionada com sucesso"); // Added meaningful response
+  } else {
+    res.status(500).end("Erro ao adicionar aula"); // Added error response
+  }
 });
 
 router.get("/cursos", (req, res) => {
   const cursos = getCursos();
-  res.status(200).json(cursos);
+
+  if (cursos) {
+    res.status(200).json(cursos);
+  } else {
+    res.status(500).end("Erro ao obter cursos");
+  }
 });
 
 router.get("/curso/:slug_curso", (req, res) => {
   const { slug_curso } = req.params;
   const curso = getCursoBySlug(slug_curso);
-  res.status(200).json(curso);
+
+  if (curso) {
+    res.status(200).json(curso);
+  } else {
+    res.status(404).end("Curso não encontrado");
+  }
 });
 
 router.get("/aula/:slug_curso/:slug_aula", (req, res) => {
   const { slug_curso, slug_aula } = req.params;
 
   const aula = getAulaByCursoAndAulaSlug(slug_curso, slug_aula);
-  res.status(200).json(aula);
+
+  if (aula) {
+    res.status(200).json(aula);
+  } else {
+    res.status(404).end("Aula não encontrada");
+  }
 });
 
 const server = createServer(async (request, response) => {
