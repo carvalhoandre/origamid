@@ -1,36 +1,114 @@
 import { DataBaseSync } from "node:sqlite";
 
-const db = new DataBaseSync("./db.sqlite");
+export function createDatabase() {
+  const db = new DataBaseSync("./db.sqlite");
 
-db.exec(`
+  db.exec(/*sql*/ `
   PRAGMA foreign_keys = 1;
   PRAGMA journal_mode = WAL;
   PRAGMA synchronous = NORMAL;
 
-  PRAGMA cache_size = -64000;
+  PRAGMA cache_size = 2000;
   PRAGMA busy_timeout = 5000;
   PRAGMA temp_store = MEMORY;
 `);
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS "products" (
-    "slug" TEXT PRIMARY KEY,
-    "name" TEXT NOT NULL,
-    "category" TEXT NOT NULL,
-    "price" INTEGER NOT NULL
+  db.exec(/*sql*/ `
+  CREATE TABLE IF NOT EXISTS "cursos" (
+    "id" INTEGER PRIMARY KEY,
+      "slug" TEXT NOT NULL COLLATE NOCASE UNIQUE,
+      "nome" TEXT NOT NULL,
+      "descricao" TEXT NOT NULL
   )
   `);
 
-const insert = db.prepare(`INSERT OR IGNORE INTO "products" ("slug", "name", "category", "price")
-   VALUES
-  ('?', '?', '?', ?),
+  db.exec(/*sql*/ `
+     CREATE TABLE IF NOT EXISTS "aulas" (
+      "id" INTEGER PRIMARY KEY,
+      "curso_id" INTEGER NOT NULL,
+      "slug" TEXT NOT NULL COLLATE NOCASE,
+      "nome" TEXT NOT NULL,
+      FOREIGN KEY("curso_id") REFERENCES "cursos" ("id"),
+      UNIQUE("curso_id", "slug")
+    ) STRICT;
+  
   `);
+}
 
-  insert.run("apple", "Apple", "fruit", 100);
-  insert.run("banana", "Banana", "fruit", 50);
-  insert.run("carrot", "Carrot", "vegetable", 30);
+export function insertCurso(db, slug, nome, descricao) {
+  try {
+    const stmt = db.prepare(/*sql*/ `
+    INSERT INTO "cursos" ("slug", "nome", "descricao")
+    VALUES (?, ?, ?)
+    `);
+    stmt.run(slug, nome, descricao);
+  } catch (error) {
+    console.error("Erro ao inserir curso:", error);
+  }
+}
 
-const select = db.prepare(`SELECT * FROM "products" WHERE "category" = ?`);
+export function insertAulas(db, curso_id, slug, nome) {
+  try {
+    const stmt = db.prepare(/*sql*/ `
+    INSERT INTO "aulas" ("curso_id", "slug", "nome")
+    VALUES (?, ?, ?)
+    `);
+    stmt.run(curso_id, slug, nome);
+  } catch (error) {
+    console.error("Erro ao inserir aula:", error);
+  }
+}
 
-const fruits = select.all("fruit");
-console.log(fruits);
+export function getCursos(db) {
+  try {
+    const stmt = db.prepare(/*sql*/ `
+    SELECT * FROM "cursos"
+    `);
+    return stmt.all();
+  } catch (error) {
+    console.error("Erro ao obter cursos:", error);
+    return [];
+  }
+}
+
+export function getAulasByCursoSlug(db, curso_slug) {
+  try {
+    const stmt = db.prepare(/*sql*/ `
+    SELECT a.*
+    FROM "aulas" a
+    JOIN "cursos" c ON a.curso_id = c.id
+    WHERE c.slug = ?
+    `);
+    return stmt.all(curso_slug);
+  } catch (error) {
+    console.error("Erro ao obter aulas por curso slug:", error);
+    return [];
+  }
+}
+
+export function getCursoBySlug(db, slug) {
+  try {
+    const stmt = db.prepare(/*sql*/ `
+    SELECT * FROM "cursos" WHERE slug = ?
+    `);
+    return stmt.get(slug);
+  } catch (error) {
+    console.error("Erro ao obter curso por slug:", error);
+    return null;
+  }
+}
+
+export function getAulaByCursoAndAulaSlug(db, curso_slug, aula_slug) {
+  try {
+    const stmt = db.prepare(/*sql*/ `
+    SELECT a.*
+    FROM "aulas" a
+    JOIN "cursos" c ON a.curso_id = c.id
+    WHERE c.slug = ? AND a.slug = ?
+    `);
+    return stmt.get(curso_slug, aula_slug);
+  } catch (error) {
+    console.error("Erro ao obter aula por curso e aula slug:", error);
+    return null;
+  }
+}
