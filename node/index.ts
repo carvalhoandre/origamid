@@ -4,7 +4,7 @@ import { pegarCurso } from "./core/database.ts";
 const core = new Core();
 
 core.router.get("/curso/:slug", (req, res) => {
-  const slug = req.params.slug("slug");
+  const { slug } = req.params;
   const curso = pegarCurso(slug);
   if (curso) {
     res.status(200).json(curso);
@@ -14,7 +14,7 @@ core.router.get("/curso/:slug", (req, res) => {
 });
 
 core.router.get("/", (req, res) => {
-  res.status(200).end("hello world");
+  res.status(200).json("hello world");
 });
 
 core.init();

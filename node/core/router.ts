@@ -14,11 +14,10 @@ export class Router {
     DELETE: {},
     HEAD: {},
   };
- 
+
   get(route: string, handler: Handler) {
     this.routes["GET"][route] = handler;
   }
-
   post(route: string, handler: Handler) {
     this.routes["POST"][route] = handler;
   }
@@ -36,26 +35,24 @@ export class Router {
   }
 
   find(method: string, pathname: string) {
-    const routesByMethod = this.routes[pathname];
-
+    const routesByMethod = this.routes[method];
     if (!routesByMethod) return null;
-
+    
     const matchedRoute = routesByMethod[pathname];
     if (matchedRoute) return { route: matchedRoute, params: {} };
-
+    
     const reqParts = pathname.split("/").filter(Boolean);
-
+    
     for (const route of Object.keys(routesByMethod)) {
       if (!route.includes(":")) continue;
 
       const routeParts = route.split("/").filter(Boolean);
-
       if (reqParts.length !== routeParts.length) continue;
       if (reqParts[0] !== routeParts[0]) continue;
 
-      const params: Record<string, string> = {};
+      const params = {};
       let ok = true;
-      for (let i = 0; i < routeParts.length; i++) {
+      for (let i = 0; i < reqParts.length; i++) {
         const segment = routeParts[i];
         const value = reqParts[i];
 

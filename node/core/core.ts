@@ -1,8 +1,8 @@
 import {
   createServer,
-  type Server,
   type IncomingMessage,
   type ServerResponse,
+  type Server,
 } from "node:http";
 import { Router } from "./router.ts";
 import { customRequest } from "./http/custom-request.ts";
@@ -21,14 +21,15 @@ export class Core {
     const req = await customRequest(request);
     const res = customResponse(response);
 
+    
     const matched = this.router.find(req.method || "", req.pathname);
     if (!matched) {
       return res.status(404).end("Rota nao encontrada");
     }
 
     const { route, params } = matched;
-    await route(req, res);
     req.params = params;
+    await route(req, res);
   };
 
   init() {
