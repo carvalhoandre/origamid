@@ -1,5 +1,6 @@
 import { Core } from "./core/core.ts";
 import { pegarCurso } from "./core/database.ts";
+import { logger } from "./core/middleware/looger.ts";
 
 const core = new Core();
 
@@ -15,6 +16,6 @@ core.router.get("/curso/:slug", (req, res) => {
 
 core.router.get("/", (req, res) => {
   res.status(200).json("hello world");
-});
+}, [logger]);
 
 core.init();

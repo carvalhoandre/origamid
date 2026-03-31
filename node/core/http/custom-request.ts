@@ -5,6 +5,7 @@ export interface CustomRequest extends IncomingMessage {
   pathname: string;
   body: Record<string, any>;
   params: Record<string, any>;
+  method: string;
 }
 
 export async function customRequest(request: IncomingMessage) {
@@ -13,18 +14,7 @@ export async function customRequest(request: IncomingMessage) {
   req.query = url.searchParams;
   req.pathname = url.pathname;
   req.params = {};
-
-  const chunks: Buffer[] = [];
-  for await (const chunk of req) {
-    chunks.push(chunk);
-  }
-  const body = Buffer.concat(chunks).toString('utf-8');
-
-  if (req.headers['content-type'] === 'application/json') {
-    req.body = JSON.parse(body);
-  } else {
-    req.body = {};
-  }
+  req.body = {};
 
   return req;
 }
