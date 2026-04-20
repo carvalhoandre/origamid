@@ -1,7 +1,7 @@
 const base = "http://localhost:3000";
 
 setTimeout(async () => {
-  const response = await fetch(base + "/curso/javascript");
+  const response = await fetch(base + "/curso/sa");
 
   console.log(response.ok, response.status);
 

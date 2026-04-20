@@ -8,6 +8,7 @@ import { Router } from "./router.ts";
 import { customRequest } from "./http/custom-request.ts";
 import { customResponse } from "./http/custom-response.ts";
 import { bodyJson } from "./middleware/body-json.ts";
+import { RouterError } from "./utils/router-error.ts";
 
 export class Core {
   router: Router;
@@ -20,26 +21,39 @@ export class Core {
   }
 
   handler = async (request: IncomingMessage, response: ServerResponse) => {
-    const req = await customRequest(request);
-    const res = customResponse(response);
+    try {
+      const req = await customRequest(request);
+      const res = customResponse(response);
 
-    for (const middleware of this.router.middlewares) {
-      await middleware(req, res);
+      for (const middleware of this.router.middlewares) {
+        await middleware(req, res);
+      }
+
+      const matched = this.router.find(req.method || "", req.pathname);
+
+      if (!matched) {
+        throw new RouterError(404, "Rota nao encontrada");
+      }
+
+      const { route, params } = matched;
+      req.params = params;
+
+      for (const middleware of route.middlewares) {
+        await middleware(req, res);
+      }
+
+      await route.handler(req, res);
+    } catch (error) {
+      if (error instanceof RouterError) {
+        response.statusCode = error.status;
+        response.setHeader("Content-Type", "application/problem+json");
+        response.end(error.message || "Erro interno");
+      } else {
+        response.statusCode = 500;
+        response.setHeader("Content-Type", "application/problem+json");
+        response.end("Erro interno");
+      }
     }
-
-    const matched = this.router.find(req.method || "", req.pathname);
-    if (!matched) {
-      return res.status(404).end("Rota nao encontrada");
-    }
-
-    const { route, params } = matched;
-    req.params = params;
-
-    for (const middleware of route.middlewares) {
-      await middleware(req, res);
-    }
-
-    await route.handler(req, res);
   };
 
   init() {
