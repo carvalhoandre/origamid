@@ -1,19 +1,30 @@
 import { Core } from "./core/core.ts";
-import { pegarCurso } from "./core/database.ts";
 import { logger } from "./core/middleware/looger.ts";
 import { RouterError } from "./core/utils/router-error.ts";
 
 const core = new Core();
 
-core.router.get("/curso/:slug", (req, res) => {
-  const { slug } = req.params;
-  const curso = pegarCurso(slug);
+core.db.exec(`CREATE TABLE IF NOT EXISTS produtos (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  price INTEGER,
+  title TEXT
+);
 
-  if (!curso) {
-    throw new RouterError(404, "Curso não encontrado");
+INSERT OR IGNORE INTO produtos (price, title) VALUES
+(100, 'Produto1'),
+(200, 'Produto2');
+`);
+
+core.router.get("/produto/:slug", (req, res) => {
+  const { slug } = req.params;
+
+  const produto = core.db.prepare("SELECT * FROM produtos WHERE title = ?").get(slug);
+
+  if (!produto) {
+    throw new RouterError(404, "produto não encontrado");
   }
 
-  res.status(200).json(curso);
+  res.status(200).json(produto);
 });
 
 core.router.get(
