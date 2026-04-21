@@ -18,7 +18,7 @@ INSERT OR IGNORE INTO produtos (price, title) VALUES
 core.router.get("/produto/:slug", (req, res) => {
   const { slug } = req.params;
 
-  const produto = core.db.prepare("SELECT * FROM produtos WHERE title = ?").get(slug);
+  const produto = core.db.query("SELECT * FROM produtos WHERE title = ?").get(slug);
 
   if (!produto) {
     throw new RouterError(404, "produto não encontrado");

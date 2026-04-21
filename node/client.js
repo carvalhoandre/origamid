@@ -1,11 +1,13 @@
+console.clear();
 const base = "http://localhost:3000";
 
-setTimeout(async () => {
-  const response = await fetch(base + "/produto/Produto1");
+const functions = {
+  async getProduct() {
+    const response = await fetch(`${base}/produto/Produto1`);
+    const body = await response.json();
 
-  console.log(response.ok, response.status);
+    console.table(body);
+  },
+};
 
-  const data = await fetch(base + "/");
-  
-  console.log(data.ok, data.status);
-}, 200);
+functions[process.argv[2]]();
