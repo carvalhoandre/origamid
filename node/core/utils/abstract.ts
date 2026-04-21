@@ -1,0 +1,28 @@
+import type { Core } from "../core.ts";
+import type { Handler } from "../router.ts";
+
+export abstract class CoreProvider {
+  core: Core;
+  router: Core["router"];
+  db: Core["db"];
+
+  constructor(core: Core) {
+    this.core = core;
+    this.router = core.router;
+    this.db = core.db;
+  }
+}
+
+export abstract class Api extends CoreProvider {
+  handles: Record<string, Handler> = {};
+  /** Utilize para criar as tabelas */
+  tables() {}
+
+  /** Utilize para criar as rotas */
+  routes() {}
+
+  init() {
+    this.tables();
+    this.routes();
+  }
+}
