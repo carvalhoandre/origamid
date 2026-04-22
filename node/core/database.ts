@@ -23,4 +23,8 @@ export class Database extends DatabaseSync {
 
     return this.queries[sql];
   }
+
+  run(callback: (db: Database) => void) {
+    callback(this);
+  }
 }
