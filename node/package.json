@@ -4,8 +4,7 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.ts",
-    "product": "node client.js getProduct"
+    "start": "node index.ts --watch"
   },
   "keywords": [],
   "author": "",

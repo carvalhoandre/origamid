@@ -3,6 +3,6 @@ import { authTables } from './tables.ts';
 
 export class AuthApi extends Api {
   tables(): void {
-    this.db.run(authTables);
+    this.db.exec(authTables);
   }
 }
