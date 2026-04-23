@@ -8,7 +8,7 @@ import { Router } from "./router.ts";
 import { customRequest } from "./http/custom-request.ts";
 import { customResponse } from "./http/custom-response.ts";
 import { bodyJson } from "./middleware/body-json.ts";
-import { RouterError } from "./utils/router-error.ts";
+import { RouteError } from "./utils/router-error.ts";
 import { Database } from "./database.ts";
 
 export class Core {
@@ -35,7 +35,7 @@ export class Core {
       const matched = this.router.find(req.method || "", req.pathname);
 
       if (!matched) {
-        throw new RouterError(404, "Rota nao encontrada");
+        throw new RouteError(404, "Rota nao encontrada");
       }
 
       const { route, params } = matched;
@@ -47,7 +47,7 @@ export class Core {
 
       await route.handler(req, res);
     } catch (error) {
-      if (error instanceof RouterError) {
+      if (error instanceof RouteError) {
         console.log(`Error ${error.status}: ${error.message}`);
         response.statusCode = error.status;
         response.setHeader("Content-Type", "application/problem+json");

@@ -14,7 +14,7 @@ export abstract class CoreProvider {
 }
 
 export abstract class Api extends CoreProvider {
-  handles: Record<string, Handler> = {};
+  handlers: Record<string, Handler> = {};
   /** Utilize para criar as tabelas */
   tables() {}
 

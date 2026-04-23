@@ -1,71 +1,72 @@
 import { Api } from "../../core/utils/abstract.ts";
-import { RouterError } from "../../core/utils/router-error.ts";
+import { RouteError } from "../../core/utils/router-error.ts";
+
 import { lmsTables } from "./tables.ts";
 
 export class LmsApi extends Api {
-  handles = {
+  handlers = {
     postCourses: (req, res) => {
       const { slug, title, description, lessons, hours } = req.body;
-
-      const writerResult = this.db
+      const writeResult = this.db
         .query(
-          `
-        /*sql*/
-        INSERT OR IGNORE INTO "courses" 
-        ("slug", "title", "description", "lessons", "hours") 
-        VALUES (?, ?, ?, ?, ?)  
-      `,
+          /*sql*/ `
+        INSERT OR IGNORE INTO "courses"
+        ("slug", "title", "description", "lessons", "hours")
+        VALUES (?,?,?,?,?)
+        `,
         )
         .run(slug, title, description, lessons, hours);
 
-      if (writerResult.changes === 0) {
-        throw new RouterError(400, "Erro ao criar curso");
+      if (writeResult.changes === 0) {
+        throw new RouteError(400, "erro ao criar curso");
       }
-
-      res
-        .status(201)
-        .json({
-          id: writerResult.lastInsertRowid,
-          changes: writerResult.changes,
-          title: "Curso criado com sucesso",
-        });
+      
+      res.status(201).json({
+        id: writeResult.lastInsertRowid,
+        changes: writeResult.changes,
+        title: "curso criado",
+      });
     },
-   
-    postLessons: (req, res) => {
-      const { courseSlug, slug, title, seconds, video, description, order, free } = req.body;
 
-      const writerResult = this.db
+    postLessons: (req, res) => {
+      const {
+        courseSlug,
+        slug,
+        title,
+        seconds,
+        video,
+        description,
+        order,
+        free,
+      } = req.body;
+      const writeResult = this.db
         .query(
-          `
-        /*sql*/
-        INSERT OR IGNORE INTO "lessons" 
+          /*sql*/ `
+        INSERT OR IGNORE INTO "lessons"
         ("course_id", "slug", "title", "seconds",
-         "video", "description", "order", "free") 
-        VALUES ((SELECT "id" FROM courses WHERE "slug" = ?), ?, ?, ?, ?, ?, ?, ?)  
-      `,
+        "video", "description", "order", "free")
+        VALUES ((SELECT "id" FROM "courses" WHERE "slug" = ?),?,?,?,?,?,?,?)`,
         )
         .run(courseSlug, slug, title, seconds, video, description, order, free);
 
-      if (writerResult.changes === 0) {
-        throw new RouterError(400, "Erro ao criar aula");
+      if (writeResult.changes === 0) {
+        throw new RouteError(400, "erro ao criar aula");
       }
 
-      res
-        .status(201)
-        .json({
-          id: writerResult.lastInsertRowid,
-          changes: writerResult.changes,
-          title: "Aula criada com sucesso",
-        });
+      res.status(201).json({
+        id: writeResult.lastInsertRowid,
+        changes: writeResult.changes,
+        title: "aula criada",
+      });
     },
-  } satisfies Api["handles"];
+  } satisfies Api["handlers"];
 
   tables(): void {
     this.db.exec(lmsTables);
   }
 
   routes(): void {
-    this.router.post("/lms/courses", this.handles.postCourses);
-    this.router.post("/lms/lessons", this.handles.postLessons);
+    this.router.post("/lms/courses", this.handlers.postCourses);
+    this.router.post("/lms/lessons", this.handlers.postLessons);
   }
 }
