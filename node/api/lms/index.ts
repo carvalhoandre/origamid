@@ -10,12 +10,18 @@ export class LmsApi extends Api {
   handlers = {
     postCourse: (req, res) => {
       const { slug, title, description, lessons, hours } = req.body;
-      const writeResult = this.query.insertCourse({ slug, title, description, lessons, hours });
+      const writeResult = this.query.insertCourse({
+        slug,
+        title,
+        description,
+        lessons,
+        hours,
+      });
 
       if (writeResult.changes === 0) {
         throw new RouteError(400, "erro ao criar curso");
       }
-      
+
       res.status(201).json({
         id: writeResult.lastInsertRowid,
         changes: writeResult.changes,
@@ -34,15 +40,17 @@ export class LmsApi extends Api {
         order,
         free,
       } = req.body;
-      const writeResult = this.db
-        .query(
-          /*sql*/ `
-        INSERT OR IGNORE INTO "lessons"
-        ("course_id", "slug", "title", "seconds",
-        "video", "description", "order", "free")
-        VALUES ((SELECT "id" FROM "courses" WHERE "slug" = ?),?,?,?,?,?,?,?)`,
-        )
-        .run(courseSlug, slug, title, seconds, video, description, order, free);
+
+      const writeResult = this.query.insertLesson({
+        courseSlug,
+        slug,
+        title,
+        seconds,
+        video,
+        description,
+        order,
+        free,
+      });
 
       if (writeResult.changes === 0) {
         throw new RouteError(400, "erro ao criar aula");
@@ -54,6 +62,27 @@ export class LmsApi extends Api {
         title: "aula criada",
       });
     },
+
+    getCourses: (req, res) => {
+      const courses = this.query.selectCourses();
+
+      if (courses.length === 0) {
+        throw new RouteError(404, "nenhum curso encontrado");
+      }
+
+      res.status(200).json(courses);
+    },
+   
+    getCourse: (req, res) => {
+      const { slug } = req.params;
+      const course = this.query.selectCourse(slug);
+
+      if (!course) {
+        throw new RouteError(404, "curso não encontrado");
+      }
+
+      res.status(200).json(course);
+    },
   } satisfies Api["handlers"];
 
   tables(): void {
@@ -62,6 +91,8 @@ export class LmsApi extends Api {
 
   routes(): void {
     this.router.post("/lms/course", this.handlers.postCourse);
+    this.router.get("/lms/courses", this.handlers.getCourses);
+    this.router.get("/lms/course/:slug", this.handlers.getCourse);
     this.router.post("/lms/lesson", this.handlers.postLesson);
   }
 }
