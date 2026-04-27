@@ -180,6 +180,12 @@ const functions = {
     const body = await response.json();
     console.table(body);
   },
+ 
+  async getLesson() {
+    const response = await fetch(base + `/lms/lesson/html-e-css/introducao-e-variaveis`);
+    const body = await response.json();
+    console.table(body);
+  },
 };
 
 // for (const lesson of lessons) {
