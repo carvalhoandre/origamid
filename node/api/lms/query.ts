@@ -1,5 +1,10 @@
 import { Query } from "../../core/utils/abstract.ts";
-import type { CourseCreate, CourseData, LessonCreate } from "./types.ts";
+import type {
+  CourseCreate,
+  CourseData,
+  LessonCreate,
+  LessonData,
+} from "./types.ts";
 
 export class LmsQuery extends Query {
   insertCourse({ slug, title, description, lessons, hours }: CourseCreate) {
@@ -70,7 +75,7 @@ export class LmsQuery extends Query {
       )
       .all(courseSlug) as LessonData[];
   }
- 
+
   selectLesson(courseSlug: string, lessonSlug: string) {
     return this.db
       .query(
@@ -81,5 +86,17 @@ export class LmsQuery extends Query {
         `,
       )
       .get(courseSlug, lessonSlug) as LessonData | undefined;
+  }
+
+  selectLessonNav(courseSlug: string, lessonSlug: string) {
+    return this.db
+      .query(
+        /*sql*/ `
+          SELECT "slug" FROM "lesson_nav" 
+          WHERE "course_id" = (SELECT "id" FROM "courses" WHERE "slug" = ?)
+          AND "current_slug" = ?
+        `,
+      )
+      .all(courseSlug, lessonSlug) as { slug: string }[];
   }
 }

@@ -182,7 +182,7 @@ const functions = {
   },
  
   async getLesson() {
-    const response = await fetch(base + `/lms/lesson/html-e-css/introducao-e-variaveis`);
+    const response = await fetch(base + `/lms/lesson/html-e-css/estrutura-do-documento`);
     const body = await response.json();
     console.table(body);
   },
