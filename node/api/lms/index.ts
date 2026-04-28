@@ -3,9 +3,14 @@ import { RouteError } from "../../core/utils/router-error.ts";
 import { LmsQuery } from "./query.ts";
 
 import { lmsTables } from "./tables.ts";
+import type { LessonCompleted } from "./types.ts";
 
 export class LmsApi extends Api {
   query = new LmsQuery(this.db);
+
+  getUserId(): number {
+    return 1; // Substituir pelo ID do usuário autenticado
+  }
 
   handlers = {
     postCourse: (req, res) => {
@@ -72,17 +77,24 @@ export class LmsApi extends Api {
 
       res.status(200).json(courses);
     },
-   
+
     getCourse: (req, res) => {
       const { slug } = req.params;
       const course = this.query.selectCourse(slug);
       const lessons = this.query.selectLessons(slug);
-      
+
       if (!course) {
         throw new RouteError(404, "curso não encontrado");
       }
 
-      res.status(200).json({ course, lessons });
+      const userId = this.getUserId();
+      let completed: LessonCompleted[] = [];
+
+      if (userId) {
+        completed = this.query.selectLessonsCompleted(userId, course.id);
+      }
+
+      res.status(200).json({ course, lessons, completed });
     },
 
     getLesson: (req, res) => {
@@ -95,17 +107,35 @@ export class LmsApi extends Api {
       }
 
       const i = nav.findIndex((n) => n.slug === lesson.slug);
-      const prev = i === 0 ? null : nav.at(i - 1)?.slug ?? null;
-      const next =  nav.at(i + 1)?.slug ?? null;
+      const prev = i === 0 ? null : (nav.at(i - 1)?.slug ?? null);
+      const next = nav.at(i + 1)?.slug ?? null;
 
-      res.status(200).json({ ...lesson, prev, next });
+      const userId = this.getUserId();
+      let completed = "";
+
+      if (userId) {
+        const lessonCompleted = this.query.selectLessonCompleted(
+          userId,
+          lesson.id,
+        );
+
+        if (lessonCompleted) {
+          completed = lessonCompleted.completed;
+        }
+      }
+
+      res.status(200).json({ ...lesson, prev, next, completed });
     },
-    
+
     postLessonCompleted: (req, res) => {
-      const userId = 1; // Substituir pelo ID do usuário autenticado
+      const userId = this.getUserId();
       const { courseId, lessonId } = req.body;
 
-      const writeResult = this.query.insertLessonCompleted(userId, courseId, lessonId);
+      const writeResult = this.query.insertLessonCompleted(
+        userId,
+        courseId,
+        lessonId,
+      );
 
       if (writeResult.changes === 0) {
         throw new RouteError(400, "erro ao marcar aula como concluída");
@@ -115,6 +145,21 @@ export class LmsApi extends Api {
         id: writeResult.lastInsertRowid,
         changes: writeResult.changes,
         title: "aula marcada como concluída",
+      });
+    },
+
+    resetCourse: (req, res) => {
+      const userId = this.getUserId();
+      const { courseId } = req.body;
+
+      const writeResult = this.query.deleteLessonsCompleted(userId, courseId);
+
+      if (writeResult.changes === 0) {
+        throw new RouteError(400, "erro ao resetar curso");
+      }
+
+      res.status(200).json({
+        title: "curso resetado",
       });
     },
   } satisfies Api["handlers"];
@@ -127,8 +172,12 @@ export class LmsApi extends Api {
     this.router.post("/lms/course", this.handlers.postCourse);
     this.router.get("/lms/courses", this.handlers.getCourses);
     this.router.get("/lms/course/:slug", this.handlers.getCourse);
+    this.router.delete("/lms/course/reset", this.handlers.resetCourse);
     this.router.post("/lms/lesson", this.handlers.postLesson);
-    this.router.get("/lms/lesson/:courseSlug/:lessonSlug", this.handlers.getLesson);
+    this.router.get(
+      "/lms/lesson/:courseSlug/:lessonSlug",
+      this.handlers.getLesson,
+    );
     this.router.post("/lms/lesson/complete", this.handlers.postLessonCompleted);
   }
 }
