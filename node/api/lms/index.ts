@@ -1,4 +1,3 @@
-import { get } from "node:http";
 import { Api } from "../../core/utils/abstract.ts";
 import { RouteError } from "../../core/utils/router-error.ts";
 import { LmsQuery } from "./query.ts";
@@ -100,7 +99,24 @@ export class LmsApi extends Api {
       const next =  nav.at(i + 1)?.slug ?? null;
 
       res.status(200).json({ ...lesson, prev, next });
-    }
+    },
+    
+    postLessonCompleted: (req, res) => {
+      const userId = 1; // Substituir pelo ID do usuário autenticado
+      const { courseId, lessonId } = req.body;
+
+      const writeResult = this.query.insertLessonCompleted(userId, courseId, lessonId);
+
+      if (writeResult.changes === 0) {
+        throw new RouteError(400, "erro ao marcar aula como concluída");
+      }
+
+      res.status(201).json({
+        id: writeResult.lastInsertRowid,
+        changes: writeResult.changes,
+        title: "aula marcada como concluída",
+      });
+    },
   } satisfies Api["handlers"];
 
   tables(): void {
@@ -113,5 +129,6 @@ export class LmsApi extends Api {
     this.router.get("/lms/course/:slug", this.handlers.getCourse);
     this.router.post("/lms/lesson", this.handlers.postLesson);
     this.router.get("/lms/lesson/:courseSlug/:lessonSlug", this.handlers.getLesson);
+    this.router.post("/lms/lesson/complete", this.handlers.postLessonCompleted);
   }
 }
