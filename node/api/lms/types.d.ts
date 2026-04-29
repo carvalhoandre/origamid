@@ -27,5 +27,13 @@ export type LessonCreate = Omit<LessonData, "id" | "course_id" | "created"> & {
   courseSlug: string;
 };
 
-export type LessonCompleted = 
-{ lesson_id: number; completed: string };  
+export type LessonCompleted = { lesson_id: number; completed: string };
+
+export type CertificateFullData = {
+  id: string;
+  name: string;
+  title: string;
+  hours: number;
+  lessons: string;
+  completed: string;
+};

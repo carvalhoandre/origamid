@@ -1,5 +1,6 @@
 import { Query } from "../../core/utils/abstract.ts";
 import type {
+  CertificateFullData,
   CourseCreate,
   CourseData,
   LessonCompleted,
@@ -170,5 +171,27 @@ export class LmsQuery extends Query {
         `,
       )
       .get(userId, courseId) as { id: string } | undefined;
+  }
+
+  selectCertificates(userId: number) {
+    return this.db
+      .query(
+        /*sql*/ `
+          SELECT * FROM "certificates_full"
+          WHERE "user_id" = ?
+        `,
+      )
+      .all(userId) as CertificateFullData[];
+  }
+
+  selectCertificate(certificateId: number) {
+    return this.db
+      .query(
+        /*sql*/ `
+          SELECT * FROM "certificates_full"
+          WHERE "id" = ?
+        `,
+      )
+      .get(certificateId) as CertificateFullData | undefined;
   }
 }

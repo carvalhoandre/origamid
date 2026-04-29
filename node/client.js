@@ -234,6 +234,19 @@ const functions = {
     const body = await response.json();
     console.table(body);
   },
+
+  async getCertificates() {
+    const response = await fetch(base + `/lms/certificates`);
+    const body = await response.json();
+    console.log(body);
+  },
+
+  async getCertificate() {
+    const response = await fetch(base + `/lms/certificates/${process.argv[3] || 1}`);
+    const body = await response.json();
+    console.log(body);
+  },
+
 };
 
 // for (const lesson of lessons) {
