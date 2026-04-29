@@ -141,10 +141,26 @@ export class LmsApi extends Api {
         throw new RouteError(400, "erro ao marcar aula como concluída");
       }
 
+      const progress = this.query.selectProgress(userId, courseId);
+      const incompleteLessons = progress.filter((item) => !item.completed);
+
+      if (progress.length > 0 && incompleteLessons.length === 0) {
+        const certificate = this.query.insertCertificate(userId, courseId);
+
+        if (!certificate) {
+          throw new RouteError(400, "erro ao gerar certificado");
+        }
+        
+        res.status(201).json({
+          certificate: certificate.id,
+          title: "aula concluída",
+        });
+        return;
+      }
+
       res.status(201).json({
-        id: writeResult.lastInsertRowid,
-        changes: writeResult.changes,
-        title: "aula marcada como concluída",
+        certificate: null,
+        title: "aula concluída",
       });
     },
 

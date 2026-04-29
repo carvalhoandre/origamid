@@ -213,12 +213,12 @@ const functions = {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        courseId: 1,
-        lessonId: 1,
+        courseId: process.argv[3] || 1,
+        lessonId: process.argv[4] || 1,
       }),
     });
     const body = await response.json();
-    console.table(body);
+    console.log(body);
   },
 
   async resetCourse() {
