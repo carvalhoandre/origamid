@@ -247,6 +247,20 @@ const functions = {
     console.log(body);
   },
 
+    async authLogin() {
+    const response = await fetch(base + "/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: "andre@example.com",
+        password: "password123",
+      }),
+    });
+    const body = await response.json();
+    console.table(body);
+  },
 };
 
 // for (const lesson of lessons) {
