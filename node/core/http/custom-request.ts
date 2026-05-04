@@ -6,6 +6,7 @@ export interface CustomRequest extends IncomingMessage {
   body: Record<string, any>;
   params: Record<string, any>;
   method: string;
+  ip: string;
 }
 
 export async function customRequest(request: IncomingMessage) {
@@ -15,6 +16,7 @@ export async function customRequest(request: IncomingMessage) {
   req.pathname = url.pathname;
   req.params = {};
   req.body = {};
+  req.ip = req.socket.remoteAddress || '127.0.0.1';
 
   return req;
 }

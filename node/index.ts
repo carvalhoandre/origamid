@@ -22,9 +22,11 @@ core.router.get('/', async (req, res) => {
 
 core.router.get('/segura', async (req, res) => {
   const id = req.headers.cookie?.match(/sid=(\d+)/)?.[1];
+  
   if (!id) {
     throw new RouteError(401, 'não autenticado');
   }
+
   const user = core.db
     .query(`SELECT "email", "name" FROM "users" WHERE "id" = ?`)
     .get(id);

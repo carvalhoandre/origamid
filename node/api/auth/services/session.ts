@@ -1,0 +1,21 @@
+import { CoreProvider } from "../../../core/utils/abstract.ts";
+import { AuthQuery } from "../query.ts";
+
+export class SessionService extends CoreProvider {
+  query = new AuthQuery(this.db);
+
+  async create({ userId, ip, ua }) {
+    const expires_ms = Date.now() + 1000 * 60 * 60 * 24 * 15;
+    const sid_hash = 1;
+
+    this.query.insertSession({
+      user_id: userId,
+      sid_hash,
+      expires_ms,
+      ip,
+      ua,
+    });
+
+    return { sid_hash };
+  }
+}
