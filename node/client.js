@@ -157,13 +157,13 @@ const functions = {
     console.table(body);
   },
 
-  async postLesson(lesson) {
+  async postLesson() {
     const response = await fetch(base + "/lms/lesson", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(lesson),
+      body: JSON.stringify(lessons[0]),
     });
     const body = await response.json();
     console.table(body);

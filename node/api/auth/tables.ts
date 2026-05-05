@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 
 
 CREATE TABLE IF NOT EXISTS "sessions" (
-  "sid_hash" TEXT PRIMARY KEY,
+  "sid_hash" BLOB PRIMARY KEY,
   "user_id" INTEGER NOT NULL,
   "created" INTEGER NOT NULL DEFAULT (STRFTIME('%s', 'now')),
   "expires" INTEGER NOT NULL,
