@@ -1,6 +1,6 @@
 import { Query } from "../../core/utils/abstract.ts";
 
-import type { UserCreate } from "./types.ts";
+import type { SessionCreate, UserCreate } from "./types.ts";
 
 export class AuthQuery extends Query {
   insertUser({ name, username, email, role, password_hash }: UserCreate) {
@@ -15,7 +15,7 @@ export class AuthQuery extends Query {
       .run(name, username, email, role, password_hash);
   }
 
-  insertSession({ sid_hash, user_id, expires_ms, ip, ua }) {
+  insertSession({ sid_hash, user_id, expires_ms, ip, ua }: SessionCreate) {
     return this.db
       .query(
         /*sql*/ `

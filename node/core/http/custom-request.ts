@@ -1,4 +1,5 @@
 import type { IncomingMessage } from 'node:http';
+import { parseCookie } from '../utils/parse-cookie.ts';
 
 export interface CustomRequest extends IncomingMessage {
   query: URLSearchParams;
@@ -7,6 +8,7 @@ export interface CustomRequest extends IncomingMessage {
   params: Record<string, any>;
   method: string;
   ip: string;
+  cookies: Record<string, string | undefined>;
 }
 
 export async function customRequest(request: IncomingMessage) {
@@ -17,6 +19,7 @@ export async function customRequest(request: IncomingMessage) {
   req.params = {};
   req.body = {};
   req.ip = req.socket.remoteAddress || '127.0.0.1';
+  req.cookies = parseCookie(req.headers.cookie);
 
   return req;
 }

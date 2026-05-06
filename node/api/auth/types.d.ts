@@ -12,3 +12,15 @@ export type UserData = {
 };
 
 export type UserCreate = Omit<UserData, "id" | "created" | "updated">;
+
+export type SessionData = {
+  sid_hash: Buffer;
+  user_id: number;
+  created: number;
+  expires: number;
+  ip: string;
+  ua: string;
+  revoked: number;
+};
+
+export type SessionCreate = Omit<SessionData, "created" | "revoked" | "expires"> & { expires_ms: number };
