@@ -1,5 +1,6 @@
 import { Api } from "../../core/utils/abstract.ts";
 import { RouteError } from "../../core/utils/router-error.ts";
+import { AuthMiddleware } from "../auth/middleware/auth.ts";
 import { LmsQuery } from "./query.ts";
 
 import { lmsTables } from "./tables.ts";
@@ -7,10 +8,7 @@ import type { LessonCompleted } from "./types.ts";
 
 export class LmsApi extends Api {
   query = new LmsQuery(this.db);
-
-  getUserId(): number {
-    return 1; // Substituir pelo ID do usuário autenticado
-  }
+  auth = new AuthMiddleware(this.core);
 
   handlers = {
     postCourse: (req, res) => {
@@ -87,11 +85,13 @@ export class LmsApi extends Api {
         throw new RouteError(404, "curso não encontrado");
       }
 
-      const userId = this.getUserId();
       let completed: LessonCompleted[] = [];
 
-      if (userId) {
-        completed = this.query.selectLessonsCompleted(userId, course.id);
+      if (req.session) {
+        completed = this.query.selectLessonsCompleted(
+          req.session?.user_id,
+          course.id,
+        );
       }
 
       res.status(200).json({ course, lessons, completed });
@@ -110,12 +110,11 @@ export class LmsApi extends Api {
       const prev = i === 0 ? null : (nav.at(i - 1)?.slug ?? null);
       const next = nav.at(i + 1)?.slug ?? null;
 
-      const userId = this.getUserId();
       let completed = "";
 
-      if (userId) {
+      if (req.session) {
         const lessonCompleted = this.query.selectLessonCompleted(
-          userId,
+          req.session.user_id,
           lesson.id,
         );
 
@@ -128,7 +127,7 @@ export class LmsApi extends Api {
     },
 
     postLessonCompleted: (req, res) => {
-      const userId = this.getUserId();
+      const userId = 1;
       const { courseId, lessonId } = req.body;
 
       const writeResult = this.query.insertLessonCompleted(
@@ -165,7 +164,7 @@ export class LmsApi extends Api {
     },
 
     resetCourse: (req, res) => {
-      const userId = this.getUserId();
+      const userId = 1;
       const { courseId } = req.body;
 
       const writeResult = this.query.deleteLessonsCompleted(userId, courseId);
@@ -178,19 +177,19 @@ export class LmsApi extends Api {
         title: "curso resetado",
       });
     },
-    
+
     getCertificates: (req, res) => {
-      const userId = this.getUserId();
+      const userId = 1;
 
       const certificates = this.query.selectCertificates(userId);
 
-      if(certificates.length === 0) {
+      if (certificates.length === 0) {
         throw new RouteError(404, "nenhum certificado encontrado");
       }
 
       res.status(200).json(certificates);
     },
-    
+
     getCertificate: (req, res) => {
       const { id } = req.params;
       const certificate = this.query.selectCertificate(id);
@@ -210,7 +209,9 @@ export class LmsApi extends Api {
   routes(): void {
     this.router.post("/lms/course", this.handlers.postCourse);
     this.router.get("/lms/courses", this.handlers.getCourses);
-    this.router.get("/lms/course/:slug", this.handlers.getCourse);
+    this.router.get("/lms/course/:slug", this.handlers.getCourse, [
+      this.auth.optional,
+    ]);
     this.router.delete("/lms/course/reset", this.handlers.resetCourse);
     this.router.post("/lms/lesson", this.handlers.postLesson);
     this.router.get(

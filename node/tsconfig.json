@@ -11,9 +11,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "paths": {
-      "@/*": ["./*"]
-    },
+    "paths": {},
     "types": ["node"],
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,

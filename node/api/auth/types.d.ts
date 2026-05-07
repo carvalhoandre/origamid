@@ -28,10 +28,16 @@ export type SessionCreate = Omit<
   "created" | "revoked" | "expires"
 > & { expires_ms: number };
 
+export type Session = {
+  user_id: number;
+  role: UserRole;
+  expires_ms: number;
+};
+
 export type SessionValidateResult = {
   valid: boolean;
   cookie: string;
-  session?: { user_id: number; role: string; expires_ms: number };
+  session?: Session;
 };
 
-export type SessionCreateParams = { userId: unknown, ip: string, ua: string }
+export type SessionCreateParams = { userId: unknown; ip: string; ua: string };
