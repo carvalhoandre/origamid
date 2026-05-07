@@ -2,7 +2,7 @@ import { Api } from "../../core/utils/abstract.ts";
 import { RouteError } from "../../core/utils/router-error.ts";
 
 import { AuthQuery } from "./query.ts";
-import { SessionService } from "./services/session.ts";
+import { COOKIE_SID_KEY, SessionService } from "./services/session.ts";
 import { authTables } from "./tables.ts";
 
 export class AuthApi extends Api {
@@ -31,7 +31,7 @@ export class AuthApi extends Api {
       });
     },
 
-      postLogin: async(req, res) => {
+    postLogin: async (req, res) => {
       const { email, password } = req.body;
       const user = this.db
         .query(
@@ -43,7 +43,7 @@ export class AuthApi extends Api {
         .get(email);
 
       if (!user || password !== user.password_hash) {
-        throw new RouteError(404, 'email ou senha incorretos');
+        throw new RouteError(404, "email ou senha incorretos");
       }
 
       const { cookie } = await this.session.create({
@@ -51,9 +51,28 @@ export class AuthApi extends Api {
         ip: req.ip,
         ua: req.headers["user-agent"] ?? "",
       });
-      
+
       res.setCookie(cookie);
-      res.status(200).json('autenticado');
+      res.status(200).json("autenticado");
+    },
+
+    getSession: (req, res) => {
+      const sid = req.cookies[COOKIE_SID_KEY];
+
+      if (!sid) {
+        throw new RouteError(401, "não autorizado");
+      }
+
+      const { valid, cookie, session } = this.session.validate(sid);
+
+      res.setCookie(cookie);
+
+      if (!valid || !session) {
+        throw new RouteError(401, "não autorizado");
+      }
+      res.setHeader("Cache-Control", 'private, no-store');
+      res.setHeader("Vary", 'Cookie');
+      res.status(200).json(session);
     },
   } satisfies Api["handlers"];
 
@@ -64,5 +83,6 @@ export class AuthApi extends Api {
   routes(): void {
     this.router.post("/auth/user", this.handlers.postUser);
     this.router.post("/auth/login", this.handlers.postLogin);
+    this.router.get("/auth/session", this.handlers.getSession);
   }
 }
