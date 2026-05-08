@@ -3,6 +3,7 @@ import {
   type ScryptOptions,
   scrypt,
   randomBytes,
+  createHmac,
 } from "node:crypto";
 import { promisify } from "node:util";
 
@@ -22,7 +23,11 @@ const SCRYPT_OPTIONS: ScryptOptions = {
   p: 1,
 };
 
-const dk = await scryptAsync("12345678", salt, 32, SCRYPT_OPTIONS);
+const PEPPER = "segredo_super_secreto";
+
+const password_hmac = createHmac("sha256", PEPPER).update("12345678").digest();
+
+const dk = await scryptAsync(password_hmac, salt, 32, SCRYPT_OPTIONS);
 const passwordHash = `${salt.toString("hex")}$${dk.toString("hex")}`;
 
 console.log(passwordHash);
