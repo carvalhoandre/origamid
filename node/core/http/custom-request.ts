@@ -1,6 +1,6 @@
 import type { IncomingMessage } from 'node:http';
 import { parseCookie } from '../utils/parse-cookie.ts';
-import { Session } from '../../api/auth/types.ts';
+import type { Session } from '../../api/auth/types.ts';
 
 export interface CustomRequest extends IncomingMessage {
   query: URLSearchParams;

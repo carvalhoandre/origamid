@@ -72,4 +72,20 @@ export class SessionService extends CoreProvider {
       session: { user_id: session.user_id, role: user.role, expires_ms },
     };
   }
+
+  invalidate(sid: string | undefined) {
+    const cookie = sidCookie("", 0);
+
+    try {
+      if (sid) {
+        const sid_hash = sha256Hash(sid);
+
+        this.query.revokeSession("sid_hash", sid_hash);
+      }
+    } catch (error) {
+      console.error("Error invalidating session:", error);
+    }
+
+    return { cookie };
+  }
 }
