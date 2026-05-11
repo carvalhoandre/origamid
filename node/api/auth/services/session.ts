@@ -1,7 +1,7 @@
 import { CoreProvider } from "../../../core/utils/abstract.ts";
 import { AuthQuery } from "../query.ts";
 import type { SessionCreateParams, SessionValidateResult } from "../types.d.ts";
-import { randomBytesAsync, sha256Hash } from "../utils.ts";
+import { randomBytesAsync, sha256Hash } from "../utils/utils.ts";
 
 const ttlSec = 1000 * 60 * 60 * 24 * 15;
 const ttlSecFiveDays = 1000 * 60 * 60 * 24 * 5;

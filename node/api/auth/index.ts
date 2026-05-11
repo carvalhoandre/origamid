@@ -5,16 +5,29 @@ import { AuthQuery } from "./query.ts";
 import { COOKIE_SID_KEY, SessionService } from "./services/session.ts";
 import { authTables } from "./tables.ts";
 import { AuthMiddleware } from "./middleware/auth.ts";
+import { Password } from "./utils/password.ts";
 
 export class AuthApi extends Api {
   query = new AuthQuery(this.db);
   session = new SessionService(this.core);
   auth = new AuthMiddleware(this.core);
+  password = new Password("segredo");
 
   handlers = {
-    postUser: (req, res) => {
+    postUser: async (req, res) => {
       const { name, username, email, password } = req.body;
-      const password_hash = password;
+
+      const emailExist = this.query.selectUser("email", email);
+      if (emailExist) {
+        throw new RouteError(409, "Email já cadastrado");
+      }
+      
+      const usernameExist = this.query.selectUser("username", username);
+      if (usernameExist) {
+        throw new RouteError(409, "Username já cadastrado");
+      }
+
+      const password_hash = await this.password.hash(password);
 
       const writeResult = this.query.insertUser({
         name,
@@ -35,17 +48,19 @@ export class AuthApi extends Api {
 
     postLogin: async (req, res) => {
       const { email, password } = req.body;
-      const user = this.db
-        .query(
-          /*sql*/ `
-          SELECT "id", "password_hash"
-          FROM "users" WHERE "email" = ?
-        `,
-        )
-        .get(email);
+      const user = this.query.selectUser("email", email);
 
-      if (!user || password !== user.password_hash) {
-        throw new RouteError(404, "email ou senha incorretos");
+      if (!user) {
+        throw new RouteError(404, "Email ou senha incorretos");
+      }
+
+      const passwordValid = await this.password.verify(
+        password,
+        user.password_hash,
+      );
+
+      if (!passwordValid) {
+        throw new RouteError(404, "Email ou senha incorretos");
       }
 
       const { cookie } = await this.session.create({
