@@ -41,3 +41,16 @@ export type SessionValidateResult = {
 };
 
 export type SessionCreateParams = { userId: number; ip: string; ua: string };
+
+export type ResetData = {
+  token_hash: Buffer;
+  user_id: number;
+  created: number;
+  expires: number;
+  ip: string;
+  ua: string;
+};
+
+export type ResetCreate = Omit<ResetCreate, "created" | "expires"> & {
+  expires_ms: number;
+};

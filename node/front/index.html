@@ -67,6 +67,7 @@
     </style>
 
     <form id="login">
+      <h1>Login</h1>
       <label for="email">Email</label>
       <input type="email" id="email" name="email" value="andre@example.com" />
       <label for="password">Senha</label>
@@ -80,6 +81,7 @@
     </form>
  
     <form id="update-password">
+      <h1>Atualizar senha</h1>
       <label for="current-password">Senha atual</label>
       <input
         type="password"
@@ -97,6 +99,13 @@
       <button>Atualizar senha</button>
     </form>
 
+    <form id="forgot-password">
+      <h1>Recuperar senha</h1>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" value="andre@example.com" />
+      <button>Recuperar senha</button>  
+    </form>
+
     <button id="logout">Sair</button>
 
     <pre id="result"></pre>
@@ -104,6 +113,7 @@
     <script>
       const loginForm = document.getElementById("login");
       const updatePasswordForm = document.getElementById("update-password");
+      const forgotPasswordForm = document.getElementById("forgot-password");
       const logout = document.getElementById("logout");
       const result = document.getElementById("result");
 
@@ -129,7 +139,7 @@
       updatePasswordForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const data = new FormData(updatePasswordForm);
-        const response = await fetch("/auth/update/password", {
+        const response = await fetch("/auth/password/update", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -137,6 +147,27 @@
           body: JSON.stringify({
             new_password: data.get("new-password"),
             password: data.get("current-password"),
+          }),
+        });
+
+        const body = await response.json();
+        result.innerText = JSON.stringify(body, null, 2);
+
+        if (response.ok) {
+          window.location.reload();
+        }
+      });
+
+     forgotPasswordForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const data = new FormData(forgotPasswordForm);
+        const response = await fetch("/auth/password/forgot", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data.get("email"),
           }),
         });
 

@@ -96,7 +96,7 @@ export class AuthApi extends Api {
       res.status(204).json({ title: "logout" });
     },
 
-    updatePassword: async (req, res) => {
+    passwordUpdate: async (req, res) => {
       const { new_password, password } = req.body;
 
       if (!req.session) {
@@ -140,6 +140,39 @@ export class AuthApi extends Api {
       res.setCookie(cookie);
       res.status(200).json({ title: "Senha atualizada" });
     },
+
+    passwordForgot: async (req, res) => {
+      const  title = "Se um usuário com esse email existir, um email de recuperação será enviado"
+      const { email } = req.body;
+      const user = this.query.selectUser("email", email);
+
+      if (!user) {
+       return res.status(200).json({ title });
+      }
+
+      const { token } = await this.session.resetToken({
+        userId: user.id,
+        ip: req.ip,
+        ua: req.headers["user-agent"] ?? "",
+      });
+
+      const resetLink = `${req.baseUrl}/password/reset/?token=${token}`;
+
+      const emailContent = {
+        to: user.email,
+        subject: "Recuperação de senha",
+        body: `Clique no link para resetar sua senha: \r\n ${resetLink}`,
+      }
+
+      console.log(emailContent);
+
+      res.status(200).json({ title });
+    },
+
+    passwordReset: async (req, res) => {
+      const { email } = req.body;
+      const user = this.query.selectUser("email", email);
+    },
   } satisfies Api["handlers"];
 
   tables(): void {
@@ -152,9 +185,11 @@ export class AuthApi extends Api {
     this.router.get("/auth/session", this.handlers.getSession, [
       this.auth.guardian("user"),
     ]);
-    this.router.put("/auth/update/password", this.handlers.updatePassword, [
+    this.router.put("/auth/password/update", this.handlers.passwordUpdate, [
       this.auth.guardian("user"),
     ]);
     this.router.delete("/auth/logout", this.handlers.deleteSession);
+    this.router.post("/auth/password/forgot", this.handlers.passwordForgot);
+    this.router.post("/auth/password/reset", this.handlers.passwordReset);
   }
 }

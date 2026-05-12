@@ -1,10 +1,11 @@
 import { Query } from "../../core/utils/abstract.ts";
 
 import type {
-  SessionCreate,
-  SessionData,
-  UserCreate,
   UserRole,
+  UserCreate,
+  ResetCreate,
+  SessionData,
+  SessionCreate,
 } from "./types.d.ts";
 
 export class AuthQuery extends Query {
@@ -24,11 +25,11 @@ export class AuthQuery extends Query {
     return this.db
       .query(
         /*sql*/ `
-            SELECT "id", "password_hash" FROM "users"
+            SELECT "id", "password_hash", "email" FROM "users"
             WHERE ${key} = ?
             `,
       )
-      .get(value) as { id: number; password_hash: string } | undefined;
+      .get(value) as { id: number; password_hash: string; email: string } | undefined;
   }
 
   insertSession({ sid_hash, user_id, expires_ms, ip, ua }: SessionCreate) {
@@ -98,7 +99,11 @@ export class AuthQuery extends Query {
       .get(id) as { role: UserRole } | undefined;
   }
 
-  updateUserPassword(user_id: number, key: "password_hash" | "email" | "username", value: string) {
+  updateUserPassword(
+    user_id: number,
+    key: "password_hash" | "email" | "username",
+    value: string,
+  ) {
     return this.db
       .query(
         /*sql*/ `
@@ -107,5 +112,17 @@ export class AuthQuery extends Query {
             `,
       )
       .run(value, user_id);
+  }
+
+  insertReset({ token_hash, user_id, expires_ms, ip, ua }: ResetCreate) {
+    return this.db
+      .query(
+        /*sql*/ `
+            INSERT OR IGNORE INTO "resets"
+            ("token_hash", "user_id", "expires", "ip", "ua")
+            VALUES (?,?,?,?,?)
+            `,
+      )
+      .run(token_hash, user_id, Math.floor(expires_ms / 1000), ip, ua);
   }
 }
