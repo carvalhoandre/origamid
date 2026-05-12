@@ -20,7 +20,7 @@ export class AuthQuery extends Query {
       .run(name, username, email, role, password_hash);
   }
 
-  selectUser(key: "email" | "id" | "username", value: string) {
+  selectUser(key: "email" | "id" | "username", value: string | number) {
     return this.db
       .query(
         /*sql*/ `
@@ -85,5 +85,16 @@ export class AuthQuery extends Query {
             `,
       )
       .get(id) as { role: UserRole } | undefined;
+  }
+
+  updateUserPassword(user_id: number, key: "password_hash" | "email" | "username", value: string) {
+    return this.db
+      .query(
+        /*sql*/ `
+            UPDATE "users" SET ${key} = ?
+            WHERE "id" = ?
+            `,
+      )
+      .run(value, user_id);
   }
 }

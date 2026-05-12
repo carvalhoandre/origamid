@@ -95,6 +95,44 @@ export class AuthApi extends Api {
       res.setHeader("Vary", "Cookie");
       res.status(204).json({ title: "logout" });
     },
+
+    updatePassword: async (req, res) => {
+      const { new_password, password } = req.body;
+      const sid = req.cookies[COOKIE_SID_KEY];
+
+      if (!req.session) {
+        throw new RouteError(401, "não autorizado");
+      }
+
+      const user  = this.query.selectUser("id", req.session.user_id);
+
+      if (!user) {
+        throw new RouteError(404, "Usuário não encontrado");
+      }
+
+      const passwordValid = await this.password.verify(
+        password,
+        user.password_hash,
+      );
+
+      if (!passwordValid) {
+        throw new RouteError(404, "Senha atual incorreta");
+      }
+
+      const new_password_hash = await this.password.hash(new_password);
+      this.query.updateUserPassword(user.id, "password_hash", new_password_hash);
+
+      this.session.invalidate(sid);
+
+      const { cookie } = await this.session.create({
+        userId: user.id,
+        ip: req.ip,
+        ua: req.headers["user-agent"] ?? "",
+      });
+
+      res.setCookie(cookie);
+      res.status(200).json("Senha atualizada");
+    },
   } satisfies Api["handlers"];
 
   tables(): void {
@@ -105,6 +143,9 @@ export class AuthApi extends Api {
     this.router.post("/auth/user", this.handlers.postUser);
     this.router.post("/auth/login", this.handlers.postLogin);
     this.router.get("/auth/session", this.handlers.getSession, [
+      this.auth.guardian("user"),
+    ]);
+    this.router.put("/auth/update/password", this.handlers.updatePassword, [
       this.auth.guardian("user"),
     ]);
     this.router.delete("/auth/logout", this.handlers.deleteSession);
