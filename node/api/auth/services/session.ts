@@ -46,7 +46,7 @@ export class SessionService extends CoreProvider {
 
     if (now >= expires_ms) {
       expires_ms = now + ttlSec;
-      this.query.revokeSession("sid_hash", sid_hash);
+      this.query.revokeSession(sid_hash);
 
       return revoked;
     }
@@ -62,7 +62,7 @@ export class SessionService extends CoreProvider {
     const user = this.query.selectUserRole(session.user_id);
 
     if (!user) {
-      this.query.revokeSession("sid_hash", sid_hash);
+      this.query.revokeSession(sid_hash);
       return revoked;
     }
 
@@ -80,12 +80,16 @@ export class SessionService extends CoreProvider {
       if (sid) {
         const sid_hash = sha256Hash(sid);
 
-        this.query.revokeSession("sid_hash", sid_hash);
+        this.query.revokeSession(sid_hash);
       }
     } catch (error) {
       console.error("Error invalidating session:", error);
     }
 
     return { cookie };
+  }
+
+  invalidateAll(user_id: number) {
+    this.query.revokeSessions(user_id);
   }
 }

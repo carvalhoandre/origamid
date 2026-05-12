@@ -40,4 +40,4 @@ export type SessionValidateResult = {
   session?: Session;
 };
 
-export type SessionCreateParams = { userId: unknown; ip: string; ua: string };
+export type SessionCreateParams = { userId: number; ip: string; ua: string };

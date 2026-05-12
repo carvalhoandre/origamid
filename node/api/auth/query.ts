@@ -54,15 +54,26 @@ export class AuthQuery extends Query {
       .get(sid_hash) as (SessionData & { expires_ms: number }) | undefined;
   }
 
-  revokeSession(key: "sid_hash" | "user_id", value: Buffer | number) {
+  revokeSession(sid_hash: Buffer) {
     return this.db
       .query(
         /*sql*/ `
             UPDATE "sessions" SET "revoked" = 1
-            WHERE ${key} = ?
+            WHERE "sid_hash" = ?
             `,
       )
-      .run(value);
+      .run(sid_hash);
+  }
+
+  revokeSessions(user_id: number) {
+    return this.db
+      .query(
+        /*sql*/ `
+            UPDATE "sessions" SET "revoked" = 1
+            WHERE "user_id" = ?
+            `,
+      )
+      .run(user_id);
   }
 
   updateSessionExpires(sid_hash: Buffer, expires_ms: number) {
@@ -70,7 +81,7 @@ export class AuthQuery extends Query {
       .query(
         /*sql*/ `
             UPDATE "sessions" SET "expires" = ?
-            WHERE sid_hash = ?
+            WHERE "sid_hash" = ?
             `,
       )
       .run(Math.floor(expires_ms / 1000), sid_hash);

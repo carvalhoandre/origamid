@@ -21,7 +21,7 @@ export class AuthApi extends Api {
       if (emailExist) {
         throw new RouteError(409, "Email já cadastrado");
       }
-      
+
       const usernameExist = this.query.selectUser("username", username);
       if (usernameExist) {
         throw new RouteError(409, "Username já cadastrado");
@@ -98,13 +98,12 @@ export class AuthApi extends Api {
 
     updatePassword: async (req, res) => {
       const { new_password, password } = req.body;
-      const sid = req.cookies[COOKIE_SID_KEY];
 
       if (!req.session) {
         throw new RouteError(401, "não autorizado");
       }
 
-      const user  = this.query.selectUser("id", req.session.user_id);
+      const user = this.query.selectUser("id", req.session.user_id);
 
       if (!user) {
         throw new RouteError(404, "Usuário não encontrado");
@@ -120,9 +119,17 @@ export class AuthApi extends Api {
       }
 
       const new_password_hash = await this.password.hash(new_password);
-      this.query.updateUserPassword(user.id, "password_hash", new_password_hash);
+      const updateResult = this.query.updateUserPassword(
+        user.id,
+        "password_hash",
+        new_password_hash,
+      );
 
-      this.session.invalidate(sid);
+      if (updateResult.changes === 0) {
+        throw new RouteError(400, "Erro ao atualizar senha");
+      }
+
+      this.session.invalidateAll(user.id);
 
       const { cookie } = await this.session.create({
         userId: user.id,
@@ -131,7 +138,7 @@ export class AuthApi extends Api {
       });
 
       res.setCookie(cookie);
-      res.status(200).json("Senha atualizada");
+      res.status(200).json({ title: "Senha atualizada" });
     },
   } satisfies Api["handlers"];
 

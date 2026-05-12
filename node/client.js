@@ -19,67 +19,67 @@ const courses = {
 };
 
 const lessons = [
-  {
-    courseSlug: "html-e-css",
-    slug: "tags-basicas",
-    title: "Tags Básicas",
-    seconds: 200,
-    video: "/html/tags-basicas.mp4",
-    description: "Aula sobre as Tags Básicas",
-    order: 1,
-    free: 1,
-  },
-  {
-    courseSlug: "html-e-css",
-    slug: "estrutura-do-documento",
-    title: "Estrutura do Documento",
-    seconds: 420,
-    video: "/html/estrutura-do-documento.mp4",
-    description: "Estrutura básica: <!DOCTYPE>, <html>, <head> e <body>.",
-    order: 2,
-    free: 1,
-  },
-  {
-    courseSlug: "html-e-css",
-    slug: "links-e-imagens",
-    title: "Links e Imagens",
-    seconds: 540,
-    video: "/html/links-e-imagens.mp4",
-    description: "Como usar <a> e <img>, caminhos relativos e absolutos.",
-    order: 3,
-    free: 0,
-  },
-  {
-    courseSlug: "html-e-css",
-    slug: "listas-e-tabelas",
-    title: "Listas e Tabelas",
-    seconds: 600,
-    video: "/html/listas-e-tabelas.mp4",
-    description:
-      "Listas ordenadas/não ordenadas e estrutura básica de tabelas.",
-    order: 4,
-    free: 0,
-  },
-  {
-    courseSlug: "html-e-css",
-    slug: "formularios-basicos",
-    title: "Formulários Básicos",
-    seconds: 780,
-    video: "/html/formularios-basicos.mp4",
-    description: "Inputs, labels, selects e boas práticas de acessibilidade.",
-    order: 5,
-    free: 0,
-  },
-  {
-    courseSlug: "html-e-css",
-    slug: "semantica-e-acessibilidade",
-    title: "Semântica e Acessibilidade",
-    seconds: 660,
-    video: "/html/semantica-e-acessibilidade.mp4",
-    description: "Tags semânticas e acessibilidade para iniciantes.",
-    order: 6,
-    free: 0,
-  },
+  // {
+  //   courseSlug: "html-e-css",
+  //   slug: "tags-basicas",
+  //   title: "Tags Básicas",
+  //   seconds: 200,
+  //   video: "/html/tags-basicas.mp4",
+  //   description: "Aula sobre as Tags Básicas",
+  //   order: 1,
+  //   free: 1,
+  // },
+  // {
+  //   courseSlug: "html-e-css",
+  //   slug: "estrutura-do-documento",
+  //   title: "Estrutura do Documento",
+  //   seconds: 420,
+  //   video: "/html/estrutura-do-documento.mp4",
+  //   description: "Estrutura básica: <!DOCTYPE>, <html>, <head> e <body>.",
+  //   order: 2,
+  //   free: 1,
+  // },
+  // {
+  //   courseSlug: "html-e-css",
+  //   slug: "links-e-imagens",
+  //   title: "Links e Imagens",
+  //   seconds: 540,
+  //   video: "/html/links-e-imagens.mp4",
+  //   description: "Como usar <a> e <img>, caminhos relativos e absolutos.",
+  //   order: 3,
+  //   free: 0,
+  // },
+  // {
+  //   courseSlug: "html-e-css",
+  //   slug: "listas-e-tabelas",
+  //   title: "Listas e Tabelas",
+  //   seconds: 600,
+  //   video: "/html/listas-e-tabelas.mp4",
+  //   description:
+  //     "Listas ordenadas/não ordenadas e estrutura básica de tabelas.",
+  //   order: 4,
+  //   free: 0,
+  // },
+  // {
+  //   courseSlug: "html-e-css",
+  //   slug: "formularios-basicos",
+  //   title: "Formulários Básicos",
+  //   seconds: 780,
+  //   video: "/html/formularios-basicos.mp4",
+  //   description: "Inputs, labels, selects e boas práticas de acessibilidade.",
+  //   order: 5,
+  //   free: 0,
+  // },
+  // {
+  //   courseSlug: "html-e-css",
+  //   slug: "semantica-e-acessibilidade",
+  //   title: "Semântica e Acessibilidade",
+  //   seconds: 660,
+  //   video: "/html/semantica-e-acessibilidade.mp4",
+  //   description: "Tags semânticas e acessibilidade para iniciantes.",
+  //   order: 6,
+  //   free: 0,
+  // },
 
   // JavaScript
   {
@@ -151,7 +151,7 @@ const functions = {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(courses.html),
+      body: JSON.stringify(courses.javascript),
     });
     const body = await response.json();
     console.table(body);
@@ -163,7 +163,7 @@ const functions = {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(lessons[0]),
+      body: JSON.stringify(lessons[1]),
     });
     const body = await response.json();
     console.table(body);
@@ -242,12 +242,14 @@ const functions = {
   },
 
   async getCertificate() {
-    const response = await fetch(base + `/lms/certificates/${process.argv[3] || 1}`);
+    const response = await fetch(
+      base + `/lms/certificates/${process.argv[3] || 1}`,
+    );
     const body = await response.json();
     console.log(body);
   },
 
-    async authLogin() {
+  async authLogin() {
     const response = await fetch(base + "/auth/login", {
       method: "POST",
       headers: {
@@ -261,11 +263,13 @@ const functions = {
     const body = await response.json();
     console.table(body);
   },
-};
 
-// for (const lesson of lessons) {
-//   await functions.postLesson(lesson);
-// }
+  async allLessons() {
+    for (const lesson of lessons) {
+      await functions.postLesson(lesson);
+    }
+  },
+};
 
 if (process.argv[2]) {
   functions[process.argv[2]]();

@@ -74,9 +74,27 @@
         type="password"
         id="password"
         name="password"
-        value="password123"
+        value="password1234"
       />
       <button>Logar</button>
+    </form>
+ 
+    <form id="update-password">
+      <label for="current-password">Senha atual</label>
+      <input
+        type="password"
+        id="current-password"
+        name="current-password"
+        value="password123"
+      />
+      <label for="new-password">Nova senha</label>
+      <input
+        type="password"
+        id="new-password"
+        name="new-password"
+        value="password1234"
+      />
+      <button>Atualizar senha</button>
     </form>
 
     <button id="logout">Sair</button>
@@ -84,19 +102,42 @@
     <pre id="result"></pre>
 
     <script>
-      const form = document.getElementById("login");
+      const loginForm = document.getElementById("login");
+      const updatePasswordForm = document.getElementById("update-password");
       const logout = document.getElementById("logout");
       const result = document.getElementById("result");
 
-      form.addEventListener("submit", async (e) => {
+      loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const data = new FormData(form);
+        const data = new FormData(loginForm);
         const response = await fetch("/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(Object.fromEntries(data)),
+        });
+
+        const body = await response.json();
+        result.innerText = JSON.stringify(body, null, 2);
+
+        if (response.ok) {
+          window.location.reload();
+        }
+      });
+     
+      updatePasswordForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const data = new FormData(updatePasswordForm);
+        const response = await fetch("/auth/update/password", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            new_password: data.get("new-password"),
+            password: data.get("current-password"),
+          }),
         });
 
         const body = await response.json();
