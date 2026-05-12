@@ -75,11 +75,11 @@
         type="password"
         id="password"
         name="password"
-        value="password1234"
+        value="password123456"
       />
       <button>Logar</button>
     </form>
- 
+
     <form id="update-password">
       <h1>Atualizar senha</h1>
       <label for="current-password">Senha atual</label>
@@ -103,7 +103,22 @@
       <h1>Recuperar senha</h1>
       <label for="email">Email</label>
       <input type="email" id="email" name="email" value="andre@example.com" />
-      <button>Recuperar senha</button>  
+      <button>Recuperar senha</button>
+    </form>
+
+    <form id="reset-password">
+      <h1>Resetar senha</h1>
+      <label for="new-password">Nova senha</label>
+      <input
+        type="password"
+        id="new-password"
+        name="new-password"
+        value="password123456"
+      />
+      <label for="token">Token</label>
+      <input type="text" id="token" name="token" />
+
+      <button>Resetar senha</button>
     </form>
 
     <button id="logout">Sair</button>
@@ -114,6 +129,7 @@
       const loginForm = document.getElementById("login");
       const updatePasswordForm = document.getElementById("update-password");
       const forgotPasswordForm = document.getElementById("forgot-password");
+      const resetPasswordForm = document.getElementById("reset-password");
       const logout = document.getElementById("logout");
       const result = document.getElementById("result");
 
@@ -135,7 +151,7 @@
           window.location.reload();
         }
       });
-     
+
       updatePasswordForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const data = new FormData(updatePasswordForm);
@@ -158,7 +174,7 @@
         }
       });
 
-     forgotPasswordForm.addEventListener("submit", async (e) => {
+      forgotPasswordForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const data = new FormData(forgotPasswordForm);
         const response = await fetch("/auth/password/forgot", {
@@ -168,6 +184,28 @@
           },
           body: JSON.stringify({
             email: data.get("email"),
+          }),
+        });
+
+        const body = await response.json();
+        result.innerText = JSON.stringify(body, null, 2);
+
+        if (response.ok) {
+          window.location.reload();
+        }
+      });
+  
+      resetPasswordForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const data = new FormData(resetPasswordForm);
+        const response = await fetch("/auth/password/reset", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: data.get("token"),
+            new_password: data.get("new-password"),
           }),
         });
 

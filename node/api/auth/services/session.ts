@@ -108,4 +108,19 @@ export class SessionService extends CoreProvider {
 
     return { token };
   }
+
+  validateToken(token: string) {
+    const now = Date.now();
+    const token_hash = sha256Hash(token);
+    const reset = this.query.selectReset(token_hash);
+
+    if (!reset || reset.expires_ms < now) {
+      return null;
+    }
+
+    this.query.revokeSessions(reset.user_id);
+    this.query.deleteReset(reset.user_id);
+
+    return { user_id: reset.user_id };
+  }
 }

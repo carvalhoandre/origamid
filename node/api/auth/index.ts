@@ -170,8 +170,26 @@ export class AuthApi extends Api {
     },
 
     passwordReset: async (req, res) => {
-      const { email } = req.body;
-      const user = this.query.selectUser("email", email);
+      const { new_password, token } = req.body;
+
+      const reset = this.session.validateToken(token);
+
+      if (!reset) {
+        throw new RouteError(400, "Token inválido ou expirado");
+      }
+
+      const new_password_hash = await this.password.hash(new_password);
+      const updateResult = this.query.updateUserPassword(
+        reset.user_id,
+        "password_hash",
+        new_password_hash,
+      );
+
+      if (updateResult.changes === 0) {
+        throw new RouteError(400, "Erro ao atualizar senha");
+      }
+
+      res.status(200).json({ title: "Senha resetada com sucesso" });
     },
   } satisfies Api["handlers"];
 

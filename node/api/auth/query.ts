@@ -6,6 +6,7 @@ import type {
   ResetCreate,
   SessionData,
   SessionCreate,
+  ResetData,
 } from "./types.d.ts";
 
 export class AuthQuery extends Query {
@@ -29,7 +30,9 @@ export class AuthQuery extends Query {
             WHERE ${key} = ?
             `,
       )
-      .get(value) as { id: number; password_hash: string; email: string } | undefined;
+      .get(value) as
+      | { id: number; password_hash: string; email: string }
+      | undefined;
   }
 
   insertSession({ sid_hash, user_id, expires_ms, ip, ua }: SessionCreate) {
@@ -124,5 +127,27 @@ export class AuthQuery extends Query {
             `,
       )
       .run(token_hash, user_id, Math.floor(expires_ms / 1000), ip, ua);
+  }
+
+  selectReset(token_hash: Buffer) {
+    return this.db
+      .query(
+        /*sql*/ `
+            SELECT "r".*, "r"."expires" * 1000 as "expires_ms" FROM "resets" as "r"
+            WHERE r.token_hash = ?
+            `,
+      )
+      .get(token_hash) as (ResetData & { expires_ms: number }) | undefined;
+  }
+
+  deleteReset(user_id: number) {
+    return this.db
+      .query(
+        /*sql*/ `
+            DELETE FROM "resets"
+            WHERE "user_id" = ?
+            `,
+      )
+      .run(user_id);
   }
 }
