@@ -67,6 +67,7 @@ export class Core {
     });
 
     this.server.on("clientError", (err, socket) => {
+      console.log(`Client error: ${err}`); 
       socket.destroy();
     });
   }
