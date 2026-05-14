@@ -1,3 +1,7 @@
+import { RouteError } from "./router-error.ts";
+
+type Parse<T> = (x: unknown) => T | undefined;
+
 /** trim e nao aceita string vazia */
 function string(x: unknown): string | undefined {
   if (typeof x !== "string") return undefined;
@@ -46,7 +50,7 @@ const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/;
 function password(x: unknown): string | undefined {
   if (typeof x !== "string") return undefined;
   if (x.length < 10 || x.length > 256) return undefined;
-  
+
   return password_regex.test(x) ? x : undefined;
 }
 
@@ -91,3 +95,36 @@ function object<T>(x: unknown): Record<string, unknown> | undefined {
     ? (x as Record<string, unknown>)
     : undefined;
 }
+
+function required<T>(
+  fn: Parse<T>,
+  error: string,
+): (x: unknown) => T {
+  return (x: unknown) => {
+    const value = fn?.(x);
+
+    if (value === undefined) {
+      throw new RouteError(422, error);
+    }
+
+    return value;
+  };
+}
+
+export const validate = {
+  string: required(string, "String esperada"),
+  number: required(number, "Número esperado"),
+  boolean: required(boolean, "Booleano esperado"),
+  email: required(email, "Email inválido"),
+  password: required(password, "Senha inválida"),
+  object: required(object, "Objeto inválido"),
+  optional: {
+    string,
+    number,
+    boolean,
+    email,
+    password,
+    cpf,
+    object,
+  },
+};
