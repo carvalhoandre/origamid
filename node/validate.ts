@@ -1,13 +1,27 @@
+/** trim e nao aceita string vazia */
 function string(x: unknown): string | undefined {
-  if (typeof x !== "string" || x.trim().length === 0) return undefined;
-  return x;
+  if (typeof x !== "string") return undefined;
+  const s = removeZwh(x.trim());
+
+  if (s.length === 0) return undefined;
+
+  return s;
 }
 
+/** se a string representa um número finito */
 function number(x: unknown): number | undefined {
   if (typeof x === "number") return Number.isFinite(x) ? x : undefined;
+
+  if (typeof x === "string" && x.trim().length > 0) {
+    const n = Number(x);
+
+    return Number.isFinite(n) ? n : undefined;
+  }
+
   return undefined;
 }
 
+/** aceita valores como true, "true", 1, "1", "on" para verdadeiro e false, "false", 0, "0", "off" para falso */
 function boolean(x: unknown): boolean | undefined {
   if (x === true || x === "true" || x === 1 || x === "1" || x === "on")
     return true;
@@ -56,7 +70,13 @@ function cpf(x: string) {
   return cpf;
 }
 
-
 function removeZwh(x: string): string {
   return x.replace(/[\u200B-\u200D\uFEFF]/g, "");
+}
+
+/** aceita objetos {}, mas não null */
+function object<T>(x: unknown): Record<string, unknown> | undefined {
+  return typeof x === "object" && x !== null && !Array.isArray(x)
+    ? (x as Record<string, unknown>)
+    : undefined;
 }
