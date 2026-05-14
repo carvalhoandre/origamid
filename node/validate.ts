@@ -24,3 +24,7 @@ function email(x: string): string | undefined {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(x) ? x.toLocaleLowerCase() : undefined;
 }
+
+function removeZwh(x: string): string {
+  return x.replace(/[\u200B-\u200D\uFEFF]/g, "");
+}
