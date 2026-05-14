@@ -30,13 +30,24 @@ function boolean(x: unknown): boolean | undefined {
   return undefined;
 }
 
-// ^ início da string
-// [^@]+ 1 ou mais caracteres que não são @
-// @ um @
-// [^@]+ 1 ou mais caracteres que não são @
-// $ fim da string
-function email(x: string) {
-  return /^[^@]+@[^@]+$/.test(x) ? x.toLocaleLowerCase() : undefined;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function email(x: unknown): string | undefined {
+  const s = string(x)?.toLocaleLowerCase();
+
+  if (!s || s === undefined) return undefined;
+
+  return typeof emailRegex.test(s) ? s : undefined;
+}
+
+const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/;
+
+/** minimo 10 caracteres, máximo 256 caracteres pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial */
+function password(x: unknown): string | undefined {
+  if (typeof x !== "string") return undefined;
+  if (x.length < 10 || x.length > 256) return undefined;
+  
+  return password_regex.test(x) ? x : undefined;
 }
 
 // 146.104.560-60
