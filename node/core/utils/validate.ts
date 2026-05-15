@@ -36,21 +36,19 @@ function boolean(x: unknown): boolean | undefined {
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function email(x: unknown): string | undefined {
-  const s = string(x)?.toLocaleLowerCase();
-
-  if (!s || s === undefined) return undefined;
-
-  return typeof emailRegex.test(s) ? s : undefined;
+function email(x: unknown) {
+  const s = string(x)?.toLowerCase();
+  if (s === undefined) return undefined;
+  return emailRegex.test(s) ? s : undefined;
 }
 
 const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/;
 
 /** minimo 10 caracteres, máximo 256 caracteres pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial */
-function password(x: unknown): string | undefined {
-  if (typeof x !== "string") return undefined;
+function password(x: unknown) {
+  if (typeof x !== 'string') return undefined;
   if (x.length < 10 || x.length > 256) return undefined;
-
+  
   return password_regex.test(x) ? x : undefined;
 }
 
@@ -96,10 +94,7 @@ function object<T>(x: unknown): Record<string, unknown> | undefined {
     : undefined;
 }
 
-function required<T>(
-  fn: Parse<T>,
-  error: string,
-): (x: unknown) => T {
+function required<T>(fn: Parse<T>, error: string): (x: unknown) => T {
   return (x: unknown) => {
     const value = fn?.(x);
 

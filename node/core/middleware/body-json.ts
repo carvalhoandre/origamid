@@ -1,5 +1,5 @@
 import { type Middleware } from "../router.ts";
-import { RouteError } from "../utils/router-error.js";
+import { RouteError } from "../utils/router-error.ts";
 
 const MAX_BYTES = 5_000_000;
 
@@ -13,7 +13,7 @@ export const bodyJson: Middleware = async (req, res) => {
 
   const contentLength = Number(req.headers["content-length"]);
 
-  if (Number.isInteger(contentLength)) {
+  if (!Number.isInteger(contentLength)) {
     throw new RouteError(400, "Bad Request");
   }
 
@@ -36,6 +36,7 @@ export const bodyJson: Middleware = async (req, res) => {
       chunks.push(buf);
     }
   } catch (err) {
+    console.error(err);
     throw new RouteError(400, "Bad Request");
   }
 
@@ -49,6 +50,7 @@ export const bodyJson: Middleware = async (req, res) => {
 
     req.body = JSON.parse(body);
   } catch (err) {
+    console.error(err);
     throw new RouteError(400, "Bad Request");
   }
 };

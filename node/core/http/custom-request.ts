@@ -5,8 +5,8 @@ import type { Session } from '../../api/auth/types.ts';
 export interface CustomRequest extends IncomingMessage {
   query: URLSearchParams;
   pathname: string;
-  body: Record<string, any>;
-  params: Record<string, any>;
+  body: Record<string, unknown>;
+  params: Record<string, string>;
   method: string;
   ip: string;
   session: Session | null;

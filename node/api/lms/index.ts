@@ -1,5 +1,6 @@
 import { Api } from "../../core/utils/abstract.ts";
 import { RouteError } from "../../core/utils/router-error.ts";
+import { validate } from "../../core/utils/validate.ts";
 import { AuthMiddleware } from "../auth/middleware/auth.ts";
 import { LmsQuery } from "./query.ts";
 
@@ -12,7 +13,13 @@ export class LmsApi extends Api {
 
   handlers = {
     postCourse: (req, res) => {
-      const { slug, title, description, lessons, hours } = req.body;
+      const { slug, title, description, lessons, hours } = {
+        slug: validate.string(req.body.slug),
+        title: validate.string(req.body.title),
+        description: validate.string(req.body.description),
+        lessons: validate.number(req.body.lessons),
+        hours: validate.number(req.body.hours),
+      };
       const writeResult = this.query.insertCourse({
         slug,
         title,
@@ -42,7 +49,16 @@ export class LmsApi extends Api {
         description,
         order,
         free,
-      } = req.body;
+      } = {
+        courseSlug: validate.string(req.body.courseSlug),
+        slug: validate.string(req.body.slug),
+        title: validate.string(req.body.title),
+        seconds: validate.number(req.body.seconds),
+        video: validate.string(req.body.video),
+        description: validate.string(req.body.description),
+        order: validate.number(req.body.order),
+        free: validate.number(req.body.free),
+      };
 
       const writeResult = this.query.insertLesson({
         courseSlug,
@@ -77,7 +93,9 @@ export class LmsApi extends Api {
     },
 
     getCourse: (req, res) => {
-      const { slug } = req.params;
+      const { slug } = {
+        slug: validate.string(req.params.slug),
+      };
       const course = this.query.selectCourse(slug);
       const lessons = this.query.selectLessons(slug);
 
@@ -98,7 +116,10 @@ export class LmsApi extends Api {
     },
 
     getLesson: (req, res) => {
-      const { courseSlug, lessonSlug } = req.params;
+      const { courseSlug, lessonSlug } = {
+        courseSlug: validate.string(req.params.courseSlug),
+        lessonSlug: validate.string(req.params.lessonSlug),
+      };
       const lesson = this.query.selectLesson(courseSlug, lessonSlug);
       const nav = this.query.selectLessonNav(courseSlug, lessonSlug);
 
@@ -128,7 +149,10 @@ export class LmsApi extends Api {
 
     postLessonCompleted: (req, res) => {
       const userId = 1;
-      const { courseId, lessonId } = req.body;
+      const { courseId, lessonId } = {
+        courseId: validate.number(req.body.courseId),
+        lessonId: validate.number(req.body.lessonId),
+      };
 
       const writeResult = this.query.insertLessonCompleted(
         userId,
@@ -165,7 +189,9 @@ export class LmsApi extends Api {
 
     resetCourse: (req, res) => {
       const userId = 1;
-      const { courseId } = req.body;
+      const { courseId } = {
+        courseId: validate.number(req.body.courseId),
+      };
 
       const writeResult = this.query.deleteLessonsCompleted(userId, courseId);
 
@@ -191,7 +217,9 @@ export class LmsApi extends Api {
     },
 
     getCertificate: (req, res) => {
-      const { id } = req.params;
+      const { id } = {
+        id: validate.number(req.params.id),
+      };
       const certificate = this.query.selectCertificate(id);
 
       if (!certificate) {
