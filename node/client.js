@@ -270,17 +270,23 @@ const functions = {
     }
   },
 
-    async postBig() {
+  async postBig() {
     const response = await fetch(base + "/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        big: '1'.repeat(10 * 1024 * 1024), // 10MB
+        big: "1".repeat(10 * 1024 * 1024), // 10MB
       },
-      body: JSON.stringify('1'.repeat(10 * 1024 * 1024)), // 10MB
+      body: JSON.stringify("1".repeat(10 * 1024 * 1024)), // 10MB
     });
     const body = await response.json();
     console.log(body);
+  },
+
+  async attack() {
+    for (let i = 0; i < 10; i++) {
+      fetch(base + "/limite");
+    }
   },
 };
 

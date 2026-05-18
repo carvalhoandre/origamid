@@ -5,6 +5,7 @@ import { LmsApi } from './api/lms/index.ts';
 
 import { Core } from './core/core.ts';
 import { logger } from "./core/middleware/looger.ts";
+import { rateLimit } from './core/middleware/rate-limit.ts';
 
 const core = new Core();
 
@@ -18,5 +19,9 @@ core.router.get('/', async (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.status(200).end(index);
 });
+
+core.router.get('/limite', (req, res) => {
+  res.status(200).end('Limite de requisições atingido');
+}, [rateLimit(30000, 5)]);
 
 core.init();
