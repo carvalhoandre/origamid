@@ -1,18 +1,22 @@
 import { createReadStream, createWriteStream } from "fs";
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
+// import { createGzip } from "zlib";
 
 const transform = new Transform({
-    transform(chunk: Buffer, _, callback) {
-        const text = chunk.toString().toUpperCase();
-        this.push(text);
-        callback();
-    }
+  transform(chunk: Buffer, _, callback) {
+    const data = JSON.parse(chunk.toString());
+    const vitalicio = data.filter((item: any) => item.vitalicio === true);
 
-})
+    this.push(JSON.stringify(vitalicio));
+    callback();
+  },
+});
+
+// createGzip(),
 
 await pipeline(
-  createReadStream("./data.json"),
+  createReadStream("./dados.json", { highWaterMark: 10 }),
   transform,
-  createWriteStream("./data-exit.json")
+  createWriteStream("./dados-vitalicio.json"),
 );
