@@ -1,5 +1,5 @@
 import path from "node:path";
-import { createReadStream, statSync } from "node:fs";
+import { createReadStream, createWriteStream, statSync } from "node:fs";
 import { pipeline } from "node:stream/promises";
 
 import { checkETag, mimeType } from "./utils.ts";
@@ -45,9 +45,19 @@ export class FilesApi extends Api {
 
       await pipeline(file, res);
     },
+
+    uploadFile: async (req, res) => {
+      const name = req.headers["x-filename"];
+      const writeStream = createWriteStream(`./files/${name}`);
+  
+      await pipeline(req, writeStream);
+
+      res.end("Upload de arquivos não implementado");
+    },
   } satisfies Api["handlers"];
 
   routes() {
     this.router.get("/files/:name", this.handlers.sendFile);
+    this.router.post("/files", this.handlers.uploadFile);
   }
 }
