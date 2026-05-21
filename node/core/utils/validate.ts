@@ -52,6 +52,13 @@ function password(x: unknown) {
   return password_regex.test(x) ? x : undefined;
 }
 
+const file_regex = /^(?!\.)[A-Za-z0-9._-]+$/;
+/** aceita nomes de arquivos válidos, não começando com ponto e contendo apenas letras, números, pontos, underscores e hífens */
+function file (x: unknown) {
+  if (typeof x !== 'string') return undefined;
+  return file_regex.test(x) ? x : undefined;
+}
+
 // 146.104.560-60
 function cpf(x: string) {
   // 14610456060
@@ -113,6 +120,7 @@ export const validate = {
   email: required(email, "Email inválido"),
   password: required(password, "Senha inválida"),
   object: required(object, "Objeto inválido"),
+  file: required(file, "Arquivo inválido"),
   optional: {
     string,
     number,
@@ -121,5 +129,6 @@ export const validate = {
     password,
     cpf,
     object,
+    file,
   },
 };
