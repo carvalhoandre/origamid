@@ -1,19 +1,19 @@
-import path from "node:path";
 import {
   rm,
   statSync,
+  renameSync,
   createReadStream,
   createWriteStream,
-  renameSync,
 } from "node:fs";
+import path from "node:path";
+import { randomUUID } from "node:crypto";
 import { pipeline } from "node:stream/promises";
 
-import { checkETag, mimeType } from "./utils.ts";
+import { checkETag, LimitBytes, mimeType } from "./utils.ts";
 
 import { Api } from "../../core/utils/abstract.ts";
 import { validate } from "../../core/utils/validate.ts";
 import { RouteError } from "../../core/utils/router-error.ts";
-import { randomUUID } from "node:crypto";
 
 const MAX_BYTES = 150 * 1024 * 1024; // 150MB
 
@@ -23,7 +23,7 @@ export class FilesApi extends Api {
   handlers = {
     sendFile: async (req, res) => {
       const name = validate.file(req.params.name);
-      const filePath = `${FILES_PATH}/${name}`;
+      const filePath = path.join(FILES_PATH, name);
       const ext = path.extname(name);
       let stats;
 
@@ -76,18 +76,24 @@ export class FilesApi extends Api {
       }
 
       const name = validate.file(req.headers["x-filename"]);
-      const tempPath = `${FILES_PATH}/${randomUUID()}`;
-      const writeStream = createWriteStream(tempPath);
-      const writePath = `${FILES_PATH}/${name}`;
+      const now = Date.now();
+      const ext = path.extname(name);
+      const finalName = `${name.replace(ext, "")}-${now}${ext}`;
+      const tempPath = path.join(FILES_PATH, `${randomUUID()}.temp`);
+      const writeStream = createWriteStream(tempPath, { flags: "wx" });
+      const writePath = path.join(FILES_PATH, finalName);
 
       try {
-        await pipeline(req, writeStream);
+        await pipeline(req, LimitBytes(MAX_BYTES), writeStream);
         renameSync(tempPath, writePath);
 
         res.status(201).end("Arquivo enviado com sucesso");
       } catch (err) {
-        console.error(err);
-        throw new RouteError(500, "Erro ao salvar arquivo");
+        if (err instanceof RouteError) {
+          throw new RouteError(err.status, err.message);
+        } else {
+          throw new RouteError(500, "Erro ao salvar arquivo");
+        }
       } finally {
         rm(tempPath, { force: true }, () => {});
       }
