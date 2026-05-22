@@ -51,6 +51,7 @@
 
           <div class="split">
             <button type="submit">Login</button>
+
             <a href="#/perdeu">Recuperar senha</a>
           </div>
         </form>
@@ -295,13 +296,14 @@
         margin-bottom: 2rem;
       }
 
-      form button, form .split {
+      form button {
         grid-column: 2;
         padding: 0.75rem;
         background: var(--grey-7);
         color: var(--white);
         border: none;
         cursor: pointer;
+        border-radius: 100px;
       }
 
       input, label {
@@ -318,6 +320,7 @@
       }
 
       label {
+        color: var(--white);
         font-size: 0.85rem;
         background: var(--gradient-2);
       }
