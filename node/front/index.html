@@ -4,267 +4,218 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tiny LMS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
+    <h1>Tiny LMS</h1>
+
+    <div class="container">
+      <nav data-role="public">
+        <ul>
+          <li><a href="#/login">Login</a></li>
+          <li><a href="#/criar-conta">Criar</a></li>
+        </ul>
+      </nav>
+
+      <nav data-role="user">
+        <ul>
+          <li><a href="#/cursos">Cursos</a></li>
+          <li><a href="#/certificados">Certificados</a></li>
+          <li><a href="#/sair">Sair</a></li>
+        </ul>
+      </nav>
+
+      <nav data-role="admin">
+        <ul>
+          <li><a href="#/criar-curso">Criar Curso</a></li>
+          <li><a href="#/criar-aulas">Criar Aulas</a></li>
+          <li><a href="#/usuarios">Usuários</a></li>
+          <li><a href="#/sair">Sair</a></li>
+        </ul>
+      </nav>
+
+      <section id="login" data-role="public">
+        <h2>Login</h2>
+        <form id="login-form">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="password">Senha:</label>
+          <input type="password" id="password" name="password" required />
+
+          <div class="split">
+            <button type="submit">Login</button>
+            <a href="#/perdeu">Recuperar senha</a>
+          </div>
+        </form>
+      </section>
+
+      <section id="perdeu" data-role="public">
+        <h2>Recuperar Senha</h2>
+        <form id="recuperar-senha-form">
+          <label for="email-perdeu">Email:</label>
+          <input type="email" id="email-perdeu" name="email-perdeu" required />
+
+          <button type="submit">Recuperar</button>
+        </form>
+      </section>
+
+      <section id="resetar" data-role="public">
+        <h2>Resetar Senha</h2>
+        <form id="resetar-senha-form">
+          <label for="new_password">Senha:</label>
+          <input
+            type="password"
+            id="new_password"
+            name="new_password"
+            required
+          />
+
+          <input type="hidden" id="token" name="token" />
+
+          <button type="submit">Resetar</button>
+        </form>
+      </section>
+
+      <section id="criar-conta" data-role="public">
+        <h2>Criar Conta</h2>
+        <form id="criar-conta-form">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
+
+          <label for="name">Nome:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email-criar">Email:</label>
+          <input type="email" id="email-criar" name="email-criar" required />
+
+          <label for="password-criar">Senha:</label>
+          <input
+            type="password"
+            id="password-criar"
+            name="password-criar"
+            required
+          />
+
+          <button type="submit">Criar Conta</button>
+        </form>
+      </section>
+
+      <section id="criar-curso" data-role="admin">
+        <h2>Cursos</h2>
+
+        <div class="render"></div>
+
+        <h2>Criar Curso</h2>
+        <form id="criar-curso-form">
+          <label for="slug">Slug:</label>
+          <input type="text" id="slug" name="slug" required />
+
+          <label for="title">Nome do Curso:</label>
+          <input type="text" id="title" name="title" required />
+
+          <label for="description">Descrição:</label>
+          <input type="text" id="description" name="description" required />
+
+          <label for="lessons">Aulas:</label>
+          <input type="number" id="lessons" name="lessons" required />
+
+          <label for="hours">Horas:</label>
+          <input type="number" id="hours" name="hours" required />
+
+          <button type="submit">Criar/Atualizar Curso</button>
+        </form>
+      </section>
+
+      <section id="criar-aula" data-role="admin">
+        <h2>Cursos</h2>
+
+        <div class="render"></div>
+
+        <h2>Criar Aula</h2>
+        <form id="criar-aula-form">
+          <label for="course-slug">Curso:</label>
+          <input type="text" id="course-slug" name="courseSlug" required />
+
+          <label for="lesson-slug">Slug:</label>
+          <input type="text" id="lesson-slug" name="slug" required />
+
+          <label for="lesson-title">Nome da Aula:</label>
+          <input type="text" id="lesson-title" name="title" required />
+
+          <label for="lesson-description">Descrição:</label>
+          <input
+            type="text"
+            id="lesson-description"
+            name="description"
+            required
+          />
+
+          <label for="seconds">Segundos:</label>
+          <input type="number" id="seconds" name="seconds" required />
+
+          <label for="order">Ordem:</label>
+          <input type="number" id="order" name="order" required />
+
+          <label for="free">Gratuita:</label>
+          <input type="number" id="free" name="free" required value="0" />
+          
+          <label for="file">Video:</label>
+          <input type="file" id="file" name="file" />
+   
+          <label for="video">Video Path:</label>
+          <input type="file" id="video" name="video" />
+
+          <button type="submit">Criar/Atualizar Aula</button>
+        </form>
+      </section>
+
+      <section id="cursos" data-role="user">
+        <h2>Cursos</h2>
+
+        <div class="render"></div>
+      </section>
+      
+      <section id="aulas" data-role="user">
+        <h2>Aulas</h2>
+
+        <div class="render"></div>
+      </section>
+ 
+      <section id="certificados" data-role="user">
+        <h2>Certificados</h2>
+
+        <div class="render"></div>
+      </section>
+ 
+      <section id="usuarios" data-role="admin">
+        <h2>Usuários</h2>
+
+        <form action="">
+          <label for="search">Buscar:</label>
+          <input type="text" id="s" name="s" />
+          
+          <label for="page">Pagina:</label>
+          <input type="number" id="page" name="page" value="1" />
+
+          <button class="hidden">Buscar</button>
+        </form>
+        <div class="render"></div>
+      </section>
+    </div>
+
     <style>
-      * {
-        box-sizing: border-box;
-        font-family: monospace;
-      }
       body {
-        background: black;
-        color: white;
-        font-size: 1.125rem;
-      }
-      form,
-      pre {
-        margin: 0;
-        max-width: 600px;
-        padding: 1rem;
-        margin: 0 auto;
-        overflow: auto;
-      }
-      input,
-      button {
-        display: block;
-        width: 100%;
-        padding: 0.75rem;
-        margin: 0.5rem 0 1rem 0;
-        border-radius: 8px;
-        color: white;
-        border: 1px solid #222;
-      }
-      input {
-        background: linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 0.05),
-          rgba(255, 255, 255, 0.025)
-        );
-      }
-      input:focus {
-        outline: white;
-        border-color: white;
-      }
-      button {
-        background: linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 0.15),
-          rgba(255, 255, 255, 0.05)
-        );
-        cursor: pointer;
-      }
-      button:hover {
-        background: linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 0.2),
-          rgba(255, 255, 255, 0.1)
-        );
-      }
-      #logout {
-        max-width: 200px;
-        margin: 0 auto;
+        font-family: "Cardo", serif;
+        margin-bottom: 600px;
+        padding: 20px;
       }
     </style>
-
-    <form id="upload" enctype="multipart/form-data">
-      <h1>Upload de Arquivos</h1>
-      <label for="files">Arquivo</label>
-      <input type="file" id="files" name="files" multiple />
-
-      <button>Upload</button>
-    </form>
-
-    <form id="login">
-      <h1>Login</h1>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" value="andre@example.com" />
-      <label for="password">Senha</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        value="password123456"
-      />
-      <button>Logar</button>
-    </form>
-
-    <form id="update-password">
-      <h1>Atualizar senha</h1>
-      <label for="current-password">Senha atual</label>
-      <input
-        type="password"
-        id="current-password"
-        name="current-password"
-        value="password123"
-      />
-      <label for="new-password">Nova senha</label>
-      <input
-        type="password"
-        id="new-password"
-        name="new-password"
-        value="password1234"
-      />
-      <button>Atualizar senha</button>
-    </form>
-
-    <form id="forgot-password">
-      <h1>Recuperar senha</h1>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" value="andre@example.com" />
-      <button>Recuperar senha</button>
-    </form>
-
-    <form id="reset-password">
-      <h1>Resetar senha</h1>
-      <label for="new-password">Nova senha</label>
-      <input
-        type="password"
-        id="new-password"
-        name="new-password"
-        value="password123456"
-      />
-      <label for="token">Token</label>
-      <input type="text" id="token" name="token" />
-
-      <button>Resetar senha</button>
-    </form>
-
-    <button id="logout">Sair</button>
-
-    <pre id="result"></pre>
-
-    <script>
-      const loginForm = document.getElementById("login");
-      const updatePasswordForm = document.getElementById("update-password");
-      const forgotPasswordForm = document.getElementById("forgot-password");
-      const resetPasswordForm = document.getElementById("reset-password");
-      const logout = document.getElementById("logout");
-      const result = document.getElementById("result");
-      const uploadForm = document.getElementById("upload");
-
-      uploadForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const input = uploadForm.querySelector('input[type="file"]');
-        const files = input.files;
-       
-        if(!files || !files.length === 0) return;
-
-        for (const file of files) {
-          const response = await fetch("/files", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/octet-stream",
-              'x-filename': file.name,
-            },
-            body: file,
-          });
-        }
-      });
-
-      loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const data = new FormData(loginForm);
-        const response = await fetch("/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(Object.fromEntries(data)),
-        });
-
-        const body = await response.json();
-        result.innerText = JSON.stringify(body, null, 2);
-
-        if (response.ok) {
-          window.location.reload();
-        }
-      });
-
-      updatePasswordForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const data = new FormData(updatePasswordForm);
-        const response = await fetch("/auth/password/update", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            new_password: data.get("new-password"),
-            password: data.get("current-password"),
-          }),
-        });
-
-        const body = await response.json();
-        result.innerText = JSON.stringify(body, null, 2);
-
-        if (response.ok) {
-          window.location.reload();
-        }
-      });
-
-      forgotPasswordForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const data = new FormData(forgotPasswordForm);
-        const response = await fetch("/auth/password/forgot", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: data.get("email"),
-          }),
-        });
-
-        const body = await response.json();
-        result.innerText = JSON.stringify(body, null, 2);
-
-        if (response.ok) {
-          window.location.reload();
-        }
-      });
-
-      resetPasswordForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const data = new FormData(resetPasswordForm);
-        const response = await fetch("/auth/password/reset", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            token: data.get("token"),
-            new_password: data.get("new-password"),
-          }),
-        });
-
-        const body = await response.json();
-        result.innerText = JSON.stringify(body, null, 2);
-
-        if (response.ok) {
-          window.location.reload();
-        }
-      });
-
-      logout.addEventListener("click", async (e) => {
-        e.preventDefault();
-
-        const response = await fetch("/auth/logout", {
-          method: "DELETE",
-        });
-
-        if (response.ok) {
-          window.location.reload();
-        }
-      });
-
-      async function autenticado() {
-        const response = await fetch("/auth/session");
-        const body = await response.json();
-        result.innerText = JSON.stringify(body, null, 2);
-      }
-
-      autenticado();
-    </script>
   </body>
 </html>
