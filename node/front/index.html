@@ -211,6 +211,76 @@
       </section>
     </div>
 
+    <script>
+      const routes = document.querySelectorAll("section[data-role]");
+      const navs = document.querySelectorAll("nav[data-role]");
+
+      function handleUserNav(role) {
+        navs.forEach((nav) => {
+          if (nav.dataset.role === role) {
+            nav.classList.add("ativo");
+          } else {
+            nav.classList.remove("ativo");
+          }
+        });
+      }
+
+      let user;
+
+      async function getUser() {
+        user = "public";
+        try {
+          const response = await fetch("/auth/session");
+          const body = await response.json();
+
+          if (!response.ok)
+            throw new Error(body.message || "Failed to fetch user");
+
+          user = body.user.role;
+          return user;
+        } catch (error) {
+          console.error("Error fetching user:", error);
+          return user;
+        } finally {
+          handleUserNav(user);
+        }
+      }
+
+      async function router() {
+        if (user === undefined) await getUser();
+
+        const hash = location.hash
+          .replace("#", "")
+          .split("/")
+          .filter(Boolean)
+          .shift();
+
+        routes.forEach((nav) => {
+          nav.classList.remove("ativo");
+        });
+
+        document.querySelectorAll("section").forEach((section) => {
+          section.classList.remove("ativo");
+        });
+
+        const section = document.getElementById(hash);
+
+        if (section) {
+          section.classList.add("ativo");
+
+          if (user !== section.dataset.role) {
+            location.hash = "/login";
+            return;
+          }
+
+          section.classList.add("ativo");
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", router);
+      window.addEventListener("hashchange", router);
+      router();
+    </script>
     <style>
       * {
         box-sizing: border-box;
@@ -430,7 +500,7 @@
       [data-role] {
         display: none;
       }
-      
+
       [data-role].ativo {
         display: block;
       }
