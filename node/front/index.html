@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
@@ -157,7 +157,7 @@
       }
 
       html {
-        --font: 'Cardo', serif;
+        --font: "Cardo", serif;
         --black: black;
         --gray-1: #171717;
         --gray-2: #222;
@@ -376,29 +376,84 @@
         background: #0c281c;
         color: #3dd78c;
       }
+
+      #curso {
+        margin-top: 2rem;
+      }
+
+      .curso-item {
+        padding: 0 1rem 2rem 1rem;
+        border-bottom: 2px dashed var(--gray-1);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        text-align: center;
+        text-wrap: balance;
+      }
+
+      .curso-item > *:not(.btn) {
+        padding: 0.5rem;
+      }
+
+      .curso-item span:first-of-type {
+        border-right: 1px solid var(--gray-1);
+        justify-self: end;
+      }
+
+      .curso-item span:last-of-type {
+        border-right: 1px solid var(--gray-1);
+        justify-self: start;
+      }
+
+      .curso-item h2,
+      .curso-item p,
+      .curso-item .btn {
+        grid-column: 1/-1;
+      }
+
+      .curso-item .btn {
+        margin-top: 1rem;
+        justify-self: center;
+      }
+
+      .curso-item h2 {
+        margin: 1rem 0 0 0;
+      }
+
+      .curso-item span,
+      .curso-item p {
+        color: var(--gray-5);
+      }
     </style>
 
     <script>
-      const routes = document.querySelectorAll('section[data-role]');
+      const esc = (v) =>
+        String(v)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
 
-      const navs = document.querySelectorAll('nav[data-role]');
+      const routes = document.querySelectorAll("section[data-role]");
+
+      const navs = document.querySelectorAll("nav[data-role]");
       function handleUserNav(user) {
         for (const nav of navs) {
           if (nav.dataset.role === user) {
-            nav.classList.add('ativo');
+            nav.classList.add("ativo");
           } else {
-            nav.classList.remove('ativo');
+            nav.classList.remove("ativo");
           }
         }
       }
 
       let user;
       async function getUser() {
-        user = 'public';
+        user = "public";
         try {
-          const response = await fetch('/auth/session');
+          const response = await fetch("/auth/session");
           const body = await response.json();
-          
+
           if (!response.ok) throw new Error();
 
           user = body.role;
@@ -414,49 +469,94 @@
         if (user === undefined) user = await getUser();
         console.log(user);
         const r = location.hash
-          .replace('#', '')
-          .split('/')
+          .replace("#", "")
+          .split("/")
           .filter(Boolean)
           .shift();
         const route = document.getElementById(r);
-        routes.forEach((item) => item.classList.remove('ativo'));
+        routes.forEach((item) => item.classList.remove("ativo"));
+
         if (route) {
-          if (user !== route.dataset.role) location.hash = '/login';
-          route.classList.add('ativo');
+          if (user !== route.dataset.role) location.hash = "/login";
+
+          route.classList.add("ativo");
+
+          if (typeof data[r] === "function") data[r]?.(route);
         }
       }
-      window.addEventListener('DOMContentLoaded', router);
-      window.addEventListener('hashchange', router);
+      window.addEventListener("DOMContentLoaded", router);
+      window.addEventListener("hashchange", router);
+
+      async function getData(url, callback) {
+        try {
+          const response = await fetch(url);
+          const body = await response.json();
+
+          if (!response.ok) throw new Error();
+
+          if (typeof callback === "function") callback(body, response);
+        } catch (error) {
+          console.warn(error);
+        }
+      }
+
+      const data = {
+        cursos: (route) => {
+          getData("/lms/courses", (body) => {
+            const render = route.querySelector(".render");
+            render.innerHTML = "";
+            let html = "";
+
+            body.forEach((curso) => {
+              html += `
+                <div class="curso-item">
+                  <h2>${esc(curso.title)}</h2>
+                  <p>${esc(curso.description)}</p>
+                  <span>${esc(curso.lessons)} aulas</span>
+                  <span>${esc(curso.hours)} horas</span>
+                  <a class="btn" href="#/curso/${esc(curso.slug)}">Acessar Curso</a>
+                </div>
+              `;
+            });
+            render.innerHTML = html;
+          });
+
+          const render = route.querySelector(".render");
+          render.innerHTML = "";
+        },
+        certificados: (route) => {
+          console.log("renderizar certificados");
+        },
+      };
 
       // FORMULÁRIOS
       async function sendForm(method, url, id, callback) {
-        const form = document.querySelector('#' + id + ' form');
-        form?.addEventListener('submit', async (e) => {
+        const form = document.querySelector("#" + id + " form");
+        form?.addEventListener("submit", async (e) => {
           e.preventDefault();
           const data = new FormData(form);
           let response;
           let body = {};
-          const badge = document.createElement('div');
+          const badge = document.createElement("div");
           try {
             response = await fetch(url, {
               method: method,
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify(Object.fromEntries(data)),
             });
             body = await response.json();
-            
+
             if (!response.ok) throw new Error();
-            
-            if (typeof callback === 'function') callback(response, body);
-            
+
+            if (typeof callback === "function") callback(response, body);
+
             badge.innerText = `${response.status}`;
-            badge.classList.add('ok');
+            badge.classList.add("ok");
           } catch (error) {
             badge.innerText = `${response.status} - ${body?.title}`;
-            badge.classList.add('fail');
-
+            badge.classList.add("fail");
           } finally {
             form.append(badge);
             setTimeout(() => {
@@ -466,14 +566,14 @@
         });
       }
 
-      sendForm('POST', '/auth/login', 'login', async () => {
+      sendForm("POST", "/auth/login", "login", async () => {
         user = await getUser();
-        if (user === 'user') location.hash = '/cursos';
-        if (user === 'admin') location.hash = '/criar-curso';
+        if (user === "user") location.hash = "/cursos";
+        if (user === "admin") location.hash = "/criar-curso";
       });
-      
-      sendForm('POST', '/auth/user', 'criar-conta', () => {
-        location.hash = '/login';
+
+      sendForm("POST", "/auth/user", "criar-conta", () => {
+        location.hash = "/login";
       });
     </script>
   </body>
