@@ -64,10 +64,10 @@
       <section id="resetar" data-role="public">
         <h2>Resetar Senha</h2>
         <form>
-          <label for="new_password">Email</label>
+          <label for="new_password">Nova Senha</label>
           <input type="password" name="new_password" id="new_password" />
-          <input type="hidden" />
-          <button>Resetar Senhar</button>
+          <input type="hidden" name="token" id="token" />
+          <button>Resetar Senha</button>
         </form>
       </section>
 
@@ -533,6 +533,7 @@
       const routes = document.querySelectorAll("section[data-role]");
 
       const navs = document.querySelectorAll("nav[data-role]");
+
       function handleUserNav(user) {
         for (const nav of navs) {
           if (nav.dataset.role === user) {
@@ -575,6 +576,8 @@
           if (user !== route.dataset.role) location.hash = "/login";
           route.classList.add("ativo");
           if (typeof data[r] === "function") data[r](route);
+        } else {
+          if (typeof data[r] === "function") data[r]();
         }
       }
       window.addEventListener("DOMContentLoaded", router);
@@ -643,6 +646,7 @@
             render.innerHTML = html;
           });
         },
+     
         curso: (route) => {
           const [_, curso] = location.hash
             .replace("#", "")
@@ -689,6 +693,7 @@
             render.innerHTML = html;
           });
         },
+     
         aula: (route) => {
           const [_, curso, aula] = location.hash
             .replace("#", "")
@@ -765,11 +770,31 @@
                 </li>
               `;
             }
-
             html += "</ul>";
             render.innerHTML = html;
           });
         },
+
+        sair: async () => {
+          await fetch("/auth/logout", {
+            method: "DELETE",
+          });
+
+          user = "public";
+          location.hash = "/login";
+          handleUserNav(user);
+        },
+      
+        resetar: (route) => {
+          const query = location.hash.split("=");
+
+          if (query[1]) {
+            const token = query[1];
+            const input = document.querySelector("input[name='token']");
+            if (input) input.value = token;
+          }
+        },
+         
       };
 
       // FORMULÁRIOS
@@ -815,6 +840,8 @@
       sendForm("POST", "/auth/user", "criar-conta", () => {
         location.hash = "/login";
       });
+      sendForm("POST", "/auth/password/forgot", "perdeu");
+      sendForm("POST", "/auth/password/reset", "resetar");
     </script>
   </body>
 </html>

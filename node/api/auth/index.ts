@@ -172,7 +172,7 @@ export class AuthApi extends Api {
         ua: req.headers["user-agent"] ?? "",
       });
 
-      const resetLink = `${req.baseUrl}/password/reset/?token=${token}`;
+      const resetLink = `${req.baseUrl}/#/resetar/?token=${token}`;
 
       const emailContent = {
         to: user.email,
