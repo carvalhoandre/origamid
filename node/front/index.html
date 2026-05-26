@@ -443,7 +443,7 @@
       .curso-aulas li:nth-of-type(even) a {
         background: #111;
       }
-    
+
       .curso-aulas li a:hover {
         background: var(--gray-2);
       }
@@ -556,6 +556,23 @@
         }
       }
 
+      const renderResetCourseButton = (courseId) => {
+        setTimeout(() => {
+          sendForm("DELETE", "/lms/course/reset", "resetar-curso", () => {
+            location.reload();
+          });
+        }, 50);
+
+        return /*html*/ `
+          <div id="resetar-curso">
+           <form>
+              <input type="hidden" name="courseId" value="${esc(courseId)}" />
+              <button>Resetar Progresso do Curso</button>
+            </form>
+          </div>
+        `;
+      };
+
       const data = {
         cursos: (route) => {
           getData("/lms/courses", (body) => {
@@ -591,7 +608,7 @@
 
             render.innerHTML = "";
 
-            let html = /*html*/`
+            let html = /*html*/ `
             <div class="curso-item">
               <h2>${esc(course.title)}</h2>
               <p>${esc(course.description)}</p>
@@ -603,7 +620,9 @@
             html += '<ul class="curso-aulas">';
 
             for (const lesson of lessons) {
-              const isCompleted = completed.some((slug) => slug === lesson.slug);
+              const isCompleted = completed.some(
+                (slug) => slug === lesson.slug,
+              );
 
               html += /*html*/ `
                 <li>
@@ -620,7 +639,9 @@
                 </li>
               `;
             }
-            html += "</ul>";
+            html += `</ul>
+              ${completed.length > 0 ? renderResetCourseButton(course.id) : ""}         
+            `;
             render.innerHTML = html;
           });
         },
