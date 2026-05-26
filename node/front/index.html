@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
@@ -157,7 +157,7 @@
       }
 
       html {
-        --font: "Cardo", serif;
+        --font: 'Cardo', serif;
         --black: black;
         --gray-1: #171717;
         --gray-2: #222;
@@ -377,10 +377,10 @@
         color: #3dd78c;
       }
 
+      /* CURSO */
       #curso {
         margin-top: 2rem;
       }
-
       .curso-item {
         padding: 0 1rem 2rem 1rem;
         border-bottom: 2px dashed var(--gray-1);
@@ -389,47 +389,39 @@
         text-align: center;
         text-wrap: balance;
       }
-
       .curso-item > *:not(.btn) {
         padding: 0.5rem;
       }
-
       .curso-item span:first-of-type {
         border-right: 1px solid var(--gray-1);
         justify-self: end;
       }
-
       .curso-item span:last-of-type {
-        border-right: 1px solid var(--gray-1);
+        border-left: 1px solid var(--gray-1);
         justify-self: start;
       }
-
-      .curso-item h2,
       .curso-item p,
+      .curso-item h2,
       .curso-item .btn {
         grid-column: 1/-1;
       }
-
       .curso-item .btn {
         margin-top: 1rem;
         justify-self: center;
       }
-
       .curso-item h2 {
         margin: 1rem 0 0 0;
       }
-
-      .curso-item span,
-      .curso-item p {
+      .curso-item p,
+      .curso-item span {
         color: var(--gray-5);
       }
 
-      /* aulas curso */
+      /* AULAS CURSO */
       .curso-aulas {
         list-style: none;
         margin-top: 1rem;
       }
-
       .curso-aulas li a {
         display: grid;
         grid-template-columns: 1fr auto;
@@ -439,15 +431,12 @@
         align-items: center;
         color: var(--gray-6);
       }
-
       .curso-aulas li:nth-of-type(even) a {
         background: #111;
       }
-
       .curso-aulas li a:hover {
         background: var(--gray-2);
       }
-
       .curso-aulas li a span {
         color: var(--gray-4);
         font-size: 0.75rem;
@@ -456,7 +445,6 @@
         align-items: center;
         gap: 1rem;
       }
-
       .curso-aulas .status {
         display: block;
         width: 8px;
@@ -464,54 +452,91 @@
         border-radius: 50%;
         border: 1px solid var(--gray-3);
       }
-
       .curso-aulas .status.completa {
-        background: linear-gradient(45deg, #3dd78c, #0c281c);
+        background: linear-gradient(rgb(172, 239, 117), rgb(23, 232, 128));
+      }
+      #resetar-curso button {
+        margin: 1rem auto;
       }
 
-      #resetar-curso {
+      /* AULA */
+      #aula h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0px;
+      }
+      #breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--gray-4);
+      }
+      #breadcrumb a {
+        color: var(--gray-4);
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 0.75rem;
+      }
+      #video {
+        aspect-ratio: 16/9;
         margin: 1rem auto;
+        border-radius: 12px;
+        border: 1px solid var(--gray-1);
+        overflow: hidden;
+      }
+      video {
+        aspect-ratio: 16/9;
+        max-width: 100%;
+      }
+      #aula-nav {
+        display: grid;
+        grid-template-columns: 100px 1fr 100px;
+        justify-content: space-between;
+        justify-items: center;
+      }
+      #aula-nav a,
+      #aula-nav button {
+        padding: 0.5rem;
+        min-width: 70px;
+        font-size: 0.75rem;
+        line-height: 1;
       }
     </style>
 
     <script>
       const esc = (v) =>
         String(v)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#39;");
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;');
 
       const secToMin = (seconds) => {
-        const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
-        const ss = String(Math.floor(seconds % 60)).padStart(2, "0");
-
+        const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+        const ss = String(Math.floor(seconds % 60)).padStart(2, '0');
         return `${mm}:${ss}`;
       };
 
-      const routes = document.querySelectorAll("section[data-role]");
+      const routes = document.querySelectorAll('section[data-role]');
 
-      const navs = document.querySelectorAll("nav[data-role]");
+      const navs = document.querySelectorAll('nav[data-role]');
       function handleUserNav(user) {
         for (const nav of navs) {
           if (nav.dataset.role === user) {
-            nav.classList.add("ativo");
+            nav.classList.add('ativo');
           } else {
-            nav.classList.remove("ativo");
+            nav.classList.remove('ativo');
           }
         }
       }
 
       let user;
       async function getUser() {
-        user = "public";
+        user = 'public';
         try {
-          const response = await fetch("/auth/session");
+          const response = await fetch('/auth/session');
           const body = await response.json();
-
           if (!response.ok) throw new Error();
-
           user = body.role;
           return user;
         } catch (error) {
@@ -523,161 +548,217 @@
 
       async function router() {
         if (user === undefined) user = await getUser();
-        console.log(user);
+
         const r = location.hash
-          .replace("#", "")
-          .split("/")
+          .replace('#', '')
+          .split('/')
           .filter(Boolean)
           .shift();
+          
         const route = document.getElementById(r);
-        routes.forEach((item) => item.classList.remove("ativo"));
 
+        routes.forEach((item) => item.classList.remove('ativo'));
         if (route) {
-          if (user !== route.dataset.role) location.hash = "/login";
-
-          route.classList.add("ativo");
-
-          if (typeof data[r] === "function") data[r]?.(route);
+          if (user !== route.dataset.role) location.hash = '/login';
+          route.classList.add('ativo');
+          if (typeof data[r] === 'function') data[r](route);
         }
       }
-      window.addEventListener("DOMContentLoaded", router);
-      window.addEventListener("hashchange", router);
+      window.addEventListener('DOMContentLoaded', router);
+      window.addEventListener('hashchange', router);
 
       async function getData(url, callback) {
-        try {
-          const response = await fetch(url);
-          const body = await response.json();
-
-          if (!response.ok) throw new Error();
-
-          if (typeof callback === "function") callback(body, response);
-        } catch (error) {
-          console.warn(error);
-        }
+        const response = await fetch(url);
+        const body = await response.json();
+        callback(body, response);
       }
 
-      const renderResetCourseButton = (courseId) => {
+      function renderResetCourseButton(courseId) {
         setTimeout(() => {
-          sendForm("DELETE", "/lms/course/reset", "resetar-curso", () => {
+          sendForm('DELETE', '/lms/course/reset', 'resetar-curso', () => {
             location.reload();
           });
         }, 50);
 
         return /*html*/ `
           <div id="resetar-curso">
-           <form>
-              <input type="hidden" name="courseId" value="${esc(courseId)}" />
-              <button>Resetar Progresso do Curso</button>
+            <form>
+              <input name="courseId" type="hidden" value="${esc(courseId)}">
+              <button>Resetar</button>
             </form>
           </div>
         `;
-      };
+      }
+
+      function renderCompleteButton(courseId, lessonId) {
+        setTimeout(() => {
+          sendForm('POST', '/lms/lesson/complete', 'completar', () => {
+            document.getElementById('completar').innerHTML = '<span></span>';
+          });
+        }, 50);
+
+        return /*html*/ `
+          <div id="completar">
+            <form>
+              <input name="courseId" type="hidden" value="${esc(courseId)}">
+              <input name="lessonId" type="hidden" value="${esc(lessonId)}">
+              <button>Completar</button>
+            </form>
+          </div>
+        `;
+      }
 
       const data = {
         cursos: (route) => {
-          getData("/lms/courses", (body) => {
-            const render = route.querySelector(".render");
-            render.innerHTML = "";
-            let html = "";
-
-            body.forEach((curso) => {
-              html += `
+          getData('/lms/courses', (courses) => {
+            const render = route.querySelector('.render');
+            render.innerHTML = '';
+            let html = '';
+            for (const course of courses) {
+              html += /*html*/ `
                 <div class="curso-item">
-                  <h2>${esc(curso.title)}</h2>
-                  <p>${esc(curso.description)}</p>
-                  <span>${esc(curso.lessons)} aulas</span>
-                  <span>${esc(curso.hours)} horas</span>
-                  <a class="btn" href="#/curso/${esc(curso.slug)}">Acessar Curso</a>
+                  <h2>${esc(course.title)}</h2>
+                  <p>${esc(course.description)}</p>
+                  <span>Aulas: ${esc(course.lessons)}</span>
+                  <span>Horas: ${esc(course.hours)}</span>
+                  <a class="btn" href="#/curso/${esc(course.slug)}">
+                    ${esc(course.title)}
+                  </a>
                 </div>
               `;
-            });
+            }
             render.innerHTML = html;
           });
-
-          const render = route.querySelector(".render");
-          render.innerHTML = "";
         },
         curso: (route) => {
-          const slug = location.hash.split("/").filter(Boolean)[2];
+          const [_, curso] = location.hash
+            .replace('#', '')
+            .split('/')
+            .filter(Boolean);
+          if (!curso) return;
 
-          if (!slug) return;
-
-          getData(`/lms/course/${slug}`, (data) => {
+          getData(`/lms/course/${curso}`, (data) => {
             const { course, lessons, completed } = data;
-            const render = route.querySelector(".render");
-
-            render.innerHTML = "";
-
+            const render = route.querySelector('.render');
+            render.innerHTML = '';
             let html = /*html*/ `
             <div class="curso-item">
               <h2>${esc(course.title)}</h2>
               <p>${esc(course.description)}</p>
-              <span>${esc(course.lessons)} aulas</span>
-              <span>${esc(course.hours)} horas</span>
-            </div>
-            `;
+              <span>Aulas: ${esc(course.lessons)}</span>
+              <span>Horas: ${esc(course.hours)}</span>
+            </div>`;
 
             html += '<ul class="curso-aulas">';
 
             for (const lesson of lessons) {
               const isCompleted = completed.some(
-                (slug) => slug === lesson.slug,
+                (x) => x.lesson_id == lesson.id,
               );
 
               html += /*html*/ `
-                <li>
-                  <a href="#/aula/${course.slug}/${lesson.slug}">
-                    ${esc(lesson.title)}
-            
-                    <span>
-                      <span>
-                        ${secToMin(lesson.seconds)}
-                      </span>
-                      <span class="status" ${isCompleted ? "completa" : ""}></span>
-                    </span>
-                  </a>
-                </li>
+              <li>
+                <a href="#/aula/${esc(course.slug)}/${esc(lesson.slug)}">
+                  ${esc(lesson.title)}
+                  <span>
+                    <span>${secToMin(lesson.seconds)}</span>
+                    <span class="status ${
+                      isCompleted ? 'completa' : ''
+                    }"></span>
+                  </span>
+                </a>
+              </li>
               `;
             }
             html += `</ul>
-              ${completed.length > 0 ? renderResetCourseButton(course.id) : ""}         
+              ${completed.length > 0 ? renderResetCourseButton(course.id) : ''}
             `;
             render.innerHTML = html;
           });
         },
-        certificados: (route) => {
-          console.log("renderizar certificados");
+        aula: (route) => {
+          const [_, curso, aula] = location.hash
+            .replace('#', '')
+            .split('/')
+            .filter(Boolean);
+
+          if (!curso || !aula) return;
+          getData(`/lms/lesson/${curso}/${aula}`, (lesson) => {
+
+            const render = route.querySelector('.render');
+            render.innerHTML = '';
+            let html = /*html*/ `
+              <div>
+                <h2>${esc(lesson.title)}</h2>
+                <div id="breadcrumb">
+                  <a href="#/cursos">cursos</a> >
+                  <a href="#/curso/${curso}">${curso}</a>  
+                </div>
+                <div id="video">
+                  <video poster=""preload="metadata" src="/${
+                    lesson.video
+                  }" controls></video> 
+                </div>
+                <nav id="aula-nav">
+                  ${
+                    lesson.prev
+                      ? `<a class="btn" href="${esc(
+                          `#/aula/${curso}/${lesson.prev}`,
+                        )}">Anterior</a>`
+                      : `<span></span>`
+                  }
+                  ${
+                    lesson.completed
+                      ? `<span></span>`
+                      : renderCompleteButton(lesson.course_id, lesson.id)
+                  }
+                  ${
+                    lesson.next
+                      ? `<a class="btn" href="${esc(
+                          `#/aula/${curso}/${lesson.next}`,
+                        )}">Próxima</a>`
+                      : `<span></span>`
+                  }
+                </nav>
+              </div>
+            `;
+            render.innerHTML = html;
+          });
+        },
+
+        certificados: () => {
+          console.log('RENDERIZAR CERTIFICADOS');
         },
       };
 
       // FORMULÁRIOS
       async function sendForm(method, url, id, callback) {
-        const form = document.querySelector("#" + id + " form");
-        form?.addEventListener("submit", async (e) => {
+        const form = document.querySelector('#' + id + ' form');
+        form?.addEventListener('submit', async (e) => {
           e.preventDefault();
           const data = new FormData(form);
           let response;
           let body = {};
-          const badge = document.createElement("div");
+          const badge = document.createElement('div');
           try {
             response = await fetch(url, {
               method: method,
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               body: JSON.stringify(Object.fromEntries(data)),
             });
             body = await response.json();
-
             if (!response.ok) throw new Error();
-
-            if (typeof callback === "function") callback(response, body);
-
+            if (typeof callback === 'function') callback(response, body);
+           
             badge.innerText = `${response.status}`;
-            badge.classList.add("ok");
+            badge.classList.add('ok');
           } catch (error) {
+           
             badge.innerText = `${response.status} - ${body?.title}`;
-            badge.classList.add("fail");
+            badge.classList.add('fail');
+
           } finally {
             form.append(badge);
             setTimeout(() => {
@@ -687,14 +768,13 @@
         });
       }
 
-      sendForm("POST", "/auth/login", "login", async () => {
+      sendForm('POST', '/auth/login', 'login', async () => {
         user = await getUser();
-        if (user === "user") location.hash = "/cursos";
-        if (user === "admin") location.hash = "/criar-curso";
+        if (user === 'user') location.hash = '/cursos';
+        if (user === 'admin') location.hash = '/criar-curso';
       });
-
-      sendForm("POST", "/auth/user", "criar-conta", () => {
-        location.hash = "/login";
+      sendForm('POST', '/auth/user', 'criar-conta', () => {
+        location.hash = '/login';
       });
     </script>
   </body>

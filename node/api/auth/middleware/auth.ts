@@ -34,6 +34,7 @@ export class AuthMiddleware extends CoreProvider {
       const sid = req.cookies[COOKIE_SID_KEY];
 
       if (!sid) {
+        console.log("SID ausente");
         throw new RouteError(401, "Nao autorizado");
       }
 
@@ -42,6 +43,7 @@ export class AuthMiddleware extends CoreProvider {
       res.setCookie(cookie);
 
       if (!valid || !session) {
+        console.log("Sessao invalida");
         throw new RouteError(401, "Nao autorizado");
       }
 

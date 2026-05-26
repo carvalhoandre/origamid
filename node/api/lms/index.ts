@@ -275,7 +275,9 @@ export class LmsApi extends Api {
       this.handlers.getLesson,
       [this.auth.optional],
     );
-    this.router.post("/lms/lesson/complete", this.handlers.completeLesson);
+    this.router.post("/lms/lesson/complete", this.handlers.completeLesson, [
+      this.auth.guardian("user"),
+    ]);
     this.router.get("/lms/certificates", this.handlers.getCertificates, [
       this.auth.guardian("user"),
     ]);

@@ -48,12 +48,12 @@ export class Core {
       await route.handler(req, res);
     } catch (error) {
       if (error instanceof RouteError) {
-        console.log(`Error ${error.status}: ${error.message}`);
+        console.warn(`Error ${error.status}: ${error.message}`);
         response.statusCode = error.status;
         response.setHeader("Content-Type", "application/problem+json");
         response.end(error.message || "Erro interno");
       } else {
-        console.log(`Error 500: ${error}`);
+        console.warn(`Error 500: ${error}`);
         response.statusCode = 500;
         response.setHeader("Content-Type", "application/problem+json");
         response.end("Erro interno");
@@ -67,7 +67,7 @@ export class Core {
     });
 
     this.server.on("clientError", (err, socket) => {
-      console.log(`Client error: ${err}`); 
+      console.warn(`Client error: ${err}`); 
       socket.destroy();
     });
   }
