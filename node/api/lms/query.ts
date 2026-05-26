@@ -184,7 +184,7 @@ export class LmsQuery extends Query {
       .all(userId) as CertificateFullData[];
   }
 
-  selectCertificate(certificateId: number) {
+  selectCertificate(certificateId: string) {
     return this.db
       .query(
         /*sql*/ `
@@ -193,5 +193,16 @@ export class LmsQuery extends Query {
         `,
       )
       .get(certificateId) as CertificateFullData | undefined;
+  }
+
+  deleteCertificate(userId: number, courseId: number) {
+    return this.db
+      .query(
+        /*sql*/ `
+          DELETE FROM "certificates"
+          WHERE "user_id" = ? AND "course_id" = ?
+        `,
+      )
+      .run(userId, courseId);
   }
 }

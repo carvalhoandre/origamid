@@ -209,17 +209,23 @@ export class LmsApi extends Api {
         courseId: validate.number(req.body.courseId),
       };
 
-      const writeResult = this.query.deleteLessonsCompleted(
+      const writeResultLessons = this.query.deleteLessonsCompleted(
         req.session.user_id,
         courseId,
       );
 
-      if (writeResult.changes === 0) {
-        throw new RouteError(400, "erro ao resetar curso");
+      if (writeResultLessons.changes === 0) {
+        throw new RouteError(400, "Erro ao resetar curso");
+      }
+
+      const writeResultCertificate = this.query.deleteCertificate(req.session.user_id, courseId);
+
+      if (writeResultCertificate.changes === 0) {
+        throw new RouteError(400, "Erro ao resetar curso");
       }
 
       res.status(200).json({
-        title: "curso resetado",
+        title: "Curso resetado",
       });
     },
 
@@ -240,7 +246,7 @@ export class LmsApi extends Api {
 
     getCertificate: (req, res) => {
       const { id } = {
-        id: validate.number(req.params.id),
+        id: validate.string(req.params.id),
       };
       const certificate = this.query.selectCertificate(id);
 
@@ -281,6 +287,6 @@ export class LmsApi extends Api {
     this.router.get("/lms/certificates", this.handlers.getCertificates, [
       this.auth.guardian("user"),
     ]);
-    this.router.get("/lms/certificates/:id", this.handlers.getCertificate);
+    this.router.get("/lms/certificate/:id", this.handlers.getCertificate);
   }
 }
