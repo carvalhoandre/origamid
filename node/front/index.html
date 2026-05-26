@@ -423,6 +423,55 @@
       .curso-item p {
         color: var(--gray-5);
       }
+
+      /* aulas curso */
+      .curso-aulas {
+        list-style: none;
+        margin-top: 1rem;
+      }
+
+      .curso-aulas li a {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1rem;
+        padding: 0.75rem;
+        text-decoration: none;
+        align-items: center;
+        color: var(--gray-6);
+      }
+
+      .curso-aulas li:nth-of-type(even) a {
+        background: #111;
+      }
+    
+      .curso-aulas li a:hover {
+        background: var(--gray-2);
+      }
+
+      .curso-aulas li a span {
+        color: var(--gray-4);
+        font-size: 0.75rem;
+        font-family: monospace;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .curso-aulas .status {
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: 1px solid var(--gray-3);
+      }
+
+      .curso-aulas .status.completa {
+        background: linear-gradient(45deg, #3dd78c, #0c281c);
+      }
+
+      #resetar-curso {
+        margin: 1rem auto;
+      }
     </style>
 
     <script>
@@ -433,6 +482,13 @@
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;")
           .replace(/'/g, "&#39;");
+
+      const secToMin = (seconds) => {
+        const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
+        const ss = String(Math.floor(seconds % 60)).padStart(2, "0");
+
+        return `${mm}:${ss}`;
+      };
 
       const routes = document.querySelectorAll("section[data-role]");
 
@@ -523,6 +579,50 @@
 
           const render = route.querySelector(".render");
           render.innerHTML = "";
+        },
+        curso: (route) => {
+          const slug = location.hash.split("/").filter(Boolean)[2];
+
+          if (!slug) return;
+
+          getData(`/lms/course/${slug}`, (data) => {
+            const { course, lessons, completed } = data;
+            const render = route.querySelector(".render");
+
+            render.innerHTML = "";
+
+            let html = /*html*/`
+            <div class="curso-item">
+              <h2>${esc(course.title)}</h2>
+              <p>${esc(course.description)}</p>
+              <span>${esc(course.lessons)} aulas</span>
+              <span>${esc(course.hours)} horas</span>
+            </div>
+            `;
+
+            html += '<ul class="curso-aulas">';
+
+            for (const lesson of lessons) {
+              const isCompleted = completed.some((slug) => slug === lesson.slug);
+
+              html += /*html*/ `
+                <li>
+                  <a href="#/aula/${course.slug}/${lesson.slug}">
+                    ${esc(lesson.title)}
+            
+                    <span>
+                      <span>
+                        ${secToMin(lesson.seconds)}
+                      </span>
+                      <span class="status" ${isCompleted ? "completa" : ""}></span>
+                    </span>
+                  </a>
+                </li>
+              `;
+            }
+            html += "</ul>";
+            render.innerHTML = html;
+          });
         },
         certificados: (route) => {
           console.log("renderizar certificados");
