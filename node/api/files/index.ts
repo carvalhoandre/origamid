@@ -54,7 +54,12 @@ export class FilesApi extends Api {
 
       const file = createReadStream(filePath);
 
-      await pipeline(file, res);
+      try {
+        await pipeline(file, res);
+      } catch (err) {
+        if (err?.code === 'ECANCELED' || err?.code === 'ERR_STREAM_PREMATURE_CLOSE') return;
+        throw err;
+      }
     },
 
     uploadFile: async (req, res) => {
@@ -87,7 +92,7 @@ export class FilesApi extends Api {
         await pipeline(req, LimitBytes(MAX_BYTES), writeStream);
         renameSync(tempPath, writePath);
 
-        res.status(201).end("Arquivo enviado com sucesso");
+        res.status(201).json({ path: writePath, name: finalName });
       } catch (err) {
         if (err instanceof RouteError) {
           throw new RouteError(err.status, err.message);
