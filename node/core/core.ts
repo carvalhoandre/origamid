@@ -47,6 +47,10 @@ export class Core {
 
       await route.handler(req, res);
     } catch (error) {
+      if (response.headersSent) {
+        console.warn(`Error after headers sent: ${error}`);
+        return;
+      }
       if (error instanceof RouteError) {
         console.warn(`Error ${error.status}: ${error.message}`);
         response.statusCode = error.status;

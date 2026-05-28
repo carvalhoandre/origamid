@@ -210,6 +210,16 @@ export class AuthApi extends Api {
 
       res.status(200).json({ title: "Senha resetada com sucesso" });
     },
+
+    searchUsers: (req, res) => {
+      const result = this.query.selectUsers();
+
+      if (!result) {
+        throw new RouteError(404, "Nenhum usuário encontrado");
+      }
+
+      res.status(200).json(result);
+    }
   } satisfies Api["handlers"];
 
   tables(): void {
@@ -228,5 +238,6 @@ export class AuthApi extends Api {
     this.router.delete("/auth/logout", this.handlers.deleteSession);
     this.router.post("/auth/password/forgot", this.handlers.passwordForgot, [rateLimit(30_000, 5)]);
     this.router.post("/auth/password/reset", this.handlers.passwordReset, [rateLimit(30_000, 5)]);
+    this.router.get("/auth/users/search", this.handlers.searchUsers, [this.auth.guardian("admin")]);
   }
 }

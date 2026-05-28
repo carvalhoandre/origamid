@@ -11,6 +11,14 @@ export type UserData = {
   updated: string;
 };
 
+export type UserSummary = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  role: UserRole;
+};
+
 export type UserCreate = Omit<UserData, "id" | "created" | "updated">;
 
 export type SessionData = {

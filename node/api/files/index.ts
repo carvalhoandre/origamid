@@ -56,8 +56,9 @@ export class FilesApi extends Api {
 
       try {
         await pipeline(file, res);
-      } catch (err) {
-        if (err?.code === 'ECANCELED' || err?.code === 'ERR_STREAM_PREMATURE_CLOSE') return;
+      } catch (err: unknown) {
+        const clientGone = (err as { code?: string })?.code === 'ECANCELED' || (err as { code?: string })?.code === 'ECONNRESET' || (err as { code?: string })?.code === 'ERR_STREAM_PREMATURE_CLOSE';
+        if (clientGone) return;
         throw err;
       }
     },
