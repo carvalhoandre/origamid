@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
@@ -64,9 +64,9 @@
       <section id="resetar" data-role="public">
         <h2>Resetar Senha</h2>
         <form>
-          <label for="new_password">Nova Senha</label>
+          <label for="new_password">Senha</label>
           <input type="password" name="new_password" id="new_password" />
-          <input type="hidden" name="token" id="token" />
+          <input type="hidden" name="token" />
           <button>Resetar Senha</button>
         </form>
       </section>
@@ -157,7 +157,7 @@
       }
 
       html {
-        --font: "Cardo", serif;
+        --font: 'Cardo', serif;
         --black: black;
         --gray-1: #171717;
         --gray-2: #222;
@@ -512,8 +512,9 @@
         justify-content: space-between;
         width: 100%;
         padding: 1rem;
+        align-items: center;
+        font-family: var(--font);
       }
-
       select {
         margin-bottom: 1rem;
       }
@@ -522,37 +523,36 @@
     <script>
       const esc = (v) =>
         String(v)
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#39;");
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;');
 
       const secToMin = (seconds) => {
-        const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
-        const ss = String(Math.floor(seconds % 60)).padStart(2, "0");
+        const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+        const ss = String(Math.floor(seconds % 60)).padStart(2, '0');
         return `${mm}:${ss}`;
       };
 
-      const routes = document.querySelectorAll("section[data-role]");
+      const routes = document.querySelectorAll('section[data-role]');
 
-      const navs = document.querySelectorAll("nav[data-role]");
-
+      const navs = document.querySelectorAll('nav[data-role]');
       function handleUserNav(user) {
         for (const nav of navs) {
           if (nav.dataset.role === user) {
-            nav.classList.add("ativo");
+            nav.classList.add('ativo');
           } else {
-            nav.classList.remove("ativo");
+            nav.classList.remove('ativo');
           }
         }
       }
 
       let user;
       async function getUser() {
-        user = "public";
+        user = 'public';
         try {
-          const response = await fetch("/auth/session");
+          const response = await fetch('/auth/session');
           const body = await response.json();
           if (!response.ok) throw new Error();
           user = body.role;
@@ -566,26 +566,24 @@
 
       async function router() {
         if (user === undefined) user = await getUser();
-
+        console.log(user);
         const r = location.hash
-          .replace("#", "")
-          .split("/")
+          .replace('#', '')
+          .split('/')
           .filter(Boolean)
           .shift();
-
         const route = document.getElementById(r);
-
-        routes.forEach((item) => item.classList.remove("ativo"));
+        routes.forEach((item) => item.classList.remove('ativo'));
         if (route) {
-          if (user !== route.dataset.role) location.hash = "/login";
-          route.classList.add("ativo");
-          if (typeof data[r] === "function") data[r](route);
+          if (user !== route.dataset.role) location.hash = '/login';
+          route.classList.add('ativo');
+          if (typeof data[r] === 'function') data[r](route);
         } else {
-          if (typeof data[r] === "function") data[r]();
+          if (typeof data[r] === 'function') data[r]();
         }
       }
-      window.addEventListener("DOMContentLoaded", router);
-      window.addEventListener("hashchange", router);
+      window.addEventListener('DOMContentLoaded', router);
+      window.addEventListener('hashchange', router);
 
       async function getData(url, callback) {
         const response = await fetch(url);
@@ -595,7 +593,7 @@
 
       function renderResetCourseButton(courseId) {
         setTimeout(() => {
-          sendForm("DELETE", "/lms/course/reset", "resetar-curso", () => {
+          sendForm('DELETE', '/lms/course/reset', 'resetar-curso', () => {
             location.reload();
           });
         }, 50);
@@ -612,8 +610,8 @@
 
       function renderCompleteButton(courseId, lessonId) {
         setTimeout(() => {
-          sendForm("POST", "/lms/lesson/complete", "completar", () => {
-            document.getElementById("completar").innerHTML = "<span></span>";
+          sendForm('POST', '/lms/lesson/complete', 'completar', () => {
+            document.getElementById('completar').innerHTML = '<span></span>';
           });
         }, 50);
 
@@ -630,10 +628,10 @@
 
       const data = {
         cursos: (route) => {
-          getData("/lms/courses", (courses) => {
-            const render = route.querySelector(".render");
-            render.innerHTML = "";
-            let html = "";
+          getData('/lms/courses', (courses) => {
+            const render = route.querySelector('.render');
+            render.innerHTML = '';
+            let html = '';
             for (const course of courses) {
               html += /*html*/ `
                 <div class="curso-item">
@@ -650,18 +648,17 @@
             render.innerHTML = html;
           });
         },
-
         curso: (route) => {
           const [_, curso] = location.hash
-            .replace("#", "")
-            .split("/")
+            .replace('#', '')
+            .split('/')
             .filter(Boolean);
           if (!curso) return;
 
           getData(`/lms/course/${curso}`, (data) => {
             const { course, lessons, completed } = data;
-            const render = route.querySelector(".render");
-            render.innerHTML = "";
+            const render = route.querySelector('.render');
+            render.innerHTML = '';
             let html = /*html*/ `
             <div class="curso-item">
               <h2>${esc(course.title)}</h2>
@@ -684,7 +681,7 @@
                   <span>
                     <span>${secToMin(lesson.seconds)}</span>
                     <span class="status ${
-                      isCompleted ? "completa" : ""
+                      isCompleted ? 'completa' : ''
                     }"></span>
                   </span>
                 </a>
@@ -692,28 +689,30 @@
               `;
             }
             html += `</ul>
-              ${completed.length > 0 ? renderResetCourseButton(course.id) : ""}
+              ${completed.length > 0 ? renderResetCourseButton(course.id) : ''}
             `;
             render.innerHTML = html;
+
+            console.log(data);
           });
         },
-
         aula: (route) => {
           const [_, curso, aula] = location.hash
-            .replace("#", "")
-            .split("/")
+            .replace('#', '')
+            .split('/')
             .filter(Boolean);
 
           if (!curso || !aula) return;
           getData(`/lms/lesson/${curso}/${aula}`, (lesson) => {
-            const render = route.querySelector(".render");
-            render.innerHTML = "";
+            console.log(lesson);
+            const render = route.querySelector('.render');
+            render.innerHTML = '';
             let html = /*html*/ `
               <div>
                 <h2>${esc(lesson.title)}</h2>
                 <div id="breadcrumb">
                   <a href="#/cursos">cursos</a> >
-                  <a href="#/curso/${curso}">${curso}</a>  
+                  <a href="#/cursos/${curso}">${curso}</a>  
                 </div>
                 <div id="video">
                   <video poster=""preload="metadata" src="/${
@@ -746,118 +745,127 @@
             render.innerHTML = html;
           });
         },
-
         certificados: (route) => {
-          getData("/lms/certificates", (certificates) => {
-            if (Array.isArray(certificates) && certificates.length === 0) {
-              route.querySelector(".render").innerHTML =
-                "<p>Você ainda não possui certificados</p>";
-              return;
-            }
-
-            const render = route.querySelector(".render");
-            render.innerHTML = "";
-
-            let html = "<ul>";
-
-            for (const cert of certificates) {
+          getData('/lms/certificates', (certicates) => {
+            if (!Array.isArray(certicates)) return;
+            const render = route.querySelector('.render');
+            render.innerHTML = '';
+            let html = '<ul>';
+            for (const certificate of certicates) {
               html += /*html*/ `
-                <li>
-                  <a class="btn" href="/lms/certificate/${cert.id}" target="_blank">
-                    ${esc(cert.title)}
-                    <span>Emitido em: ${cert.completed
-                      .slice(0, 10)
-                      .split("-")
-                      .reverse()
-                      .join("/")}</span>
-                  </a>
-                </li>
+              <li>
+                <a class="btn" target="_blank" href="/lms/certificate/${
+                  certificate.id
+                }">${esc(certificate.title)}
+                <span>${certificate.completed
+                  .slice(0, 10)
+                  .split('-')
+                  .reverse()
+                  .join('/')}</span>
+                </a>
+              </li>
               `;
             }
-            html += "</ul>";
+            html += '</ul>';
             render.innerHTML = html;
           });
         },
-
         sair: async () => {
-          await fetch("/auth/logout", {
-            method: "DELETE",
+          await fetch('/auth/logout', {
+            method: 'DELETE',
           });
-
-          user = "public";
-          location.hash = "/login";
+          user = 'public';
+          location.hash = '/login';
           handleUserNav(user);
         },
-
-        resetar: (route) => {
-          const query = location.hash.split("=");
-
+        resetar: () => {
+          const query = location.hash.split('=');
           if (query[1]) {
-            const token = query[1];
-            const input = document.querySelector("input[name='token']");
-            if (input) input.value = token;
+            const token = document.querySelector('input[name="token"]');
+            if (token) token.value = query[1];
           }
         },
-
-        ["criar-curso"]: (route) => {
-          getData("/lms/courses", (courses) => {
-            const render = route.querySelector(".render");
-            const form = route.querySelector("form");
-            render.innerHTML = "";
-
-            const select = document.createElement("select");
-
-            select.name = "courses-select";
-            select.add(new Option("Selecione um curso", null));
-
+        ['criar-curso']: async (route) => {
+          getData('/lms/courses', (courses) => {
+            const render = route.querySelector('.render');
+            const form = route.querySelector('form');
+            render.innerHTML = '';
+            const select = document.createElement('select');
+            select.name = 'courses-select';
+            select.add(new Option('Selecionar Curso', null));
             let i = 0;
             for (const course of courses) {
               select.add(new Option(course.slug, i));
               i++;
             }
-
-            select.addEventListener("change", async (e) => {
+            select.addEventListener('change', (e) => {
               e.preventDefault();
               const course = courses[select.value];
-              
               for (const key in course) {
                 const input = form.querySelector(`[name="${key}"]`);
-
-                if (input) {
-                  input.value = course[key];
-                }
+                if (input) input.value = course[key];
               }
             });
+            render.append(select);
+          });
+        },
+        ['criar-aula']: (route) => {
+          getData('/lms/lessons', (lessons) => {
+            console.log(lessons);
+            const render = route.querySelector('.render');
+            const form = route.querySelector('form');
+            render.innerHTML = '';
+            const select = document.createElement('select');
+            select.name = 'lessons-select';
+            let i = 0;
+            select.add(new Option('Selecionar Aula', null));
+
+            for (const lesson of lessons) {
+              select.add(
+                new Option(`${lesson.courseSlug} - ${lesson.slug}`, i),
+              );
+              i++;
+            }
+            
+            select.addEventListener('change', (e) => {
+              e.preventDefault();
+              const lesson = lessons[select.value];
+              for (const key in lesson) {
+                const input = form.querySelector(`[name="${key}"]`);
+                if (input) input.value = lesson[key];
+              }
+            });
+            render.append(select);
           });
         },
       };
 
       // FORMULÁRIOS
       async function sendForm(method, url, id, callback) {
-        const form = document.querySelector("#" + id + " form");
-        form?.addEventListener("submit", async (e) => {
+        const form = document.querySelector('#' + id + ' form');
+        form?.addEventListener('submit', async (e) => {
           e.preventDefault();
           const data = new FormData(form);
           let response;
           let body = {};
-          const badge = document.createElement("div");
+          const badge = document.createElement('div');
           try {
             response = await fetch(url, {
               method: method,
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               body: JSON.stringify(Object.fromEntries(data)),
             });
             body = await response.json();
             if (!response.ok) throw new Error();
-            if (typeof callback === "function") callback(response, body);
-
+            if (typeof callback === 'function') callback(response, body);
             badge.innerText = `${response.status}`;
-            badge.classList.add("ok");
+            badge.classList.add('ok');
           } catch (error) {
             badge.innerText = `${response.status} - ${body?.title}`;
-            badge.classList.add("fail");
+            badge.classList.add('fail');
+            console.log(response);
           } finally {
             form.append(badge);
             setTimeout(() => {
@@ -867,17 +875,19 @@
         });
       }
 
-      sendForm("POST", "/auth/login", "login", async () => {
+      sendForm('POST', '/auth/login', 'login', async () => {
         user = await getUser();
-        if (user === "user") location.hash = "/cursos";
-        if (user === "admin") location.hash = "/criar-curso";
+        if (user === 'user') location.hash = '/cursos';
+        if (user === 'admin') location.hash = '/criar-curso';
       });
-      sendForm("POST", "/auth/user", "criar-conta", () => {
-        location.hash = "/login";
+      sendForm('POST', '/auth/user', 'criar-conta', () => {
+        location.hash = '/login';
       });
-      sendForm("POST", "/auth/password/forgot", "perdeu");
-      sendForm("POST", "/auth/password/reset", "resetar");
-      sendForm("POST", "/lms/course", "criar-curso");
+      sendForm('POST', '/auth/password/forgot', 'perdeu');
+      sendForm('POST', '/auth/password/reset', 'resetar');
+
+      sendForm('POST', '/lms/course', 'criar-curso');
+      sendForm('POST', '/lms/lesson', 'criar-aula');
     </script>
   </body>
 </html>

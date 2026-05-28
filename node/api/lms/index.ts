@@ -218,7 +218,10 @@ export class LmsApi extends Api {
         throw new RouteError(400, "Erro ao resetar curso");
       }
 
-      const writeResultCertificate = this.query.deleteCertificate(req.session.user_id, courseId);
+      const writeResultCertificate = this.query.deleteCertificate(
+        req.session.user_id,
+        courseId,
+      );
 
       if (writeResultCertificate.changes === 0) {
         throw new RouteError(400, "Erro ao resetar curso");
@@ -256,6 +259,20 @@ export class LmsApi extends Api {
 
       res.status(200).json(certificate);
     },
+
+    getLessons: (req, res) => {
+      if (!req.session) {
+        throw new RouteError(401, "Nao autorizado");
+      }
+
+      const lessons = this.query.selectAllLessons();
+
+      if (lessons.length === 0) {
+        throw new RouteError(404, "Nenhuma aula encontrada");
+      }
+
+      res.status(200).json(lessons);
+    },
   } satisfies Api["handlers"];
 
   tables(): void {
@@ -270,6 +287,9 @@ export class LmsApi extends Api {
       this.auth.guardian("admin"),
     ]);
     this.router.get("/lms/courses", this.handlers.getCourses);
+    this.router.get("/lms/lessons", this.handlers.getLessons, [
+      this.auth.guardian("admin"),
+    ]);
     this.router.get("/lms/course/:slug", this.handlers.getCourse, [
       this.auth.optional,
     ]);

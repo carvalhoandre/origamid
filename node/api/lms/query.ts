@@ -39,10 +39,18 @@ export class LmsQuery extends Query {
     return this.db
       .query(
         /*sql*/ `
-            INSERT OR IGNORE INTO "lessons"
+            INSERT INTO "lessons"
             ("course_id", "slug", "title", "seconds",
             "video", "description", "order", "free")
-            VALUES ((SELECT "id" FROM "courses" WHERE "slug" = ?),?,?,?,?,?,?,?)`,
+            VALUES ((SELECT "id" FROM "courses" WHERE "slug" = ?),?,?,?,?,?,?,?)
+            ON CONFLICT("course_id", "slug") DO UPDATE SET
+            "title" = excluded."title",
+            "description" = excluded."description",
+            "seconds" = excluded."seconds",
+            "video" = excluded."video",
+            "order" = excluded."order",
+            "free" = excluded."free"
+            `,
       )
       .run(courseSlug, slug, title, seconds, video, description, order, free);
   }
@@ -209,5 +217,19 @@ export class LmsQuery extends Query {
         `,
       )
       .run(userId, courseId);
+  }
+
+  selectAllLessons() {
+    return this.db
+      .query(
+        /*sql*/ `
+          SELECT "l".*, "c"."slug" as "courseSlug"
+          FROM "lessons" as "l"
+          JOIN "courses" as "c" 
+          ON "l"."course_id" = "c"."id"
+          ORDER BY "l"."course_id" ASC, "l"."order" ASC LIMIT 200
+        `,
+      )
+      .all() as CourseData[];
   }
 }
