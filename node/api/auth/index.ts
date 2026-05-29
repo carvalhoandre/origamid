@@ -213,8 +213,8 @@ export class AuthApi extends Api {
 
     searchUsers: (req, res) => {
       const {s , page } = {
-        s: validate.string(req.query.get('s') ?? ''),
-        page: validate.number(req.query.get('page') ?? 1),
+        s: validate.optional.string(req.query.get('s')),
+        page: validate.optional.number(req.query.get('page')),
       }
 
       const result = this.query.selectUsers(s, 5, page);

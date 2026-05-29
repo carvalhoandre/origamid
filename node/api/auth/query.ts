@@ -160,7 +160,7 @@ export class AuthQuery extends Query {
     return this.db
       .query(
         /*sql*/ `
-            SELECT "id", "name", "email", "created"
+            SELECT "id", "name", "email", "created",
             COUNT(*) OVER() as "total"
             FROM "users"
             WHERE "name" LIKE ? OR "username" LIKE ? OR "email" LIKE ?
