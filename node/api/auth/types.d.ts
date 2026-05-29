@@ -14,10 +14,11 @@ export type UserData = {
 export type UserSummary = {
   id: number;
   name: string;
-  username: string;
+  created: string;
   email: string;
-  role: UserRole;
-};
+  total: number;
+};  
+
 
 export type UserCreate = Omit<UserData, "id" | "created" | "updated">;
 

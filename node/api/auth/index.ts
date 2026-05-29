@@ -212,13 +212,21 @@ export class AuthApi extends Api {
     },
 
     searchUsers: (req, res) => {
-      const result = this.query.selectUsers();
-
-      if (!result) {
-        throw new RouteError(404, "Nenhum usuário encontrado");
+      const {s , page } = {
+        s: validate.string(req.query.get('s') ?? ''),
+        page: validate.number(req.query.get('page') ?? 1),
       }
 
-      res.status(200).json(result);
+      const result = this.query.selectUsers(s, 5, page);
+
+      if (result.length === 0) {
+        res.setHeader("X-Total-Count", "0");
+        return res.status(200).json([]);
+      }
+
+      const total = result[0].total || 0;
+      res.setHeader("X-Total-Count", String(total));
+      res.status(200).json(result || []);
     }
   } satisfies Api["handlers"];
 
