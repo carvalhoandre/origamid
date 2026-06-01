@@ -232,4 +232,26 @@ export class LmsQuery extends Query {
       )
       .all() as CourseData[];
   }
+
+  deleteCourse(courseId: number) {
+    return this.db
+      .query(
+        /*sql*/ `
+          DELETE FROM "courses"
+          WHERE "id" = ?
+        `,
+      )
+      .run(courseId);
+  }
+
+  deleteLesson(lessonId: number) {
+    return this.db
+      .query(
+        /*sql*/ `
+          DELETE FROM "lessons"
+          WHERE "id" = ?
+        `,
+      )
+      .run(lessonId);
+  }
 }

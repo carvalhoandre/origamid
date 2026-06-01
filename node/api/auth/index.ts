@@ -210,6 +210,45 @@ export class AuthApi extends Api {
 
       res.status(200).json({ title: "Senha resetada com sucesso" });
     },
+   
+    userPasswordReset: async (req, res) => {
+      const { old_password, new_password } = {
+        old_password: validate.password(req.body.old_password),
+        new_password: validate.password(req.body.new_password),
+      };
+
+      if (!req.session) {
+        throw new RouteError(401, "Não autorizado");
+      }
+
+      const user = this.query.selectUser("id", req.session.user_id);
+
+      if (!user) {
+        throw new RouteError(404, "Erro ao atualizar senha");
+      }
+
+      const passwordValid = await this.password.verify(
+        old_password,
+        user.password_hash,
+      );
+
+      if (!passwordValid) {
+        throw new RouteError(404, "Senha atual incorreta");
+      }
+
+      const new_password_hash = await this.password.hash(new_password);
+      const updateResult = this.query.updateUserPassword(
+        user.id,
+        "password_hash",
+        new_password_hash,
+      );
+
+      if (updateResult.changes === 0) {
+        throw new RouteError(400, "Erro ao atualizar senha");
+      }
+
+      res.status(200).json({ title: "Senha resetada com sucesso" });
+    },
 
     searchUsers: (req, res) => {
       const {s , page } = {
@@ -227,7 +266,27 @@ export class AuthApi extends Api {
       const total = result[0].total || 0;
       res.setHeader("X-Total-Count", String(total));
       res.status(200).json(result || []);
-    }
+    },
+
+    deleteUser: (req, res) => {
+      const id = validate.number(req.params.id);
+
+      if (!id) {
+        throw new RouteError(400, "ID inválido");
+      }
+
+      if (id === req.session?.user_id) {
+        throw new RouteError(400, "Não é possível deletar a própria conta");
+      }
+      
+      const result = this.query.deleteUser(id);
+
+      if (result.changes === 0) {
+        throw new RouteError(404, "Usuário não encontrado");
+      }
+
+      res.status(200).json({ title: "Usuário deletado com sucesso" });
+    },
   } satisfies Api["handlers"];
 
   tables(): void {
@@ -246,6 +305,8 @@ export class AuthApi extends Api {
     this.router.delete("/auth/logout", this.handlers.deleteSession);
     this.router.post("/auth/password/forgot", this.handlers.passwordForgot, [rateLimit(30_000, 5)]);
     this.router.post("/auth/password/reset", this.handlers.passwordReset, [rateLimit(30_000, 5)]);
+    this.router.post("/auth/user-password/reset", this.handlers.userPasswordReset, [rateLimit(30_000, 5), this.auth.guardian("user")]);
     this.router.get("/auth/users/search", this.handlers.searchUsers, [this.auth.guardian("admin")]);
+    this.router.delete("/auth/user/:id", this.handlers.deleteUser, [this.auth.guardian("admin")]);
   }
 }

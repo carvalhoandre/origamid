@@ -170,4 +170,15 @@ export class AuthQuery extends Query {
       )
       .all(s, s, s, safeLimit, offset) as UserSummary[];
   }
+
+  deleteUser(user_id: number) {
+    return this.db
+      .query(
+        /*sql*/ `
+            DELETE FROM "users"
+            WHERE "id" = ?
+            `,
+      )
+      .run(user_id);
+  }
 }

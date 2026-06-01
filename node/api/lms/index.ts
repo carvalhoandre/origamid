@@ -273,6 +273,54 @@ export class LmsApi extends Api {
 
       res.status(200).json(lessons);
     },
+
+    deleteCourse: (req, res) => {
+      if (!req.session) {
+        throw new RouteError(401, "Nao autorizado");
+      }
+
+      const { id } = {
+        id: validate.number(req.params.id),
+      };
+
+      if (!id) {
+        throw new RouteError(400, "ID inválido");
+      }
+
+      const writeResult = this.query.deleteCourse(id);
+
+      if (writeResult.changes === 0) {
+        throw new RouteError(400, "Erro ao deletar curso");
+      }
+
+      res.status(200).json({
+        title: "Curso deletado",
+      });
+    },
+
+    deleteLesson: (req, res) => {
+      if (!req.session) {
+        throw new RouteError(401, "Nao autorizado");
+      }
+
+      const { id } = {
+        id: validate.number(req.params.id),
+      };
+
+      if (!id) {
+        throw new RouteError(400, "ID inválido");
+      }
+
+      const writeResult = this.query.deleteLesson(id);
+
+      if (writeResult.changes === 0) {
+        throw new RouteError(400, "Erro ao deletar aula");
+      }
+
+      res.status(200).json({
+        title: "Aula deletada",
+      });
+    },
   } satisfies Api["handlers"];
 
   tables(): void {
@@ -308,5 +356,11 @@ export class LmsApi extends Api {
       this.auth.guardian("user"),
     ]);
     this.router.get("/lms/certificate/:id", this.handlers.getCertificate);
+    this.router.delete("/lms/course/:id", this.handlers.deleteCourse, [
+      this.auth.guardian("admin"),
+    ]);
+    this.router.delete("/lms/lesson/:id", this.handlers.deleteLesson, [
+      this.auth.guardian("admin"),
+    ]);
   }
 }
