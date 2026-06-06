@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node  --watch index.ts",
     "docker-build": "docker build -t appimagem .",
-    "docker-run": "docker run -d --name appcpntainer -p 3040:3000 appimagem"
+    "docker-run": "docker run -d --name appcpntainer -p 3040:3000 appimagem",
+    "caddy-restart": "docker compose restart caddy",
+    "caddy-validate": "docker compose exec caddy caddy validate --adapter caddyfile --config /etc/caddy/Caddyfile"
   },
   "keywords": [],
   "author": "",

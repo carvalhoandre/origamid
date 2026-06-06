@@ -1,0 +1,13 @@
+http://localhost {
+  handle_path /api/* {
+    reverse_proxy node:3000
+  }
+  handle_path /files/public/* {
+    root * /files/public
+    file_server
+  }
+  route {
+    root * /front
+    file_server
+  }
+}
