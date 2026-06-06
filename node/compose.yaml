@@ -5,7 +5,15 @@ services:
       target: prod
     ports:
       - '3040:3000'
-   
+    env_file:
+      - .env
+    logging:
+      driver: "local"
+      options:
+        max-size: "20m"
+        max-file: "5"
+      restart: unless-stopped
+      stop_grace_period: 10s 
 
   caddy:
     image: caddy:alpine
