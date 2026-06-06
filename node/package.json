@@ -4,7 +4,7 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.ts --watch",
+    "start": "node  --watch index.ts",
     "docker-build": "docker build -t appimagem .",
     "docker-run": "docker run -d --name appcpntainer -p 3040:3000 appimagem"
   },

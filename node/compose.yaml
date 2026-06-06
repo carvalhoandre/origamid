@@ -1,16 +1,16 @@
 services:
   node:
-    image: node:24-alpine
-    working_dir: /app
-    command: node index.js
+    build: 
+      context: .
+      target: prod
     ports:
-      - '3050:3000'
-    volumes:
-      - .:/app
+      - '3040:3000'
+   
 
   caddy:
     image: caddy:alpine
     ports:
       - '80:80'
     volumes:
-      - .:/usr/share/caddy
+      - ./front:/usr/share/caddy
+
