@@ -1,4 +1,19 @@
-http://localhost {
+{
+  email: {$ACME_EMAIL},
+}
+
+{$SERVER_NAME} {
+  encode zstd gzip
+  @api path /api/*
+  @notAPI not path /api/*
+  header {
+    -Via
+    -Server
+  } 
+  header  @api {
+  } 
+  header  @notAPI {
+  } 
   handle_path /api/* {
     reverse_proxy node:3000
   }
@@ -8,6 +23,7 @@ http://localhost {
   }
   route {
     root * /front
+    try_files {path} {path}/ /index.html
     file_server
   }
 }
