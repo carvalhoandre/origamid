@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
@@ -10,10 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Cardo&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css" />
-    
-    <script src="/script.js"></script>
-
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <h1>Tiny LMS</h1>
@@ -29,7 +26,6 @@
         <ul>
           <li><a href="#/cursos">Cursos</a></li>
           <li><a href="#/certificados">Certificados</a></li>
-          <li><a href="#/configuracoes">Configurações</a></li>
           <li><a href="#/sair">Sair</a></li>
         </ul>
       </nav>
@@ -104,7 +100,6 @@
           <input type="number" name="lessons" id="lessons" />
           <label for="hours">Horas</label>
           <input type="number" name="hours" id="hours" />
-
           <button>Criar/Atualizar Curso</button>
         </form>
       </section>
@@ -147,18 +142,6 @@
         <div class="render"></div>
       </section>
 
-      <section id="configuracoes" data-role="user">
-          <h2>Configurações</h2>
-          <p>Aqui você pode alterar sua senha.</p>
-          <form>
-            <label for="old_password">Senha Atual</label>
-            <input type="password" name="old_password" id="old_password" />
-            <label for="new_password">Nova Senha</label>
-            <input type="password" name="new_password" id="new_password" />
-            <button>Alterar Senha</button>
-          </form>
-      </section>
-
       <section id="usuarios" data-role="admin">
         <form>
           <label for="s">Buscar:</label>
@@ -170,5 +153,7 @@
         <div class="render"></div>
       </section>
     </div>
+
+    <script src="/script.js"></script>
   </body>
 </html>

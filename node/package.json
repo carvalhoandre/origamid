@@ -3,12 +3,7 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node  --watch index.ts",
-    "docker-build": "docker build -t appimagem .",
-    "docker-run": "docker run -d --name appcpntainer -p 3040:3000 appimagem",
-    "caddy-restart": "docker compose restart caddy",
-    "caddy-validate": "docker compose exec caddy caddy validate --adapter caddyfile --config /etc/caddy/Caddyfile"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +11,7 @@
   "type": "module",
   "description": "",
   "devDependencies": {
-    "@types/node": "^24.12.2"
+    "@types/node": "^24.2.1",
+    "typescript": "^5.9.2"
   }
 }

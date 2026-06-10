@@ -1,5 +1,5 @@
 FROM node:24-alpine AS base
-WORKDIR /app 
+WORKDIR /app
 RUN apk --no-cache add curl
 
 FROM base AS dev

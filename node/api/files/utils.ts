@@ -1,5 +1,5 @@
 import { Transform } from 'node:stream';
-import { RouteError } from '../../core/utils/router-error.ts';
+import { RouteError } from '../../core/utils/route-error.ts';
 
 export const mimeType: Record<string, string> = {
   '.ico': 'image/x-icon',

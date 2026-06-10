@@ -1,22 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
+    "target": "esnext",
+    "module": "nodenext",
+    "rootDir": ".",
+    "outDir": "./dist",
+    "sourceMap": true,
     "esModuleInterop": true,
-    "module": "NodeNext",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "paths": {},
-    "types": ["node"],
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "NodeNext"
+    "strict": true,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "noEmit": true
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "api/**/*.ts",
+    "core/**/*.ts",
+    "tests",
+    "*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

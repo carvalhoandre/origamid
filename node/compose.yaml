@@ -1,6 +1,6 @@
 services:
   node:
-    build: 
+    build:
       context: .
       target: prod
     volumes:
@@ -8,6 +8,13 @@ services:
       - ./files:/files
     env_file:
       - .env
+    logging:
+      driver: local
+      options:
+        max-size: '20m'
+        max-file: '5'
+    restart: unless-stopped
+    stop_grace_period: 10s
 
   caddy:
     image: caddy:2-alpine
@@ -23,12 +30,13 @@ services:
     depends_on:
       - node
     env_file:
-      - .env 
+      - .env
     logging:
-      driver: "local"
+      driver: local
       options:
-        max-size: "20m"
-        max-file: "5"
+        max-size: '20m'
+        max-file: '5'
+    restart: unless-stopped
 
 volumes:
   caddy_data:

@@ -1,5 +1,5 @@
-import type { CustomRequest } from "./http/custom-request.ts";
-import type { CustomResponse } from "./http/custom-response.ts";
+import type { CustomRequest } from './http/custom-request.ts';
+import type { CustomResponse } from './http/custom-response.ts';
 
 export type Handler = (
   req: CustomRequest,
@@ -28,51 +28,43 @@ export class Router {
     DELETE: {},
     HEAD: {},
   };
-
   middlewares: Middleware[] = [];
-
   get(route: string, handler: Handler, middlewares: Middleware[] = []) {
-    this.routes["GET"][route] = { handler, middlewares };
+    this.routes['GET'][route] = { handler, middlewares };
   }
   post(route: string, handler: Handler, middlewares: Middleware[] = []) {
-    this.routes["POST"][route] = { handler, middlewares };
+    this.routes['POST'][route] = { handler, middlewares };
   }
-
   put(route: string, handler: Handler, middlewares: Middleware[] = []) {
-    this.routes["PUT"][route] = { handler, middlewares };
+    this.routes['PUT'][route] = { handler, middlewares };
   }
-
   delete(route: string, handler: Handler, middlewares: Middleware[] = []) {
-    this.routes["DELETE"][route] = { handler, middlewares };
+    this.routes['DELETE'][route] = { handler, middlewares };
   }
-
   head(route: string, handler: Handler, middlewares: Middleware[] = []) {
-    this.routes["HEAD"][route] = { handler, middlewares };
+    this.routes['HEAD'][route] = { handler, middlewares };
   }
-
+  use(middlewares: Middleware[]) {
+    this.middlewares.push(...middlewares);
+  }
   find(method: string, pathname: string) {
     const routesByMethod = this.routes[method];
     if (!routesByMethod) return null;
-
     const matchedRoute = routesByMethod[pathname];
     if (matchedRoute) return { route: matchedRoute, params: {} };
-
-    const reqParts = pathname.split("/").filter(Boolean);
-
+    const reqParts = pathname.split('/').filter(Boolean);
     for (const route of Object.keys(routesByMethod)) {
-      if (!route.includes(":")) continue;
-
-      const routeParts = route.split("/").filter(Boolean);
+      if (!route.includes(':')) continue;
+      const routeParts = route.split('/').filter(Boolean);
       if (reqParts.length !== routeParts.length) continue;
       if (reqParts[0] !== routeParts[0]) continue;
 
-      const params = {};
+      const params: Record<string, string> = {};
       let ok = true;
       for (let i = 0; i < reqParts.length; i++) {
         const segment = routeParts[i];
         const value = reqParts[i];
-
-        if (segment.startsWith(":")) {
+        if (segment.startsWith(':')) {
           params[segment.slice(1)] = value;
         } else if (segment !== value) {
           ok = false;
@@ -85,9 +77,5 @@ export class Router {
     }
 
     return null;
-  }
-
-  use(middleware: Middleware[]) {
-    this.middlewares.push(...middleware);
   }
 }

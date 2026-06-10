@@ -5,6 +5,3 @@ node_modules/
 secrets/
 files/
 db/
-logs/
-*.log
-*.env

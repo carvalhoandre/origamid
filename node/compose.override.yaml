@@ -1,6 +1,6 @@
 services:
   node:
-    build: 
+    build:
       target: dev
     volumes:
       - .:/app

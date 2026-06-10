@@ -1,37 +1,37 @@
-const BASE = "./api";
+const BASE = '/api';
 
 const esc = (v) =>
   String(v)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
 
 const secToMin = (seconds) => {
-  const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
-  const ss = String(Math.floor(seconds % 60)).padStart(2, "0");
+  const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const ss = String(Math.floor(seconds % 60)).padStart(2, '0');
   return `${mm}:${ss}`;
 };
 
-const routes = document.querySelectorAll("section[data-role]");
+const routes = document.querySelectorAll('section[data-role]');
 
-const navs = document.querySelectorAll("nav[data-role]");
+const navs = document.querySelectorAll('nav[data-role]');
 function handleUserNav(user) {
   for (const nav of navs) {
     if (nav.dataset.role === user) {
-      nav.classList.add("ativo");
+      nav.classList.add('ativo');
     } else {
-      nav.classList.remove("ativo");
+      nav.classList.remove('ativo');
     }
   }
 }
 
 let user;
 async function getUser() {
-  user = "public";
+  user = 'public';
   try {
-    const response = await fetch(`${BASE}/auth/session`);
+    const response = await fetch(BASE + '/auth/session');
     const body = await response.json();
     if (!response.ok) throw new Error();
     user = body.role;
@@ -45,29 +45,29 @@ async function getUser() {
 
 async function router() {
   if (user === undefined) user = await getUser();
-  const r = location.hash.replace("#", "").split("/").filter(Boolean).shift();
+  const r = location.hash.replace('#', '').split('/').filter(Boolean).shift();
   const route = document.getElementById(r);
-  routes.forEach((item) => item.classList.remove("ativo"));
+  routes.forEach((item) => item.classList.remove('ativo'));
   if (route) {
-    if (user !== route.dataset.role) location.hash = "/login";
-    route.classList.add("ativo");
-    if (typeof data[r] === "function") data[r](route);
+    if (user !== route.dataset.role) location.hash = '/login';
+    route.classList.add('ativo');
+    if (typeof data[r] === 'function') data[r](route);
   } else {
-    if (typeof data[r] === "function") data[r]();
+    if (typeof data[r] === 'function') data[r]();
   }
 }
-window.addEventListener("DOMContentLoaded", router);
-window.addEventListener("hashchange", router);
+window.addEventListener('DOMContentLoaded', router);
+window.addEventListener('hashchange', router);
 
 async function getData(url, callback) {
-  const response = await fetch(url);
+  const response = await fetch(BASE + url);
   const body = await response.json();
   callback(body, response);
 }
 
 function renderResetCourseButton(courseId) {
   setTimeout(() => {
-    sendForm("DELETE", `${BASE}/lms/course/reset`, "resetar-curso", () => {
+    sendForm('DELETE', '/lms/course/reset', 'resetar-curso', () => {
       location.reload();
     });
   }, 50);
@@ -82,42 +82,10 @@ function renderResetCourseButton(courseId) {
         `;
 }
 
-function renderDeleteCourseButton(courseId) {
-  setTimeout(() => {
-    sendForm("DELETE", `${BASE}/lms/course/${courseId}`, "deletar-curso", () => {
-      location.reload();
-    });
-  }, 50);
-
-  return /*html*/ `
-          <div id="deletar-curso">
-            <form>
-              <button>Deletar</button>
-            </form>
-          </div>
-        `;
-}
-
-function renderDeleteLessonButton(lessonId) {
-  setTimeout(() => {
-    sendForm("DELETE", `${BASE}/lms/lesson/${lessonId}`, "deletar-aula", () => {
-      location.reload();
-    });
-  }, 50);
-
-  return /*html*/ `
-          <div id="deletar-aula">
-            <form>
-              <button>Deletar</button>
-            </form>
-          </div>
-        `;
-}
-
 function renderCompleteButton(courseId, lessonId) {
   setTimeout(() => {
-    sendForm("POST", `${BASE}/lms/lesson/complete`, "completar", () => {
-      document.getElementById("completar").innerHTML = "<span></span>";
+    sendForm('POST', '/lms/lesson/complete', 'completar', () => {
+      document.getElementById('completar').innerHTML = '<span></span>';
     });
   }, 50);
 
@@ -134,10 +102,10 @@ function renderCompleteButton(courseId, lessonId) {
 
 const data = {
   cursos: (route) => {
-    getData(`${BASE}/lms/courses`, (courses) => {
-      const render = route.querySelector(".render");
-      render.innerHTML = "";
-      let html = "";
+    getData('/lms/courses', (courses) => {
+      const render = route.querySelector('.render');
+      render.innerHTML = '';
+      let html = '';
       for (const course of courses) {
         html += /*html*/ `
                 <div class="curso-item">
@@ -156,15 +124,15 @@ const data = {
   },
   curso: (route) => {
     const [_, curso] = location.hash
-      .replace("#", "")
-      .split("/")
+      .replace('#', '')
+      .split('/')
       .filter(Boolean);
     if (!curso) return;
 
-    getData(`${BASE}/lms/course/${curso}`, (data) => {
+    getData(`/lms/course/${curso}`, (data) => {
       const { course, lessons, completed } = data;
-      const render = route.querySelector(".render");
-      render.innerHTML = "";
+      const render = route.querySelector('.render');
+      render.innerHTML = '';
       let html = /*html*/ `
             <div class="curso-item">
               <h2>${esc(course.title)}</h2>
@@ -185,7 +153,7 @@ const data = {
                   <span>
                     <span>${secToMin(lesson.seconds)}</span>
                     <span class="status ${
-                      isCompleted ? "completa" : ""
+                      isCompleted ? 'completa' : ''
                     }"></span>
                   </span>
                 </a>
@@ -193,22 +161,21 @@ const data = {
               `;
       }
       html += `</ul>
-              ${completed.length > 0 ? renderResetCourseButton(course.id) : ""}
+              ${completed.length > 0 ? renderResetCourseButton(course.id) : ''}
             `;
       render.innerHTML = html;
     });
   },
   aula: (route) => {
     const [_, curso, aula] = location.hash
-      .replace("#", "")
-      .split("/")
+      .replace('#', '')
+      .split('/')
       .filter(Boolean);
 
     if (!curso || !aula) return;
-
-    getData(`${BASE}/lms/lesson/${curso}/${aula}`, (lesson) => {
-      const render = route.querySelector(".render");
-      render.innerHTML = "";
+    getData(`/lms/lesson/${curso}/${aula}`, (lesson) => {
+      const render = route.querySelector('.render');
+      render.innerHTML = '';
       let html = /*html*/ `
               <div>
                 <h2>${esc(lesson.title)}</h2>
@@ -217,7 +184,7 @@ const data = {
                   <a href="#/curso/${curso}">${curso}</a>  
                 </div>
                 <div id="video">
-                  <video poster=""preload="metadata" src="/${
+                  <video poster=""preload="metadata" src="${
                     lesson.video
                   }" controls></video> 
                 </div>
@@ -244,16 +211,15 @@ const data = {
                 </nav>
               </div>
             `;
-
       render.innerHTML = html;
     });
   },
   certificados: (route) => {
-    getData(`${BASE}/lms/certificates`, (certicates) => {
+    getData('/lms/certificates', (certicates) => {
       if (!Array.isArray(certicates)) return;
-      const render = route.querySelector(".render");
-      render.innerHTML = "";
-      let html = "<ul>";
+      const render = route.querySelector('.render');
+      render.innerHTML = '';
+      let html = '<ul>';
       for (const certificate of certicates) {
         html += /*html*/ `
               <li>
@@ -262,112 +228,95 @@ const data = {
                 }">${esc(certificate.title)}
                 <span>${certificate.completed
                   .slice(0, 10)
-                  .split("-")
+                  .split('-')
                   .reverse()
-                  .join("/")}</span>
+                  .join('/')}</span>
                 </a>
               </li>
               `;
       }
-      html += "</ul>";
+      html += '</ul>';
       render.innerHTML = html;
     });
   },
   sair: async () => {
-    await fetch("/auth/logout", {
-      method: "DELETE",
+    await fetch(BASE + '/auth/logout', {
+      method: 'DELETE',
     });
-    user = "public";
-    location.hash = "/login";
+    user = 'public';
+    location.hash = '/login';
     handleUserNav(user);
   },
   resetar: () => {
-    const query = location.hash.split("=");
+    const query = location.hash.split('=');
     if (query[1]) {
       const token = document.querySelector('input[name="token"]');
       if (token) token.value = query[1];
     }
   },
-  ["criar-curso"]: async (route) => {
-    getData("/lms/courses", (courses) => {
-      const render = route.querySelector(".render");
-      const form = route.querySelector("form");
-      render.innerHTML = "";
-
-      const select = document.createElement("select");
-      select.name = "courses-select";
-      select.add(new Option("Selecionar Curso", null));
-
+  ['criar-curso']: async (route) => {
+    getData('/lms/courses', (courses) => {
+      const render = route.querySelector('.render');
+      const form = route.querySelector('form');
+      render.innerHTML = '';
+      const select = document.createElement('select');
+      select.name = 'courses-select';
+      select.add(new Option('Selecionar Curso', null));
       let i = 0;
       for (const course of courses) {
         select.add(new Option(course.slug, i));
         i++;
       }
-
-      select.addEventListener("change", (e) => {
+      select.addEventListener('change', (e) => {
         e.preventDefault();
         const course = courses[select.value];
         for (const key in course) {
           const input = form.querySelector(`[name="${key}"]`);
           if (input) input.value = course[key];
         }
-        const existing = render.querySelector("#deletar-curso");
-        if (existing) existing.remove();
-        render.insertAdjacentHTML(
-          "beforeend",
-          renderDeleteCourseButton(course.id),
-        );
       });
-
       render.append(select);
     });
   },
-  ["criar-aula"]: (route) => {
-    getData("/lms/lessons", (lessons) => {
-      const render = route.querySelector(".render");
-      const form = route.querySelector("form");
-      render.innerHTML = "";
-      const select = document.createElement("select");
-      select.name = "lessons-select";
+  ['criar-aula']: (route) => {
+    getData('/lms/lessons', (lessons) => {
+      const render = route.querySelector('.render');
+      const form = route.querySelector('form');
+      render.innerHTML = '';
+      const select = document.createElement('select');
+      select.name = 'lessons-select';
       let i = 0;
-      select.add(new Option("Selecionar Aula", null));
+      select.add(new Option('Selecionar Aula', null));
       for (const lesson of lessons) {
         select.add(new Option(`${lesson.courseSlug} - ${lesson.slug}`, i));
         i++;
       }
-      select.addEventListener("change", (e) => {
+      select.addEventListener('change', (e) => {
         e.preventDefault();
         const lesson = lessons[select.value];
         for (const key in lesson) {
           const input = form.querySelector(`[name="${key}"]`);
           if (input) input.value = lesson[key];
         }
-        const existing = render.querySelector("#deletar-aula");
-        if (existing) existing.remove();
-        render.insertAdjacentHTML(
-          "beforeend",
-          renderDeleteLessonButton(lesson.id),
-        );
       });
       render.append(select);
     });
   },
 
   usuarios: (route) => {
-    const render = route.querySelector(".render");
-    getData("/auth/users/search", (users, response) => {
-      const total = Number(response.headers.get("x-total-count"));
+    const render = route.querySelector('.render');
+    getData('/auth/users/search', (users, response) => {
+      const total = Number(response.headers.get('x-total-count'));
       renderUsers(users, total, render);
     });
-
-    const form = document.querySelector("#usuarios form");
-    form.addEventListener("submit", (e) => {
+    const form = document.querySelector('#usuarios form');
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       const data = new FormData(form);
       getData(
-        `/auth/users/search?s=${data.get("s")}&page=${data.get("page")}`,
+        `/auth/users/search?s=${data.get('s')}&page=${data.get('page')}`,
         (users, response) => {
-          const total = Number(response.headers.get("x-total-count"));
+          const total = Number(response.headers.get('x-total-count'));
           renderUsers(users, total, render);
         },
       );
@@ -376,19 +325,19 @@ const data = {
 };
 
 function renderUsers(users, total, render) {
-  render.innerHTML = "";
-  let html = "<ul>";
-  const pages = document.createElement("nav");
+  render.innerHTML = '';
+  let html = '<ul>';
+  const pages = document.createElement('nav');
   const totalPages = Math.ceil(total / 5);
-  pages.id = "pages";
-  const form = document.querySelector("#usuarios form");
-  const page = document.getElementById("page");
+  pages.id = 'pages';
+  const form = document.querySelector('#usuarios form');
+  const page = document.getElementById('page');
 
   if (totalPages > 1) {
     for (let i = 1; i <= totalPages; i++) {
-      const button = document.createElement("button");
+      const button = document.createElement('button');
       button.innerText = i;
-      button.addEventListener("click", (e) => {
+      button.addEventListener('click', (e) => {
         page.value = i;
         form.requestSubmit();
       });
@@ -400,48 +349,39 @@ function renderUsers(users, total, render) {
             <li>
               <span>${esc(user.name)}</span>
               <span>${esc(user.email)}</span>
-              <button data-user-id="${esc(String(user.id))}">Deletar</button>
             </li>
           `;
   }
-  html += "</ul>";
+  html += '</ul>';
   render.innerHTML = html;
-  render.querySelectorAll("button[data-user-id]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      const response = await fetch(`/auth/user/${button.dataset.userId}`, {
-        method: "DELETE",
-      });
-      if (response.ok) location.reload();
-    });
-  });
   render.append(pages);
 }
 
 // FORMULÁRIOS
 async function sendForm(method, url, id, callback) {
-  const form = document.querySelector("#" + id + " form");
-  form?.addEventListener("submit", async (e) => {
+  const form = document.querySelector('#' + id + ' form');
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const data = new FormData(form);
     let response;
     let body = {};
-    const badge = document.createElement("div");
+    const badge = document.createElement('div');
     try {
-      response = await fetch(url, {
+      response = await fetch(BASE + url, {
         method: method,
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(Object.fromEntries(data)),
       });
       body = await response.json();
       if (!response.ok) throw new Error();
-      if (typeof callback === "function") callback(response, body);
+      if (typeof callback === 'function') callback(response, body);
       badge.innerText = `${response.status}`;
-      badge.classList.add("ok");
+      badge.classList.add('ok');
     } catch (error) {
       badge.innerText = `${response.status} - ${body?.title}`;
-      badge.classList.add("fail");
+      badge.classList.add('fail');
     } finally {
       form.append(badge);
       setTimeout(() => {
@@ -451,43 +391,47 @@ async function sendForm(method, url, id, callback) {
   });
 }
 
-sendForm("POST", "/auth/login", "login", async () => {
+sendForm('POST', '/auth/login', 'login', async () => {
   user = await getUser();
-  if (user === "user") location.hash = "/cursos";
-  if (user === "admin") location.hash = "/criar-curso";
+  if (user === 'user') location.hash = '/cursos';
+  if (user === 'admin') location.hash = '/criar-curso';
 });
-sendForm("POST", "/auth/user", "criar-conta", () => {
-  location.hash = "/login";
+sendForm('POST', '/auth/user', 'criar-conta', () => {
+  location.hash = '/login';
 });
-sendForm("POST", "/auth/password/forgot", "perdeu");
-sendForm("POST", "/auth/password/reset", "resetar");
-sendForm("POST", "/auth/user-password/reset", "configuracoes");
+sendForm('POST', '/auth/password/forgot', 'perdeu');
+sendForm('POST', '/auth/password/reset', 'resetar');
+
+sendForm('POST', '/lms/course', 'criar-curso');
 
 // UPLOAD ARQUIVO
-const lessonsForm = document.querySelector("#criar-aula form");
-lessonsForm.addEventListener("submit", async (e) => {
+const lessonsForm = document.querySelector('#criar-aula form');
+lessonsForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   try {
-    const input = lessonsForm.querySelector('input[type="file"]');
-    if (!input) return;
-    const files = input.files;
-    if (!files || files.length === 0) return;
-
-    const responseFile = await fetch("/files", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/octet-stream",
-        "x-filename": files[0].name,
-      },
-      body: files[0],
-    });
-    const upload = await responseFile.json();
     const data = new FormData(lessonsForm);
-    data.set("video", upload.path);
-    const responseLesson = await fetch("/lms/lesson", {
-      method: "POST",
+
+    const input = lessonsForm.querySelector('input[type="file"]');
+    if (input && input.files && input.files.length !== 0) {
+      const files = input.files;
+      const responseFile = await fetch(BASE + '/files/upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/octet-stream',
+          'x-filename': files[0].name,
+          'x-visibility': data.get('free') === '1' ? 'public' : 'private',
+        },
+        body: files[0],
+      });
+      if (!responseFile.ok) throw new Error();
+      const upload = await responseFile.json();
+      data.set('video', upload.path);
+    }
+
+    const responseLesson = await fetch(BASE + '/lms/lesson', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(Object.fromEntries(data)),
     });
