@@ -15,10 +15,9 @@ import { Api } from "../../core/utils/abstract.ts";
 import { validate } from "../../core/utils/validate.ts";
 import { RouteError } from "../../core/utils/router-error.ts";
 import { AuthMiddleware } from "../auth/middleware/auth.ts";
+import { FILES_PATH } from "../../env.js";
 
 const MAX_BYTES = 150 * 1024 * 1024; // 150MB
-
-const FILES_PATH = "./files";
 
 export class FilesApi extends Api {
   auth = new AuthMiddleware(this.core);
@@ -26,7 +25,7 @@ export class FilesApi extends Api {
   handlers = {
     sendFile: async (req, res) => {
       const name = validate.file(req.params.name);
-      const filePath = path.join(FILES_PATH, name);
+      const filePath = path.join(FILES_PATH, 'public', name);
       const ext = path.extname(name);
       let stats;
 
@@ -60,7 +59,10 @@ export class FilesApi extends Api {
       try {
         await pipeline(file, res);
       } catch (err: unknown) {
-        const clientGone = (err as { code?: string })?.code === 'ECANCELED' || (err as { code?: string })?.code === 'ECONNRESET' || (err as { code?: string })?.code === 'ERR_STREAM_PREMATURE_CLOSE';
+        const clientGone =
+          (err as { code?: string })?.code === "ECANCELED" ||
+          (err as { code?: string })?.code === "ECONNRESET" ||
+          (err as { code?: string })?.code === "ERR_STREAM_PREMATURE_CLOSE";
         if (clientGone) return;
         throw err;
       }
@@ -85,12 +87,14 @@ export class FilesApi extends Api {
       }
 
       const name = validate.file(req.headers["x-filename"]);
+      const visibility = validate.optional.string(req.headers["x-visibility"]) === "private" ? "private" : "public";
       const now = Date.now();
       const ext = path.extname(name);
       const finalName = `${name.replace(ext, "")}-${now}${ext}`;
-      const tempPath = path.join(FILES_PATH, `${randomUUID()}.temp`);
+
+      const tempPath = path.join(FILES_PATH, visibility, `${randomUUID()}.temp`);
+      const writePath = path.join(FILES_PATH, visibility, finalName);
       const writeStream = createWriteStream(tempPath, { flags: "wx" });
-      const writePath = path.join(FILES_PATH, finalName);
 
       try {
         await pipeline(req, LimitBytes(MAX_BYTES), writeStream);
@@ -113,12 +117,14 @@ export class FilesApi extends Api {
       res.setHeader("X-Accel-Redirect", name);
 
       res.status(200).end();
-    }
+    },
   } satisfies Api["handlers"];
 
   routes() {
-    this.router.get("/files/public/:name", this.handlers.publicFile);
-    this.router.get("/files/private/:name", this.handlers.privateFile, [this.auth.guardian("user")]);
+    this.router.get("/files/public/:name", this.handlers.sendFile);
+    this.router.get("/files/private/:name", this.handlers.privateFile, [
+      this.auth.guardian("user"),
+    ]);
     this.router.post("/files/upload", this.handlers.uploadFile);
   }
 }
