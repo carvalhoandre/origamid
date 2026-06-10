@@ -14,12 +14,15 @@ import { checkETag, LimitBytes, mimeType } from "./utils.ts";
 import { Api } from "../../core/utils/abstract.ts";
 import { validate } from "../../core/utils/validate.ts";
 import { RouteError } from "../../core/utils/router-error.ts";
+import { AuthMiddleware } from "../auth/middleware/auth.ts";
 
 const MAX_BYTES = 150 * 1024 * 1024; // 150MB
 
 const FILES_PATH = "./files";
 
 export class FilesApi extends Api {
+  auth = new AuthMiddleware(this.core);
+
   handlers = {
     sendFile: async (req, res) => {
       const name = validate.file(req.params.name);
@@ -104,10 +107,18 @@ export class FilesApi extends Api {
         rm(tempPath, { force: true }, () => {});
       }
     },
+
+    privateFile: async (req, res) => {
+      const name = validate.file(req.params.name);
+      res.setHeader("X-Accel-Redirect", name);
+
+      res.status(200).end();
+    }
   } satisfies Api["handlers"];
 
   routes() {
-    this.router.get("/files/:name", this.handlers.sendFile);
-    this.router.post("/files", this.handlers.uploadFile);
+    this.router.get("/files/public/:name", this.handlers.publicFile);
+    this.router.get("/files/private/:name", this.handlers.privateFile, [this.auth.guardian("user")]);
+    this.router.post("/files/upload", this.handlers.uploadFile);
   }
 }

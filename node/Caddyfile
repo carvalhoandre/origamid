@@ -2,12 +2,6 @@
   email {$ACME_EMAIL}
 }
 
-http://front.localhost {
-  root * /front/local
-  try_files {path} {path}/ /index.html
-  file_server
-}
-
 {$SERVER_NAME} {
   encode zstd gzip
   @api path /api/*

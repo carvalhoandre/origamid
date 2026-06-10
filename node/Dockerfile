@@ -4,11 +4,11 @@ RUN apk --no-cache add curl
 
 FROM base AS dev
 ENV NODE_ENV=development
-CMD ["node", "--watch", "index.js"]
+CMD ["node", "--watch", "index.ts"]
 
 FROM base AS prod
 ENV NODE_ENV=production
 COPY package*.json .
 RUN npm ci --omit=dev
 COPY . .
-CMD ["node", "index.js"]
+CMD ["node", "index.ts"]

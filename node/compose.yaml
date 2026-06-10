@@ -3,6 +3,9 @@ services:
     build: 
       context: .
       target: prod
+    volumes:
+      - ./db:/db
+      - ./files:/files
     env_file:
       - .env
 
@@ -20,7 +23,7 @@ services:
     depends_on:
       - node
     env_file:
-      - .env
+      - .env 
     logging:
       driver: "local"
       options:
