@@ -4,6 +4,7 @@ import { v } from '../../core/utils/validate.ts';
 import { AuthMiddleware } from '../auth/middleware/auth.ts';
 import { LmsQuery } from './query.ts';
 import { lmsTables } from './tables.ts';
+import { generateCertificate } from './utils/certificate.ts';
 
 export class LmsApi extends Api {
   query = new LmsQuery(this.db);
@@ -223,7 +224,10 @@ export class LmsApi extends Api {
       if (!certificate) {
         throw new RouteError(400, 'certificado não encontrado');
       }
-      res.status(200).json(certificate);
+
+      const pdf = generateCertificate(certificate);
+      res.setHeader('Content-Type', 'application/pdf');
+      res.status(200).end(pdf);
     },
   } satisfies Api['handlers'];
   tables(): void {

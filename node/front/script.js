@@ -223,7 +223,7 @@ const data = {
       for (const certificate of certicates) {
         html += /*html*/ `
               <li>
-                <a class="btn" target="_blank" href="/lms/certificate/${
+                <a class="btn" target="_blank" href="/api/lms/certificate/${
                   certificate.id
                 }">${esc(certificate.title)}
                 <span>${certificate.completed
@@ -437,6 +437,6 @@ lessonsForm.addEventListener('submit', async (e) => {
     });
     if (responseLesson.ok) location.reload();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });

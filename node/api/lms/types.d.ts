@@ -1,4 +1,4 @@
-export type CourseData = {
+type CourseData = {
   id: number;
   slug: string;
   title: string;
@@ -8,9 +8,9 @@ export type CourseData = {
   created: string;
 };
 
-export type CourseCreate = Omit<CourseData, "id" | "created">;
+type CourseCreate = Omit<CourseData, 'id' | 'created'>;
 
-export type LessonData = {
+type LessonData = {
   id: number;
   course_id: number;
   slug: string;
@@ -19,21 +19,19 @@ export type LessonData = {
   video: string;
   description: string;
   order: number;
-  free: number; // 0 ou 1
+  free: number; // 0/1
   created: string;
 };
 
-export type LessonCreate = Omit<LessonData, "id" | "course_id" | "created"> & {
+type LessonCreate = Omit<LessonData, 'id' | 'course_id' | 'created'> & {
   courseSlug: string;
 };
-
-export type LessonCompleted = { lesson_id: number; completed: string };
 
 export type CertificateFullData = {
   id: string;
   name: string;
   title: string;
   hours: number;
-  lessons: string;
+  lessons: number;
   completed: string;
 };
