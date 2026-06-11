@@ -134,7 +134,6 @@ export class AuthApi extends Api {
         body: `Utilize o link abaixo para resetar a sua senha: \r\n ${resetLink}`,
       };
 
-      console.log(mailContent);
       res.status(200).json({ title: 'verifique seu email' });
     },
 
@@ -193,6 +192,11 @@ export class AuthApi extends Api {
   } satisfies Api['handlers'];
   tables(): void {
     this.db.exec(authTables);
+    this.query.clearSessions();
+
+    setInterval(() => {
+      this.query.clearSessions();
+    }, 1000 * 60 * 60 * 6).unref();
   }
   routes(): void {
     this.router.post('/auth/user', this.handlers.postUser, [

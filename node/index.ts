@@ -1,4 +1,3 @@
-import { readFile } from 'node:fs/promises';
 import { AuthApi } from './api/auth/index.ts';
 import { LmsApi } from './api/lms/index.ts';
 import { Core } from './core/core.ts';
@@ -14,10 +13,24 @@ new AuthApi(core).init();
 new LmsApi(core).init();
 new FilesApi(core).init();
 
-core.router.get('/', async (req, res) => {
-  const index = await readFile('./front/index.html', 'utf-8');
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.status(200).end(index);
-});
-
 core.init();
+
+/* shutdown */
+
+function shutdown(signal: string) {
+  console.log(`Recebido sinal ${signal}, encerrando...`);
+  core.server.close(() => {
+    console.log("HTTP server closed");
+    core.db.close();
+    process.exit(0);
+  
+  })
+  core.server.closeAllConnections()
+
+  setTimeout(() => {
+    process.exit(0);
+  }, 5_000).unref();
+}
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);

@@ -23,7 +23,6 @@ export const mimeType: Record<string, string> = {
   ".pdf": "application/pdf",
   ".zip": "application/zip",
 };
-("id1, id2");
 
 export function checkETag(match: string | undefined, etag: string) {
   if (!match) return false;

@@ -1,6 +1,6 @@
-import { Query } from '../../core/utils/abstract.ts';
+import { Query } from "../../core/utils/abstract.ts";
 
-export type UserRole = 'admin' | 'editor' | 'user';
+export type UserRole = "admin" | "editor" | "user";
 
 type UserData = {
   id: number;
@@ -13,7 +13,7 @@ type UserData = {
   updated: string;
 };
 
-type UserCreate = Omit<UserData, 'id' | 'created' | 'updated'>;
+type UserCreate = Omit<UserData, "id" | "created" | "updated">;
 
 type SessionData = {
   sid_hash: Buffer;
@@ -25,7 +25,7 @@ type SessionData = {
   revoked: number; //0|1
 };
 
-type SessionCreate = Omit<SessionData, 'created' | 'revoked' | 'expires'> & {
+type SessionCreate = Omit<SessionData, "created" | "revoked" | "expires"> & {
   expires_ms: number;
 };
 
@@ -38,7 +38,7 @@ type ResetData = {
   ua: string;
 };
 
-type ResetCreate = Omit<ResetData, 'created' | 'expires'> & {
+type ResetCreate = Omit<ResetData, "created" | "expires"> & {
   expires_ms: number;
 };
 
@@ -53,7 +53,7 @@ export class AuthQuery extends Query {
       )
       .run(name, username, email, role, password_hash);
   }
-  selectUser(key: 'email' | 'username' | 'id', value: string | number) {
+  selectUser(key: "email" | "username" | "id", value: string | number) {
     return this.db
       .query(
         /*sql*/ `
@@ -67,7 +67,7 @@ export class AuthQuery extends Query {
   }
   updateUser(
     user_id: number,
-    key: 'password_hash' | 'email' | 'name',
+    key: "password_hash" | "email" | "name",
     value: string,
   ) {
     return this.db
@@ -158,7 +158,7 @@ export class AuthQuery extends Query {
       )
       .run(user_id);
   }
-  selectUsers(search: string = '', limit: number = 10, page: number = 1) {
+  selectUsers(search: string = "", limit: number = 10, page: number = 1) {
     const s = `%${search.trim()}%`;
     const safeLimit = limit < 100 ? limit : 100;
     const offset = (page - 1) * safeLimit;
@@ -179,5 +179,14 @@ export class AuthQuery extends Query {
       created: string;
       total: number;
     }[];
+  }
+
+  clearSessions() {
+    return this.db
+      .query(
+        /*sql*/ `
+      UPDATE "sessions" SET "revoked" = 1 WHERE "expires" < UNIXEPOCH('now')`,
+      )
+      .run();
   }
 }
