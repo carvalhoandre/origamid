@@ -1,11 +1,11 @@
 import { Query } from "../../core/utils/abstract.ts";
-import {
+import type {
   CourseData,
   LessonData,
   LessonCreate,
   CourseCreate,
   CertificateFullData,
-} from "./types.js";
+} from "./types.d.ts";
 
 export class LmsQuery extends Query {
   insertCourse({ slug, title, description, lessons, hours }: CourseCreate) {
